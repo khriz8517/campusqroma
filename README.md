@@ -1,2 +1,2 @@
 # campusqroma
-Site, campusqroma.com
+Moodle site, campusqroma.com
