@@ -17,3 +17,8 @@ body#page-local-qroma-index {
 #page-local-qroma-index .card-body {
     padding: 0 !important;
 }
+
+#page-local-qroma-index .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
