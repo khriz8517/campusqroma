@@ -1,0 +1,19 @@
+#page-local-qroma-index #nav-drawer {
+    display: none;
+}
+
+body#page-local-qroma-index {
+    margin-left: 0 !important;
+}
+
+#page-local-qroma-index #page-header {
+    display: none;
+}
+
+#page-local-qroma-index #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qroma-index .card-body {
+    padding: 0 !important;
+}
