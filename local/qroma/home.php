@@ -9,7 +9,7 @@
     <div class="after"></div>
 </div>
 <div class="access">
-    <h2><span class="text-primary">!Pinta </span><span class="text-info">tu mejor versión!</span></h2>
+    <h2><span class="text-primary">¡Pinta </span><span class="text-info">tu mejor versión!</span></h2>
     <div class="widget01 n2">
         <div class="item bg-primary"><img class="icon" src="./img/icons/quars.svg" alt=""/>
             <div class="text">

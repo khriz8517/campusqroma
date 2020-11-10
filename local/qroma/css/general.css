@@ -22,3 +22,53 @@ body#page-local-qroma-index {
     padding: 0 !important;
     max-width: 100% !important;
 }
+
+#page-local-qroma-catalogo_cursos #nav-drawer {
+    display: none;
+}
+
+body#page-local-qroma-catalogo_cursos {
+    margin-left: 0 !important;
+}
+
+#page-local-qroma-catalogo_cursos #page-header {
+    display: none;
+}
+
+#page-local-qroma-catalogo_cursos #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qroma-catalogo_cursos .card-body {
+    padding: 0 !important;
+}
+
+#page-local-qroma-catalogo_cursos .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-local-qroma-dashboard #nav-drawer {
+    display: none;
+}
+
+body#page-local-qroma-dashboard {
+    margin-left: 0 !important;
+}
+
+#page-local-qroma-dashboard #page-header {
+    display: none;
+}
+
+#page-local-qroma-dashboard #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qroma-dashboard .card-body {
+    padding: 0 !important;
+}
+
+#page-local-qroma-dashboard .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
