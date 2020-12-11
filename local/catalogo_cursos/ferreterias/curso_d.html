@@ -1,0 +1,48 @@
+<div id="app">
+    <div class="baner-container">
+        <div class="baner mb-3">
+            <div class="before" @click="prevBaner()"></div>
+            <div id="baner">
+                <div class="item" v-for="item in baner"><img :src="item.background" alt="" srcset=""/>
+                    <div class="content">
+                        <div v-if="item.title" class="title bg-info-o text-white">{{item.title}}</div>
+                        <a v-if="item.btn" class="btn" :class="'btn-'+item.btnStyle" :href="item.url">{{item.btn}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="after" @click="nextBaner()"></div>
+        </div>
+        <div class="actions"><a class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
+    </div>
+    <div class="access">
+        <h2><span class="text-success pacifig">¡Pinta </span><span class="text-info">tu mejor versión!</span></h2>
+    </div>
+    <div class="search bg-d-1">
+        <div class="w70 m0auto p60-50 tabs">
+            <div class="body">
+                <div class="item" v-for="item in cursos">
+                    <div class="img">
+                        <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                    </div>
+                    <div class="contry"><img class="contry-flag" src="../../local/qroma_front/img/pais/peru.jpg" alt="" srcset=""/>
+                        <div class="contry-name">{{item.pais}}</div>
+                    </div>
+                    <h3 class="title gotham-medium">{{item.name}}</h3>
+                    <div class="footer">
+                        <a class="btn btn-info" :href="'../../' + item.url">ACCEDER</a>
+                        <div class="progress">
+                            <div class="container-progress success" v-if="item.percentage">
+                                <div class="gauge-container">
+                                    <svg class="gauge" viewBox="0 0 150 150">
+                                        <circle class="progress" r="67" data-target="84" cx="75" cy="75"></circle>
+                                        <circle class="rail" r="67" data-target="84" cx="75" cy="75"></circle>
+                                    </svg><span class="center percentage"><span class="value">{{item.percentage}}</span><span class="percentSymbol">%</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

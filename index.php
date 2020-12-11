@@ -38,7 +38,7 @@ if (!empty($CFG->defaulthomepage) && ($CFG->defaulthomepage == HOMEPAGE_MY) && o
     $urlparams['redirect'] = 0;
 }
 $PAGE->set_url('/', $urlparams);
-$PAGE->set_pagelayout('frontpage');
+//$PAGE->set_pagelayout('frontpage');
 $PAGE->set_other_editing_capability('moodle/course:update');
 $PAGE->set_other_editing_capability('moodle/course:manageactivities');
 $PAGE->set_other_editing_capability('moodle/course:activityvisibility');
@@ -91,11 +91,13 @@ if (get_home_page() != HOMEPAGE_SITE) {
 // Trigger event.
 course_view(context_course::instance(SITEID));
 
-$PAGE->set_pagetype('site-index');
+//$PAGE->set_pagetype('site-index');
 $PAGE->set_docs_path('');
 $editing = $PAGE->user_is_editing();
 $PAGE->set_title($SITE->fullname);
-$PAGE->set_heading($SITE->fullname);
+//$PAGE->set_heading($SITE->fullname);
+$PAGE->requires->css('/local/qroma_front/css/_base.css');
+$PAGE->requires->css('/local/qroma_front/css/general.css');
 $courserenderer = $PAGE->get_renderer('core', 'course');
 echo $OUTPUT->header();
 
@@ -118,7 +120,7 @@ if (!empty($CFG->customfrontpageinclude)) {
 // Include course AJAX.
 include_course_ajax($SITE, $modnamesused);
 
-echo $courserenderer->frontpage();
+include 'local/qroma_front/qroma_homepage.html';
 
 if ($editing && has_capability('moodle/course:create', context_system::instance())) {
     echo $courserenderer->add_new_course_button();

@@ -53,7 +53,12 @@
 <body {{{ bodyattributes }}}>
 
     {{#focusdata.enabled}} {{> theme_remui/navbar_fm }} {{/focusdata.enabled}}
-    {{> theme_remui/navbar }}
+    {{#colorcentro}}
+        {{> theme_remui/colorcentro_navbar }}
+    {{/colorcentro}}
+    {{#qroma}}
+        {{> theme_remui/navbar }}
+    {{/qroma}}
     {{> theme_remui/nav-drawer }}
 
 <div id="page-wrapper">

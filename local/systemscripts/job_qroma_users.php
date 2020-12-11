@@ -93,6 +93,10 @@ foreach($allUsers as $allUser) {
     }
 }
 
+echo '<pre>';
+var_dump($usersValues);
+exit;
+
 foreach($usersValues as $key=>$userAD) {
     $userObj = new stdClass();
     $userPrincipalName = $userAD['userPrincipalName'];

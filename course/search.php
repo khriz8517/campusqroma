@@ -21,8 +21,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+global $USER, $CFG;
+
 require_once("../config.php");
 require_once($CFG->dirroot.'/course/lib.php');
+require_once($CFG->dirroot . '/user/profile/lib.php');
+include_once('../local/qroma_front/constants.php');
 
 $q         = optional_param('q', '', PARAM_RAW);       // Global search words.
 $search    = optional_param('search', '', PARAM_RAW);  // search words
@@ -31,6 +35,9 @@ $perpage   = optional_param('perpage', '', PARAM_RAW); // how many per page, may
 $blocklist = optional_param('blocklist', 0, PARAM_INT);
 $modulelist= optional_param('modulelist', '', PARAM_PLUGIN);
 $tagid     = optional_param('tagid', '', PARAM_INT);   // searches for courses tagged with this tag id
+
+profile_load_custom_fields($USER);
+$origen = $USER->profile['origen'];
 
 // Use global search.
 if ($q) {
@@ -65,7 +72,19 @@ if (!empty($page)) {
 }
 $PAGE->set_url('/course/search.php', $searchcriteria + $urlparams);
 $PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
+//$PAGE->set_pagelayout('standard');
+$PAGE->requires->css('/local/qroma_front/css/_base.css');
+$PAGE->requires->css('/local/qroma_front/css/general.css');
+
+switch($origen) {
+    case ORIGEN_QROMA:
+        $PAGE->requires->js('/local/qroma_front/js/qroma/buscador.js');
+        break;
+    case ORIGEN_COLORCENTRO:
+        $PAGE->requires->js('/local/qroma_front/js/color_centro/buscador.js');
+    break;
+}
+
 $courserenderer = $PAGE->get_renderer('core', 'course');
 
 if ($CFG->forcelogin) {
@@ -105,8 +124,16 @@ if (empty($searchcriteria)) {
     $event->trigger();
 }
 
-$PAGE->set_heading($site->fullname);
-
+//$PAGE->set_heading($site->fullname);
 echo $OUTPUT->header();
-echo $courserenderer->search_courses($searchcriteria);
+switch($origen) {
+    case ORIGEN_QROMA:
+        include '../local/qroma_front/buscador/qroma/buscador.html';
+        break;
+    case ORIGEN_COLORCENTRO:
+        include '../local/qroma_front/buscador/color_centro/buscador.html';
+        break;
+}
+
+//echo $courserenderer->search_courses($searchcriteria);
 echo $OUTPUT->footer();

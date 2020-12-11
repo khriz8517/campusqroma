@@ -236,4 +236,18 @@ class course_renderer extends \core_course_renderer {
 
         return $output;
     }
+
+//    /**
+//     * Outputs contents for frontpage as configured in $CFG->frontpage or $CFG->frontpageloggedin
+//     *
+//     * @return string
+//     */
+//    public function frontpage() {
+//        return $this->frontpage_home_qroma();
+//    }
+//
+//    public function frontpage_home_qroma() {
+//        $output = '';
+//        return $output;
+//    }
 }

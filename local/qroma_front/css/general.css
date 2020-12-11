@@ -1,0 +1,155 @@
+#page-local-qroma-index #nav-drawer {
+    display: none;
+}
+
+body#page-local-qroma-index {
+    margin-left: 0 !important;
+}
+
+#page-local-qroma-index #page-header {
+    display: none;
+}
+
+#page-local-qroma-index #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qroma-index .card-body {
+    padding: 0 !important;
+}
+
+#page-local-qroma-index .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-local-catalogo_cursos-index #nav-drawer {
+    display: none;
+}
+
+body#page-local-catalogo_cursos-index {
+    margin-left: 0 !important;
+}
+
+#page-local-catalogo_cursos-index #page-header {
+    display: none;
+}
+
+#page-local-catalogo_cursos-index #region-main {
+    padding: 0 !important;
+}
+
+#page-local-catalogo_cursos-index .card-body {
+    padding: 0 !important;
+}
+
+#page-local-catalogo_cursos-index .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-local-catalogo_cursos-index #page-footer {
+    display: none !important;
+}
+
+#page-local-catalogo_cursos-index #page-content {
+    padding-bottom: 0 !important;
+}
+
+/* 
+    DASHBOARD
+ */
+
+#page-my-index #nav-drawer {
+    display: none;
+}
+
+body#page-my-index {
+    margin-left: 0 !important;
+}
+
+#page-my-index #page-header {
+    display: none;
+}
+
+#page-my-index #page-footer {
+    display: none !important;
+}
+
+#page-my-index #page-content {
+    padding-bottom: 0 !important;
+}
+
+/**
+   DEFAULT PAGE SITE
+*/
+
+#page-site-index #nav-drawer {
+    display: none;
+}
+
+body#page-site-index {
+    margin-left: 0 !important;
+}
+
+#page-site-index #page-header {
+    display: none;
+}
+
+#page-site-index #region-main {
+    padding: 0 !important;
+}
+
+#page-site-index .card-body {
+    padding: 0 !important;
+}
+
+#page-site-index .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-site-index #page-footer {
+    display: none !important;
+}
+
+#page-site-index #page-content {
+    padding-bottom: 0 !important;
+}
+
+/*
+    SEARCH
+ */
+
+#page-course-search #nav-drawer {
+    display: none;
+}
+
+body#page-course-search {
+    margin-left: 0 !important;
+}
+
+#page-course-search #page-header {
+    display: none;
+}
+
+#page-course-search #page-footer {
+    display: none !important;
+}
+
+#page-course-search #page-content {
+    padding-bottom: 0 !important;
+}
+
+#page-course-search .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-course-search #region-main {
+    padding: 0 !important;
+}
+
+#page-course-search .card-body {
+    padding: 0 !important;
+}

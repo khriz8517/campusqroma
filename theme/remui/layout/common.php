@@ -141,6 +141,22 @@ $sitecolor = ($sitecolor == "") ? 'primary' : $sitecolor;
 $sitecolorhex = get_config('theme_remui', 'sitecolorhex');
 $navbarinverse = get_config('theme_remui', 'navbarinverse');
 $sidebarcolor = get_config('theme_remui', 'sidebarcolor');
+
+require_once($CFG->dirroot . '/user/profile/lib.php');
+
+$colorcentro = false;
+$qroma = true;
+
+global $USER;
+
+profile_load_custom_fields($USER);
+$origen = $USER->profile['origen'];
+
+if($origen == 'Color centro') {
+    $colorcentro = true;
+    $qroma = false;
+}
+
 $templatecontext = [
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'output' => $OUTPUT,
@@ -163,7 +179,9 @@ $templatecontext = [
     'pinaside' => $rightsidebar,
     $sitecolor => true,
     'sitecolorhex' => $sitecolorhex,
-    'focusdata' => $focusdata
+    'focusdata' => $focusdata,
+    'colorcentro' => $colorcentro,
+    'qroma' => $qroma
 ];
 
 $flatnavigation = $PAGE->flatnav;

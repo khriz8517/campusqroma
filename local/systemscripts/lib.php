@@ -103,7 +103,7 @@ function createUsers($usersAD) {
             $userObj->username = isset($userPrincipalName) ? $userPrincipalName : ' ';
             $userObj->firstname = isset($userAD['givenName']) ? $userAD['givenName'] : ' ';
             $userObj->lastname =  isset($userAD['surname']) ? $userAD['surname'] : ' ';
-            $userObj->mail =  isset($userAD['surname']) ? $userAD['surname'] : ' ';
+            $userObj->email =  isset($userAD['userPrincipalName']) ? $userAD['userPrincipalName'] : ' ';
 
             $user = $DB->get_record('user', array('username' => $userPrincipalName));
 
@@ -114,6 +114,8 @@ function createUsers($usersAD) {
                 $DB->insert_record('user', $userObj);
             } else {
                 $userObj->id = $user->id;
+                $userObj->profile_field_origen = 'Qroma';
+                profile_save_data($userObj);
                 $DB->update_record('user', $userObj);
             }
         }
