@@ -44,6 +44,9 @@ $reset          = optional_param('reset', null, PARAM_BOOL);
 
 $PAGE->set_url('/user/profile.php', array('id' => $userid));
 
+$PAGE->requires->css('/local/qroma_front/css/_base.css');
+$PAGE->requires->css('/local/qroma_front/css/general.css');
+
 if (!empty($CFG->forceloginforprofiles)) {
     require_login();
     if (isguestuser()) {
@@ -196,6 +199,7 @@ profile_view($user, $usercontext);
 
 // TODO WORK OUT WHERE THE NAV BAR IS!
 echo $OUTPUT->header();
+//SAMUEL - QROMA - EDIT
 echo '<div class="userprofile">';
 
 if ($user->description && !isset($hiddenfields['description'])) {

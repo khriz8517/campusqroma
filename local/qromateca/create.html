@@ -1,0 +1,56 @@
+<div id="app">
+    <div style="width: 50%; margin: auto; padding: 2%;">
+        <h2 style="text-align: center; padding-bottom: 5%; color: #085CB6; font-weight: 600;">COMPARTE TU APRENDIZAJE</h2>
+        <div v-if="firstpage" style="background-color: white; padding-top: 16%; padding-bottom: 20%; box-shadow: 0 3px 6px #0000001A; border-radius: 8px; width: 806px;
+height: 457px;">
+            <div style="margin: auto; text-align: center;">
+                <h4 style="color: #9F9F9F;">¿Qué quieres compartir?</h4>
+            </div>
+            <div style="margin-top: 8%; text-align: center;">
+                <input type="radio" name="qromatecatype" value="1" @click="selectType($event)">
+                <span style="color: #085CB6; font-weight: 500;">Documento</span>
+                <input type="radio" name="qromatecatype" value="2" @click="selectType($event)" style="margin-left: 5%;">
+                <span style="color: #085CB6; font-weight: 500;">Video</span>
+                <input type="radio" name="qromatecatype" value="3" @click="selectType($event)" style="margin-left: 5%;">
+                <span style="color: #085CB6; font-weight: 500;">Página</span>
+            </div>
+        </div>
+        <div v-if="secondpage" style="background-color: white; padding-top: 10%; padding-bottom: 10%; box-shadow: 0 3px 6px #0000001A; border-radius: 8px;">
+            <div style="margin-top: 3%;">
+                <div style="display: table;width: 45%;margin: auto;">
+                    <div class="row" style="padding-top: 20px;padding-bottom: 20px;">
+                        <label style="width: 200px; color: #9F9F9F;">Ponle un título atractivo:</label>
+                        <div>
+                            <input v-model="nombre" style="width: 200px;">
+                         </div>
+                    </div>
+                    <div class="row" style="padding-top: 20px;padding-bottom: 20px;">
+                        <label style="width: 200px; color: #9F9F9F;">Agrega imagen desriptiva:</label>
+                        <div>
+                            <input type="file" @change="changeFiles" ref="miarchivo" style="width: 200px;">
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 20px;padding-bottom: 20px;">
+                        <label style="width: 200px; color: #9F9F9F;">Copia el link aquí:</label>
+                        <div>
+                            <input v-model="link" style="width: 200px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="text-align: center; margin: auto; display: block; margin-top: 100px;">
+                    <div><a type="button" class="btn-success qromateca-success-button" @click="share">COMPARTE AHORA</a></div>
+                </div>
+            </div>
+        </div>
+        <div v-if="thirdpage" style="background-color: white;padding-top: 10%;padding-bottom: 10%; width: 806px;
+height: 457px; box-shadow: 0 3px 6px #0000001A; border-radius: 8px; opacity: 1;">
+            <div style="text-align: center; margin-top: 75px;">
+                <div style="color: #6ABF4C; font-weight: 500; font-size: 19px;">¡GRACIAS POR COMPARTIR!</div>
+                <div style="color: #6ABF4C; margin-top: 15px; font-size: 15px;">UN GESTOR REVISARÁ PRONTO TU APRENDIZAJE Y LO VALIDARÁ</div>
+                <div style="margin-top: 10%;">
+                    <a style="color: #085CB7;" href="create.php">REGRESAR</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

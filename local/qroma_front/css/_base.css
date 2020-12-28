@@ -495,7 +495,8 @@ h6 {
     height: 105px
 }
 .widget01 .item .icon {
-    height: 35px
+    height: 35px;
+    width: 32px;
 }
 .widget01 .item .text {
     text-align: left;
@@ -819,7 +820,7 @@ header .options .btn-menu {
     justify-content: space-between
 }
 .marcas #marcas .item img {
-    height: 100%
+    height: 75%
 }
 footer .w70 {
     display: flex;

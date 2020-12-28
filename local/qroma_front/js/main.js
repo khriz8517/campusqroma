@@ -2,12 +2,13 @@ var app = new Vue({
     el: '#app',
     data(){
         return{
-            title: 'Hello Vue!',
             menu: false,
             baner: [],
             banerPoint: 0,
             marginLeftBaner: 0,
             card: [],
+            cardPonit: 1,
+            marginLeftCard: 0,
             marcas: [
                 {url: './local/qroma_front/img/logos/american-colors.png'},
                 {url: './local/qroma_front/img/logos/cpp.png'},
@@ -23,9 +24,16 @@ var app = new Vue({
         window.onresize = this.sizeWeb;
     },
     mounted(){
-        this.loadData();
         this.banerFormat();
         this.banerMov();
+        this.testimonialMov();
+        this.loadData();
+        setTimeout(() => {
+            var x = window.matchMedia("(max-width: 720px)")
+            this.myFunction(x) // Call listener function at run time
+            x.addListener(this.myFunction)
+            // this.marcasMov();
+        }, 300);
     },
     methods: {
         loadSlider: function() {
@@ -89,6 +97,11 @@ var app = new Vue({
            this.loadSlider();
            this.loadTestimonios();
         },
+        myFunction: function (x) {
+            if (x.matches) { // If media query matches
+                this.marcasMov();
+            }
+        },
         menuBtn: function(){
             if(this.menu == false){
                 this.menu = true;
@@ -121,10 +134,19 @@ var app = new Vue({
                     $("#baner").height(`100%`);
                     $("#baner").css({"display":"flex","position":"relative"});
                     this.banerWidth = banerWidth;
+
+                    // let cardNum    = this.card.length;
+                    // let cardWidth  = $(".testimonials").width()/2;
+                    // let newWidthCard    = cardWidth*cardNum;
+                    //
+                    // $(".card01").width(`${newWidthCard}px`);
+                    // $(".card01").height(`100%`);
+                    // $(".card01").css({"display":"flex","position":"relative"});
+                    // this.cardWidth = cardWidth;
                 });
         },
         banerMov: function(orint) {
-            $('#baner .item:nth-child(1)').fadeIn();
+            // $('#baner .item:nth-child(1)').fadeIn();
             setInterval(() => {
                 this.banerPoint = this.banerPoint + 1;
                 $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
@@ -136,19 +158,64 @@ var app = new Vue({
                 if(this.banerPoint > this.baner.length){
                     this.banerPoint = 1;
                 }
-            }, 5000);
+            }, 10000);
         },
         prevBaner: function(){
-
+            let marginLeft = (100 * this.baner.length - 100)*-1;
+            this.marginLeftBaner -= 100;
+            if(marginLeft > this.marginLeftBaner){
+                this.marginLeftBaner = 0;
+            }
+            if(this.banerPoint < 1){
+                this.banerPoint = this.baner.length;
+            } else{
+                this.banerPoint -= 1;
+            }
+            $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
         },
         nextBaner: function(){
-
+            let marginLeft = (100 * this.baner.length - 100)*-1;
+            this.marginLeftBaner -= 100;
+            if(marginLeft > this.marginLeftBaner){
+                this.marginLeftBaner = 0;
+            }
+            if(this.banerPoint <= this.baner.length){
+                this.banerPoint = 1;
+            } else{
+                this.banerPoint += 1;
+            }
+            $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
+        },
+        testimonialMov:function(){
+            setInterval(() => {
+                console.log("asd");
+                $('.card01').animate({'margin-left': this.marginLeftCard+"%"}, 500);
+                let marginLeft = (100 * this.baner.length - 100)*-1;
+                this.marginLeftCard -= 100;
+                if(marginLeft > this.marginLeftCard){
+                    this.marginLeftCard = 0;
+                }
+                this.cardPonit = this.cardPonit + 1;
+                if(this.cardPoint > this.card.length){
+                    this.cardPoint = 1;
+                }
+            }, 10000);
         },
         prevTestimonial: function(){
 
         },
         nextTestimonial: function(){
 
+        },
+        marcasMov: function(){
+            let time = this.marcas.length*0.5 *1000;
+            let marcaWidth = $('#marcas').width();
+            console.log(marcaWidth);
+            $('#marcas').animate({'margin-left': "-"+(marcaWidth - (marcaWidth/this.marcas.length*2))+"px"}, this.marcas.length*1000);
+            setInterval(() => {
+                $('#marcas').animate({'margin-left': "-0px"}, this.marcas.length*1000);
+                $('#marcas').animate({'margin-left': "-"+(marcaWidth - (marcaWidth/this.marcas.length*2))+"px"}, this.marcas.length*1000);
+            }, time);
         }
     }
 });

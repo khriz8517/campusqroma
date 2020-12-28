@@ -25,6 +25,8 @@
 
 use core_course\external\course_summary_exporter;
 use theme_remui\usercontroller;
+use block_xp\local\xp\level_with_name;
+use block_xp\local\xp\level_with_badge;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -92,7 +94,7 @@ function getAllCoursesHtml($courses) {
                 <div class='photo'>
                     <div class='img' style='background:url(". getCourseImageById($course->id) ."')></div>
                 </div>
-                <div class='content'><span>".$course->fullname."</span>
+                <div class='content'><a href='../course/view.php?id={$course->id}'>".$course->fullname."</a>
                 <a class='text-success' href='../course/view.php?id={$course->id}'>ACCEDER</a></div>
             </div>
             <div class='right'>
@@ -132,11 +134,81 @@ if($origen == 'Color centro') {
     $qroma = false;
 }
 
+$pendingCoursesExist = 0;
+
+if(count($userCourses) > 0) {
+    $pendingCoursesExist = 1;
+}
+
+function obtenerLevelPropertyValue($level, $property) {
+    $returnedValue = '';
+
+    switch($property) {
+        case 'name':
+            $name = $level instanceof level_with_name ? $level->get_name() : null;
+            if (empty($name)) {
+                $name = get_string('levelx', 'block_xp', $level->get_level());
+            }
+            $returnedValue = $name;
+            break;
+    }
+    return $returnedValue;
+}
+
+function getLevelBadge($level, $small) {
+    $levelnum = $level->get_level();
+
+    if($small == 1) {
+        $customClass = 'qroma-block_xp-level';
+    } else {
+        $customClass = 'qroma-block_xp-level-2';
+    }
+
+    $classes = $customClass . ' block_xp-level level-' . $levelnum;
+    $label = get_string('levelx', 'block_xp', $levelnum);
+    $classes .= ' d-badge';
+
+    $html = '';
+    if ($level instanceof level_with_badge && ($badgeurl = $level->get_badge_url()) !== null) {
+        $html .= html_writer::tag(
+            'div',
+            html_writer::empty_tag('img', ['src' => $badgeurl,
+                'alt' => $label, 'class'=> 'd-badge-img']),
+            ['class' => $classes . ' level-badge', 'style' => 'height: 75px;']
+        );
+    } else {
+        $html .= html_writer::tag('div', $levelnum, ['class' => $classes, 'aria-label' => $label]);
+    }
+    return $html;
+}
+
+function getUserLevel($userCourses, $small) {
+    global $USER;
+
+    $world = \block_xp\di::get('course_world_factory')->get_world($userCourses[0]->id);
+    $state = $world->get_store()->get_state($USER->id);
+    $widget = new \block_xp\output\xp_widget($state, [], null, []);
+    $level = $widget->state->get_level();
+
+    //Get data
+    $levelName = obtenerLevelPropertyValue($level, 'name');
+    $xp = $widget->state->get_xp();
+
+    $levelInfo = array('levelName' => $levelName, 'xp' =>$xp, 'img' => getLevelBadge($level, $small));
+
+    return $levelInfo;
+}
+
 $templatecontextDashboard = [
+    'userpoints' => getUserLevel($userCourses, 1)['xp'],
+    'levelimg' => getUserLevel($userCourses, 1)['img'],
+    'levelimg2' => getUserLevel($userCourses, 2)['img'],
+    'levelname' => getUserLevel($userCourses, 1)['levelName'],
     'userimg' => getUserImage(),
     'userfirstaccess' => convertDateToSpanish($USER->firstaccess),
-    'username' => $USER->firstname . ' ' . $USER->lastname,
+    'username' => strtoupper($USER->firstname . ' ' . $USER->lastname),
     'pendingcourses' => getPendingCoursesHtml($userCourses),
+    'pendingcoursesexist' => $pendingCoursesExist,
     'allcourses' => getAllCoursesHtml($userCourses),
     'colorcentro' => $colorcentro,
     'qroma' => $qroma
@@ -145,3 +217,4 @@ $templatecontextDashboard = [
 $templatecontext = array_merge($templatecontext, $templatecontextDashboard);
 
 echo $OUTPUT->render_from_template('theme_remui/mydashboard', $templatecontext);
+echo $OUTPUT->render_from_template('theme_remui/mydashboardqroma2', $templatecontext);

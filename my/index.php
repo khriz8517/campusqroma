@@ -36,6 +36,7 @@
 
 require_once(__DIR__ . '/../config.php');
 require_once($CFG->dirroot . '/my/lib.php');
+include_once('../local/qroma_front/constants.php');
 
 redirect_if_major_upgrade_required();
 
@@ -88,6 +89,25 @@ $PAGE->blocks->add_region('content');
 $PAGE->set_subpage($currentpage->id);
 $PAGE->set_title($pagetitle);
 //$PAGE->set_heading($header);
+
+profile_load_custom_fields($USER);
+$origen = $USER->profile['origen'];
+
+if(
+    $origen == ORIGEN_NO_ASIGNADO ||
+    (
+        $origen != ORIGEN_QROMA &&
+        $origen != ORIGEN_TRICOLOR &&
+        $origen != ORIGEN_COLORCENTRO &&
+        $origen != ORIGEN_FERRETERIAS &&
+        $origen != ORIGEN_EXTERNOS &&
+        $origen != ORIGEN_FFVV_FERRETERIAS &&
+        $origen != ORIGEN_SEGURIDAD
+
+    )) {
+    header ("Location: " . 'https://www.campusqroma.com');
+    exit();
+}
 
 $PAGE->requires->css('/local/qroma_front/css/_base.css');
 $PAGE->requires->css('/local/qroma_front/css/general.css');

@@ -28,6 +28,78 @@ require_once($CFG->libdir . "/badgeslib.php");
 global $USER, $DB;
 
 use theme_remui\usercontroller as usercontroller;
+use block_xp\local\xp\level_with_name;
+use block_xp\local\xp\level_with_badge;
+
+function convertDateToSpanish($timestamp) {
+    setlocale(LC_TIME, 'es_ES', 'Spanish_Spain', 'Spanish');
+    return strftime("%d de %B, %Y", $timestamp);
+}
+
+function getUserImage() {
+    global $USER;
+    return new moodle_url('/user/pix.php/'.$USER->id.'/f1.jpg');
+}
+
+function obtenerLevelPropertyValue($level, $property) {
+    $returnedValue = '';
+
+    switch($property) {
+        case 'name':
+            $name = $level instanceof level_with_name ? $level->get_name() : null;
+            if (empty($name)) {
+                $name = get_string('levelx', 'block_xp', $level->get_level());
+            }
+            $returnedValue = $name;
+            break;
+    }
+    return $returnedValue;
+}
+
+
+function getLevelBadge($level, $small) {
+    $levelnum = $level->get_level();
+
+    if($small == 1) {
+        $customClass = 'qroma-block_xp-level';
+    } else {
+        $customClass = 'qroma-block_xp-level-2';
+    }
+
+    $classes = $customClass . ' block_xp-level level-' . $levelnum;
+    $label = get_string('levelx', 'block_xp', $levelnum);
+    $classes .= ' d-badge';
+
+    $html = '';
+    if ($level instanceof level_with_badge && ($badgeurl = $level->get_badge_url()) !== null) {
+        $html .= html_writer::tag(
+            'div',
+            html_writer::empty_tag('img', ['src' => $badgeurl,
+                'alt' => $label, 'class'=> 'd-badge-img']),
+            ['class' => $classes . ' level-badge', 'style' => 'height: 75px;']
+        );
+    } else {
+        $html .= html_writer::tag('div', $levelnum, ['class' => $classes, 'aria-label' => $label]);
+    }
+    return $html;
+}
+
+function getUserLevel($userCourses, $small) {
+    global $USER;
+
+    $world = \block_xp\di::get('course_world_factory')->get_world($userCourses[0]->id);
+    $state = $world->get_store()->get_state($USER->id);
+    $widget = new \block_xp\output\xp_widget($state, [], null, []);
+    $level = $widget->state->get_level();
+
+    //Get data
+    $levelName = obtenerLevelPropertyValue($level, 'name');
+    $xp = $widget->state->get_xp();
+
+    $levelInfo = array('levelName' => $levelName, 'xp' =>$xp, 'img' => getLevelBadge($level, $small));
+
+    return $levelInfo;
+}
 
 // Get user's object from page url.
 $uid = optional_param('id', $USER->id, PARAM_INT);
@@ -80,6 +152,8 @@ if (user_can_view_profile($userobject, null, $context)) {
     $templatecontext['user']->blogpostcount  = usercontroller::get_user_blog_post_count($userobject);
     $templatecontext['user']->contactscount  = usercontroller::get_user_contacts_count($userobject);
     $templatecontext['user']->description  = strip_tags($userobject->description);
+    $templatecontext['user']->firstaccess  = convertDateToSpanish($userobject->firstaccess);
+    $templatecontext['user']->qromaimage  = getUserImage();
 
     // About me tab data.
     $interests = \core_tag_tag::get_item_tags('core', 'user', $userobject->id);
@@ -133,8 +207,19 @@ if (user_can_view_profile($userobject, null, $context)) {
 
     // Courses tab data.
     $usercourses = array_values(usercontroller::get_users_courses_with_progress($userobject));
+
+    foreach($usercourses as $key=>$usercourse) {
+        if($usercourse->enddate == 0) {
+            $usercourses[$key]->enddate = '<span>Fecha de finalización</span><br><span>no habilitada</span>';
+        } else {
+            $usercourses[$key]->enddate = '<span>Terminar el</span><br><span>'.convertDateToSpanish($usercourse->enddate).'</span>';
+        }
+    }
+
     $templatecontext['user']->hascourses = (count($usercourses)) ? true : false;
     $templatecontext['user']->courses = $usercourses;
+    $templatecontext['user']->userpoints = getUserLevel($usercourses, 1)['xp'];
+    $templatecontext['user']->userlevelbadge = getUserLevel($usercourses, 1)['img'];
 }
 echo $OUTPUT->render_from_template('theme_remui/mypublic', $templatecontext);
 

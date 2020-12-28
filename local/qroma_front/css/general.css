@@ -153,3 +153,214 @@ body#page-course-search {
 #page-course-search .card-body {
     padding: 0 !important;
 }
+
+/*
+     QROMATECA
+ */
+
+#page-local-qromateca-index #nav-drawer {
+    display: none;
+}
+
+body#page-local-qromateca-index {
+    margin-left: 0 !important;
+}
+
+#page-local-qromateca-index #page-header {
+    display: none;
+}
+
+#page-local-qromateca-index #page-footer {
+    display: none !important;
+}
+
+#page-local-qromateca-index #page-content {
+    padding-bottom: 0 !important;
+}
+
+#page-local-qromateca-index .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-local-qromateca-index #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qromateca-index .card-body {
+    padding: 0 !important;
+}
+
+/*
+     QROMATECA - INDEX
+ */
+
+#page-local-qromateca-create #nav-drawer {
+    display: none;
+}
+
+body#page-local-qromateca-create {
+    margin-left: 0 !important;
+}
+
+#page-local-qromateca-create #page-header {
+    display: none;
+}
+
+#page-local-qromateca-create #page-footer {
+    display: none !important;
+}
+
+#page-local-qromateca-create #page-content {
+    padding-bottom: 0 !important;
+}
+
+#page-local-qromateca-create .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-local-qromateca-create #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qromateca-create .card-body {
+    padding: 0 !important;
+    background-color: #f4f4f4 !important;
+}
+
+/*
+     QROMATECA - VIEW
+ */
+
+#page-local-qromateca-view #nav-drawer {
+    display: none;
+}
+
+body#page-local-qromateca-view {
+    margin-left: 0 !important;
+}
+
+#page-local-qromateca-view #page-header {
+    display: none;
+}
+
+#page-local-qromateca-view #page-footer {
+    display: none !important;
+}
+
+#page-local-qromateca-view #page-content {
+    padding-bottom: 0 !important;
+}
+
+#page-local-qromateca-view .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-local-qromateca-view #region-main {
+    padding: 0 !important;
+}
+
+#page-local-qromateca-view .card-body {
+    padding: 0 !important;
+    background-color: #f4f4f4 !important;
+}
+
+/*
+    USER PROFILE
+ */
+
+#page-user-profile #nav-drawer {
+    display: none;
+}
+
+body#page-user-profile {
+    margin-left: 0 !important;
+}
+
+#page-user-profile #page-header {
+    background: none;
+    width: 0;
+    box-shadow: none;
+    position: absolute;
+    top: 280px;
+    right: 0;
+}
+
+#page-user-profile #page-footer {
+    display: none !important;
+}
+
+#page-user-profile #page-content {
+    padding-bottom: 0 !important;
+}
+
+#page-user-profile .container {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+
+#page-user-profile #region-main {
+    padding: 0 !important;
+}
+
+#page-user-profile .card-body {
+    padding: 0 !important;
+}
+
+#page-user-profile #page-header .mr-2 {
+    display: none !important;
+}
+
+#page-user-profile #region-main-box .col-lg-3 {
+    display: none;
+}
+
+.nav-tabs.tabs-2 .nav-link.active {
+    background-color: #6bc149 !important;
+    color: white !important;
+}
+
+.mis-cursos-2 .body .item .left .content a h5{
+    font-size: 16px;
+    font-weight: 600;
+}
+.mis-cursos-2 .body .item .left .content a h6{
+    color: #6bc149 !important;
+}
+.mis-cursos-2 .body .item .left .content a h6:hover{
+    color: #1e7e34!important;
+}
+
+.mis-cursos-2 .body .item .left.qroma-perfil {
+    display: flex;
+    width: 78%;
+    align-items: center
+}
+
+.mis-cursos-2 .body .item.qroma-item {
+    margin-bottom: 0 !important;
+}
+
+/* hide search */
+.d-none .d-lg-block {
+    display: none !important;
+}
+
+.qroma-block_xp-level {
+    background-size: 36px 33px !important;
+    font-size: 1.5em !important;
+    height: 37px !important;
+    line-height: 41px !important;
+    width: 37px !important;
+    margin: 0 !important;
+}
+
+.qroma-block_xp-level-2 {
+    background-size: 70px 65px !important;
+    font-size: 3em !important;
+    height: 74px !important;
+    line-height: 74px !important;
+    width: 70px !important;
+    margin: 2px !important;

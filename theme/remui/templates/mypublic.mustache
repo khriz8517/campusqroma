@@ -52,8 +52,24 @@
     }
 }}
 {{> theme_remui/common_start }}
+    {{# user }}
+    <div class="profile bg-d-5">
+        <div class="w70 m0auto p60-50 flex">
+            <div class="photo radius-50 border-7 mr-4"><img src="{{ qromaimage }}" alt="" srcset=""/></div>
+            <div class="data"><span class="text-white">Activo desde el {{ firstaccess }}</span>
+                <h2 class="text-white mt-2">{{ firstname }} {{ lastname }}</h2>
+                <div class="point">
+                    <div class="content bg-white">
+                        <div class="points radius-50">
+                            {{{userlevelbadge}}}
+                        </div>
+                        <span class="text-primary gotham-medium">{{ userpoints }} PUNTOS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row m-0 p-0">
-        {{# user }}
         <div class="col-lg-3">
             <!-- Page Widget -->
             <div class="card card-shadow text-center border-0">
@@ -101,93 +117,96 @@
             <!-- End Page Widget -->
         </div>
 
-        <div class="col-lg-9">
+        <div class="col-lg-9" style="margin: auto; margin-top: 2%;">
             <!-- Panel -->
             <div class="panel">
-                <div class="panel-body nav-tabs-animate nav-tabs-horizontal overflow-hidden profile-tabs" data-plugin="tabs">
-                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                <div class="panel-body nav-tabs-animate nav-tabs-horizontal overflow-hidden profile-tabs mis-cursos-2 m0auto p60-50" data-plugin="tabs">
+                    <ul class="nav nav-tabs nav-tabs-line header flex tabs-2" role="tablist">
+<!--                        {{# aboutme }}-->
+<!--                        <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#aboutme" aria-controls="aboutme" role="tab">{{# notcurrentuser }} {{ firstname }}{{/ notcurrentuser}} {{^ notcurrentuser }}{{# str }} aboutme, theme_remui {{/ str }}{{/ notcurrentuser}}</a></li>-->
+<!--                        {{/ aboutme }}-->
                         {{# aboutme }}
-                        <li class="nav-item" role="presentation"><a class="active nav-link" data-toggle="tab" href="#aboutme" aria-controls="aboutme" role="tab">{{# notcurrentuser }} {{ firstname }}{{/ notcurrentuser}} {{^ notcurrentuser }}{{# str }} aboutme, theme_remui {{/ str }}{{/ notcurrentuser}}</a></li>
+                        <li style="width: 33%; text-align: center;" class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#usercourses" aria-controls="usercourses" role="tab">Mis Cursos</a></li>
                         {{/ aboutme }}
-                        <li class="nav-item" role="presentation"><a class="nav-link {{^ aboutme }}active{{/ aboutme }}" data-toggle="tab" href="#usercourses" aria-controls="usercourses" role="tab">{{# str }} courses, theme_remui {{/ str }}</a></li>
                         {{#haseditpermission}}
                         {{^ notcurrentuser }}
-                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#editprofile" aria-controls="editprofile" role="tab">{{# str }} editprofile, theme_remui {{/ str }}</a></li>
+                         <li style="width: 33%; text-align: center;" class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#editprofile" aria-controls="editprofile" role="tab">{{# str }} editprofile, theme_remui {{/ str }}</a></li>
                         {{/ notcurrentuser }}
                         {{/haseditpermission}}
-                        <li class="nav-item ml-auto" role="presentation"><a class="nav-link" data-toggle="tab" href="#userprefs" aria-controls="userprefs" role="tab"><i class="icon fa fa-cog"></i></a></li>
+                        <li style="width: 33%; text-align: center;" class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#userprefs" aria-controls="userprefs" role="tab">Ajustes</a></li>
+<!--                    <li class="nav-item ml-auto" role="presentation"><a class="nav-link" data-toggle="tab" href="#userprefs" aria-controls="userprefs" role="tab"><i class="icon fa fa-cog"></i></a></li>-->
                     </ul>
 
                     <div class="tab-content">
-                        {{# aboutme }}
-                        <div class="tab-pane active animation-slide-left" id="aboutme" role="tabpanel">
-                            <ul class="list-group">
-                                {{# hasinterests }}
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body d-block">
-                                            <h5>{{# str }} interests, theme_remui {{/ str }}</h5>
-                                            <div>
-                                                {{# interests }}
-                                                    <a href="{{{config.wwwroot}}}/tag/index.php?id={{id}}" class="badge badge-info">{{ rawname }}
-                                                    </a>
-                                                {{/ interests }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/ hasinterests }}
+<!--                        {{# aboutme }}-->
+<!--                        <div class="tab-pane active animation-slide-left" id="aboutme" role="tabpanel">-->
+<!--                            <ul class="list-group">-->
+<!--                                {{# hasinterests }}-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="media">-->
+<!--                                        <div class="media-body d-block">-->
+<!--                                            <h5>{{# str }} interests, theme_remui {{/ str }}</h5>-->
+<!--                                            <div>-->
+<!--                                                {{# interests }}-->
+<!--                                                    <a href="{{{config.wwwroot}}}/tag/index.php?id={{id}}" class="badge badge-info">{{ rawname }}-->
+<!--                                                    </a>-->
+<!--                                                {{/ interests }}-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                {{/ hasinterests }}-->
 
-                                {{# instidept }}
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body d-block">
-                                            <h5>{{# str }} institution, theme_remui {{/ str }}</h5>
-                                            <div>
-                                                {{ department }} {{ institution }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/ instidept}}
+<!--                                {{# instidept }}-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="media">-->
+<!--                                        <div class="media-body d-block">-->
+<!--                                            <h5>{{# str }} institution, theme_remui {{/ str }}</h5>-->
+<!--                                            <div>-->
+<!--                                                {{ department }} {{ institution }}-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                {{/ instidept}}-->
 
-                                {{# location }}
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body d-block">
-                                            <h5>{{# str }} location, theme_remui {{/ str }}</h5>
-                                            <div>
-                                                {{ address }} {{city}} {{ country }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/ location}}
+<!--                                {{# location }}-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="media">-->
+<!--                                        <div class="media-body d-block">-->
+<!--                                            <h5>{{# str }} location, theme_remui {{/ str }}</h5>-->
+<!--                                            <div>-->
+<!--                                                {{ address }} {{city}} {{ country }}-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                {{/ location}}-->
 
-                                {{# hasbadges }}
-                                <li class="list-group-item">
-                                    <div class="media">
-                                        <div class="media-body d-block">
-                                            <h5>{{# str }} badges, theme_remui {{/ str }}</h5>
-                                            <div>
-                                                <ul class="d-flex p-0 pt-3" style="list-style: none;">
-                                                    {{# badges}}
-                                                        <li>
-                                                            <img src="{{ imageurl }}" alt="{{ name }}" />
-                                                            <a href="{{ link }}" class="text-center d-block font-weight-400 mt-10 blue-grey-500 font-size-14 font-weight-100" data-toggle="tooltip" title="{{ desc }}" data-placement="bottom">{{ name }}</a>
-                                                        </li>
-                                                    {{/ badges}}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/ hasbadges}}
-                            </ul>
-                        </div>
-                        {{/ aboutme }}
+<!--                                {{# hasbadges }}-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="media">-->
+<!--                                        <div class="media-body d-block">-->
+<!--                                            <h5>{{# str }} badges, theme_remui {{/ str }}</h5>-->
+<!--                                            <div>-->
+<!--                                                <ul class="d-flex p-0 pt-3" style="list-style: none;">-->
+<!--                                                    {{# badges}}-->
+<!--                                                        <li>-->
+<!--                                                            <img src="{{ imageurl }}" alt="{{ name }}" />-->
+<!--                                                            <a href="{{ link }}" class="text-center d-block font-weight-400 mt-10 blue-grey-500 font-size-14 font-weight-100" data-toggle="tooltip" title="{{ desc }}" data-placement="bottom">{{ name }}</a>-->
+<!--                                                        </li>-->
+<!--                                                    {{/ badges}}-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                {{/ hasbadges}}-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        {{/ aboutme }}-->
 
-                        <div class="tab-pane  {{^ aboutme }}active show{{/ aboutme }} animation-slide-left" id="usercourses" role="tabpanel">
+                        <div class="tab-pane active show animation-slide-left body" id="usercourses" role="tabpanel">
                             <ul class="list-group">
                                 {{^ hascourses }}
                                     <li class="list-group-item border-0">
@@ -202,36 +221,44 @@
                                 {{# courses }}
 
                                 <li id="course-{{ id }}" class="list-group-item">
-                                    <div class="media">
-                                        <div class="pr-20 hidden-sm-down">
-                                            <a class="avatar" href="{{ link }}">
-                                                <img class="img-fluid" src="{{{ courseimage }}}" alt="...">
-                                            </a>
+                                    <div class="item qroma-item">
+                                        <div class="left qroma-perfil">
+                                            <div class="hidden-sm-down photo">
+                                                <a href="{{ link }}">
+                                                    <img class="img" src="{{{ courseimage }}}" alt="...">
+                                                </a>
+                                            </div>
+
+                                            <div class="content">
+                                                <a href="{{ link }}"><h5 class="mt-0">{{{ fullname }}}</h5></a>
+                                                <a href="{{ link }}"><h6 class="mt-0">ACCEDER ></h6></a>
+<!--                                                <div class="profile-brief mt-10 hidden-sm-down">-->
+<!--                                                    {{{ summary }}}-->
+<!--                                                </div>-->
+                                            </div>
                                         </div>
-
-                                        <div class="media-body pr-10 pb-10">
-                                            <a href="{{ link }}"><h5 class="mt-0">{{{ fullname }}}</h5></a>
-                                            {{# startdate }}<small>{{# str }} start_date, theme_remui {{/ str }} {{#userdate}} {{startdate}}, %A, %d %B %Y {{/userdate}}</small>{{/ startdate }}
-
-                                            <div class="profile-brief mt-10 hidden-sm-down">
-                                                {{{ summary }}}
+                                        <div class="right">
+                                            <div class="calendar"><img src="/local/qroma_front/img/icons/calendar.svg" alt="" srcset="">
+                                                <div class="text">
+                                                    {{{enddate}}}
+                                                </div>
                                             </div>
                                         </div>
                                         {{# enablecompletion }}
                                             <div class="float-right remui-course-progress w-full pie-progress pie-progress-sm"
-                                                data-plugin="pieProgress"
-                                                data-barcolor="#11c26d"
-                                                data-size="100"
-                                                data-barsize="6"
-                                                data-goal="100"
-                                                aria-valuenow="{{ progress }}"
-                                                role="progressbar">
+                                                 data-plugin="pieProgress"
+                                                 data-barcolor="#11c26d"
+                                                 data-size="100"
+                                                 data-barsize="6"
+                                                 data-goal="100"
+                                                 aria-valuenow="{{ progress }}"
+                                                 role="progressbar">
                                                 <div class="pie-progress-content">
-                                                <div class="pie-progress-number">{{#progress}}{{ progress }}{{/progress}}{{^progress}}0{{/progress}}&#37;</div>
-                                                <div class="pie-progress-label">{{# str }} complete, theme_remui {{/ str }}</div>
+                                                    <div class="pie-progress-number">{{#progress}}{{ progress }}{{/progress}}{{^progress}}0{{/progress}}&#37;</div>
+                                                    <div class="pie-progress-label">{{# str }} complete, theme_remui {{/ str }}</div>
                                                 </div>
                                             </div>
-                                            {{/ enablecompletion }}
+                                        {{/ enablecompletion }}
                                     </div>
                                 </li>
                                 {{/ courses }}

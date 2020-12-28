@@ -16,7 +16,18 @@ use LocalPages\Controller\QromaData as QromaDataController;
 $qromaDataController = new QromaDataController();
 $origen = $qromaDataController->getUserType()->profile['origen'];
 
-if($origen == ORIGEN_NO_ASIGNADO) {
+if(
+    $origen == ORIGEN_NO_ASIGNADO ||
+    (
+        $origen != ORIGEN_QROMA &&
+        $origen != ORIGEN_TRICOLOR &&
+        $origen != ORIGEN_COLORCENTRO &&
+        $origen != ORIGEN_FERRETERIAS &&
+        $origen != ORIGEN_EXTERNOS &&
+        $origen != ORIGEN_FFVV_FERRETERIAS &&
+        $origen != ORIGEN_SEGURIDAD
+
+)) {
     header ("Location: " . 'https://www.campusqroma.com');
     exit();
 }
@@ -62,6 +73,14 @@ switch($origen) {
        includeHtmlOrigen('externos', 13);
        $PAGE->requires->js(new moodle_url('../qroma_front/js/externos/curso.js'));
        break;
+    case ORIGEN_FFVV_FERRETERIAS:
+        includeHtmlOrigen('ffvv_ferreterias', 11);
+        $PAGE->requires->js(new moodle_url('../qroma_front/js/ffvv_ferreterias/curso.js'));
+        break;
+    case ORIGEN_SEGURIDAD:
+        includeHtmlOrigen('seguridad', 12);
+        $PAGE->requires->js(new moodle_url('../qroma_front/js/seguridad/curso.js'));
+        break;
 }
 
 echo $OUTPUT->footer();

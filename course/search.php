@@ -78,7 +78,20 @@ $PAGE->requires->css('/local/qroma_front/css/general.css');
 
 switch($origen) {
     case ORIGEN_QROMA:
+    case ORIGEN_TRICOLOR:
         $PAGE->requires->js('/local/qroma_front/js/qroma/buscador.js');
+        break;
+    case ORIGEN_FERRETERIAS:
+        $PAGE->requires->js('/local/qroma_front/js/ferreterias/buscador.js');
+        break;
+    case ORIGEN_EXTERNOS:
+        $PAGE->requires->js('/local/qroma_front/js/externos/buscador.js');
+        break;
+    case ORIGEN_FFVV_FERRETERIAS:
+        $PAGE->requires->js('/local/qroma_front/js/ffvv_ferreterias/buscador.js');
+        break;
+    case ORIGEN_SEGURIDAD:
+        $PAGE->requires->js('/local/qroma_front/js/seguridad/buscador.js');
         break;
     case ORIGEN_COLORCENTRO:
         $PAGE->requires->js('/local/qroma_front/js/color_centro/buscador.js');
@@ -128,6 +141,11 @@ if (empty($searchcriteria)) {
 echo $OUTPUT->header();
 switch($origen) {
     case ORIGEN_QROMA:
+    case ORIGEN_TRICOLOR:
+    case ORIGEN_FERRETERIAS:
+    case ORIGEN_EXTERNOS:
+    case ORIGEN_FFVV_FERRETERIAS:
+    case ORIGEN_SEGURIDAD:
         include '../local/qroma_front/buscador/qroma/buscador.html';
         break;
     case ORIGEN_COLORCENTRO:

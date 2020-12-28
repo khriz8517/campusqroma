@@ -65,7 +65,7 @@
                 <ul>
                     <li class="active"><a href="#">HOME</a></li>
                     <li><a href="#">CATÁLOGO</a></li>
-                    <li><a href="#">QROMOTECA</a></li>
+                    <li><a href="#">QROMATECA</a></li>
                     <li><a href="#">TIENDA</a></li>
                 </ul>
             </div>

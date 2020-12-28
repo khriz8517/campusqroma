@@ -14,6 +14,9 @@ if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
     $userData = $_COOKIE['mg_sso_profile'];
     $user = json_decode($userData);
     $userObj = $DB->get_record('user', array('email'=>$user->mail));
+    if(!$userObj) {
+        $userObj = $DB->get_record('user', array('email'=>$user->userPrincipalName));
+    }
     complete_user_login($userObj);
     header ("Location: " . $authenticated_url);
 } else {
@@ -82,6 +85,11 @@ if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
                 $user = json_decode($user);
 
                 $userObj = $DB->get_record('user', array('email'=>$user->mail));
+
+                if(!$userObj) {
+                    $userObj = $DB->get_record('user', array('email'=>$user->userPrincipalName));
+                }
+
                 complete_user_login($userObj);
 
                 header ("Location: " . $authenticated_url);

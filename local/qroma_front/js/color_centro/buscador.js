@@ -170,7 +170,7 @@ var app = new Vue({
                     this.totalCourses = response.data.totalCourses;
                     this.cursos = courses;
                 });
-        }
+        },
         subCategoryFormat: function(){
             let listView = $("#list-tabs").width();
             let items    = $("#list-tabs .list .item");
