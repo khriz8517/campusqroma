@@ -92,10 +92,10 @@ function getAllCoursesHtml($courses) {
         $coursesHtml.= "<div class='item'>
             <div class='left'>
                 <div class='photo'>
-                    <div class='img' style='background:url(". getCourseImageById($course->id) ."')></div>
+                    <a href='../course/view.php?id={$course->id}'><div class='img' style='background:url(". getCourseImageById($course->id) ."')></div></a>
                 </div>
-                <div class='content'><a href='../course/view.php?id={$course->id}'>".$course->fullname."</a>
-                <a class='text-success' href='../course/view.php?id={$course->id}'>ACCEDER</a></div>
+                <div class='content'><a style='text-decoration: none;' class='title' href='../course/view.php?id={$course->id}'>".$course->fullname."</a>
+                <a style='text-decoration: none;' class='text-success' href='../course/view.php?id={$course->id}'>ACCEDER ></a></div>
             </div>
             <div class='right'>
                 <div class='calendar'><img src='../local/qroma_front/img/icons/calendar.svg'/>
@@ -198,6 +198,10 @@ function getUserLevel($userCourses, $small) {
 
     return $levelInfo;
 }
+$gamificationtest = false;
+if($USER->id == 2395) {
+    $gamificationtest = true;
+}
 
 $templatecontextDashboard = [
     'userpoints' => getUserLevel($userCourses, 1)['xp'],
@@ -211,10 +215,12 @@ $templatecontextDashboard = [
     'pendingcoursesexist' => $pendingCoursesExist,
     'allcourses' => getAllCoursesHtml($userCourses),
     'colorcentro' => $colorcentro,
-    'qroma' => $qroma
+    'qroma' => $qroma,
+    'gamificationtest' => $gamificationtest
 ];
 
 $templatecontext = array_merge($templatecontext, $templatecontextDashboard);
 
 echo $OUTPUT->render_from_template('theme_remui/mydashboard', $templatecontext);
+echo $OUTPUT->render_from_template('theme_remui/qroma_dashboard', $templatecontext);
 echo $OUTPUT->render_from_template('theme_remui/mydashboardqroma2', $templatecontext);

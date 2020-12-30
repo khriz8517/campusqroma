@@ -12,6 +12,7 @@ var app = new Vue({
             nombre: '',
             link: '',
             qromaFile: {},
+            qromaFileDoc: {},
         };
     },
     created(){
@@ -27,10 +28,20 @@ var app = new Vue({
         changeFiles: function () {
             this.qromaFile = this.$refs.miarchivo.files[0];
         },
+        changeFiles2: function () {
+            this.qromaFileDoc = this.$refs.miarchivo2.files[0];
+        },
         share: function () {
-            if(this.nombre === '' || this.link === '' || this.qromaFile.name == undefined) {
-                alert('Debe agregar contenido en los campos vacíos');
-                return false;
+            if(this.qromaType == 1) {
+                if(this.nombre === '' || this.qromaFile.name == undefined || this.qromaFileDoc.name == undefined) {
+                    alert('Debe agregar contenido en los campos vacíos');
+                    return false;
+                }
+            } else {
+                if(this.nombre === '' || this.link === '' || this.qromaFile.name == undefined) {
+                    alert('Debe agregar contenido en los campos vacíos');
+                    return false;
+                }
             }
 
             let frm = new FormData();
@@ -39,6 +50,7 @@ var app = new Vue({
             frm.append('link',this.link);
             frm.append('type',this.qromaType);
             frm.append('qromaFile',this.qromaFile);
+            frm.append('qromaFileDoc',this.qromaFileDoc);
             axios.post('../qroma_front/api/ajax_controller_qroma.php', frm, {
                 header:{
                     'Content-Type' : 'multipart/form-data'
@@ -203,6 +215,11 @@ var app = new Vue({
         closeModal: function(){
             document.querySelector(".back").style.display = "none";
             document.querySelector(".back-des").style.display = "none";
+        },
+        closeModalAprobado: function () {
+            document.querySelector(".back").style.display = "none";
+            document.querySelector(".back-des").style.display = "none";
+            location.reload();
         },
         continuar: function(){
             location.reload();

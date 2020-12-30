@@ -23,6 +23,12 @@ body#page-local-qroma-index {
     max-width: 100% !important;
 }
 
+.search-input-wrapper {
+    display: none !important;
+}
+
+/* CATALOGO */
+
 #page-local-catalogo_cursos-index #nav-drawer {
     display: none;
 }
@@ -54,6 +60,10 @@ body#page-local-catalogo_cursos-index {
 
 #page-local-catalogo_cursos-index #page-content {
     padding-bottom: 0 !important;
+}
+
+#page-local-catalogo_cursos-index .search-input-wrapper {
+   display: none;
 }
 
 /* 

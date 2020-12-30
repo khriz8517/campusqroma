@@ -6,13 +6,13 @@
                 <div class="item" v-for="item in baner"><img :src="item.background" alt="" srcset=""/>
                     <div class="content">
                         <div class="title bg-info-o text-white">{{item.title}}</div>
-                        <a class="btn" :class="'btn-'+item.btnStyle" :href="item.url">{{item.btn}}</a>
+                        <a v-if="item.btn" class="btn" :class="'btn-'+item.btnStyle" :href="item.url">{{item.btn}}</a>
                     </div>
                 </div>
             </div>
             <div class="after" @click="nextBaner()"></div>
         </div>
-        <div class="actions"><a class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
+        <div class="actions"><a @click="changeBaner(index)" class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
     </div>
     <div class="access">
         <h2><span class="text-success pacifig">¡Pinta </span><span class="text-info" style="font-weight: 500"> tu mejor versión!</span></h2>
@@ -36,11 +36,11 @@
         <h3 style="font-family: Gotham">Nuestros alumnos respaldan nuestra calidad de educativa</h3>
         <div class="testimonials">
             <div class="before" @click="prevTestimonial()"></div>
-            <div class="card01">
-                <div class="item" v-for="item in card">
-                    <div class="content">
+            <div class="card01" style="width: 1860px;height: 100%;display: flex;position: relative;">
+                <div class="item-qroma" v-for="item in card">
+                    <div class="content-qroma">
                         <h2 :class="'text-'+item.type">{{item.title}}</h2>
-                        <p>{{item.content}}</p>
+                        <p style="overflow: hidden">{{item.content}}</p>
                     </div>
                     <div class="profile" :class="'b-'+item.type"><img :src="item.url" alt=""/></div>
                 </div>

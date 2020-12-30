@@ -9,6 +9,7 @@ var app = new Vue({
             gestor: false,
             creado: '',
             estado_aprobacion: 0,
+            documento: '',
             comentarios: [],
             comentTxt: ''
         };
@@ -38,6 +39,7 @@ var app = new Vue({
                         this.gestor = data.gestor;
                         this.creado = data.creado;
                         this.estado_aprobacion = data.estado_aprobacion;
+                        this.documento_url = data.documento_url;
                     } else {
                         window.location.href = 'index.php';
                     }
@@ -150,6 +152,11 @@ var app = new Vue({
         closeModal: function(){
             document.querySelector(".back").style.display = "none";
             document.querySelector(".back-des").style.display = "none";
+        },
+        closeModalAprobado: function () {
+            document.querySelector(".back").style.display = "none";
+            document.querySelector(".back-des").style.display = "none";
+            location.reload();
         },
         continuar: function(){
             location.reload();

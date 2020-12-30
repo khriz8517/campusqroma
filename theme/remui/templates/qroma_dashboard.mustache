@@ -1,97 +1,152 @@
-<div class="profile bg-d-2">
-    <div class="w70 m0auto p60-50 flex">
-        <div class="photo radius-50 border-7 mr-4"><img src={{userimg}} alt="" srcset=""/></div>
-        <div class="data"><span class="text-white">Activo desde el {{userfirstaccess}}</span>
-            <h2 class="text-white mt-2">{{username}}</h2>
-                <div class="point">
-                    <div class="content bg-white">
-                        <div class="points radius-50">
-                            {{{levelimg}}}
+<div id="app">
+    <div class="profile bg-d-2">
+        <div class="w70 m0auto p60-50 flex">
+            <div class="photo radius-50 border-7 mr-4"><img :src="user.photo" alt="" srcset=""/></div>
+            <div class="data"><span class="text-white">Activo desde el {(user.dateReg)}</span>
+                <h2 class="text-white mt-2">{(user.name)}</h2>
+                     <div class="point">
+                        <div class="content bg-white">
+                            <div class="points radius-50">
+                                {{{levelimg}}}
+                            </div>
+                            <span class="text-primary gotham-medium">{(user.points)} PUNTOS</span>
                         </div>
-                        <span class="text-primary gotham-medium">{{userpoints}} PUNTOS</span>
+                     </div>
+            </div>
+        </div>
+    </div>
+    <div class="mis-cursos w70 m0auto p60-50">
+        <h2 class="mb-4"><span class="text-info gotham-medium">Mis cursos  </span><span class="text-success pacifig">pendientes</span></h2>
+            <div class="arrow-left" @click="prevBaner"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
+            <div class="tabs">
+                <div class="body cursos01" style="width: 1817px;height: 100%;display: flex;position: relative;margin-left: 0;">
+                    <div class="item" v-for="item in cursos">
+                        <div class="img">
+                            <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                        </div>
+                        <div class="contry"><img class="contry-flag" :src="item.flat" alt="" srcset=""/>
+                            <div class="contry-name">{(item.pais)}</div>
+                        </div>
+                        <h3 class="title gotham-medium">{(item.title)}</h3>
+                        <div class="footer">
+                            <div class="btn btn-info">ACCEDER</div>
+                            <div class="progress">
+                                <div class="container-progress danger">
+                                    <div class="gauge-container">
+                                        <svg class="gauge" viewBox="0 0 150 150">
+                                            <circle class="progress" r="67" data-target="84" cx="75" cy="75"></circle>
+                                            <circle class="rail" r="67" data-target="84" cx="75" cy="75"></circle>
+                                        </svg><span class="center percentage"><span class="value">{{item.porcent}}</span><span class="percentSymbol">%</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-        </div>
-    </div>
-</div>
-<div class="mis-cursos w70 m0auto p60-50">
-    <h2 class="mb-4"><span class="text-info gotham-medium">Mis cursos  </span><span class="text-success pacifig">pendientes</span></h2>
-    {{#pendingcoursesexist}}
-        <div class="arrow-left"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
-        <div class="tabs">
-            <div class="body">
-                {{{pendingcourses}}}
             </div>
+            <div class="arrow-right" @click="nextBaner"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
+            <div class="actions">
+                <div class="item" @click="changeBaner(index)" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in cursospaginate"></div>
+            </div>
+    </div>
+<!--    <div class="p60-50 bg-secondary progress-bar-general">-->
+<!--        <div class="w70 m0auto pb-5 relative">-->
+<!--            <div class="arrow-left"><img src="./img/icons/arrow-success.svg" alt="" srcset=""/></div>-->
+<!--            <div class="bar">-->
+<!--                <div class="color">-->
+<!--                    <div class="griss" :style="'width: '+(100-user.progress)+'%'"></div>-->
+<!--                </div>-->
+<!--                <div class="level" v-bind:class="{'active': user.progress &lt; 50 }">-->
+<!--                    <div class="points radius-50X bg-info"><img src="./img/icons/points.svg" alt=""/><span>JUNIOR</span></div>-->
+<!--                </div>-->
+<!--                <div class="level" v-bind:class="{'active': user.progress &gt;= 50 &amp;&amp; user.progress &lt; 100}">-->
+<!--                    <div class="points radius-50X bg-primary"><img src="./img/icons/points.svg" alt=""/><span>INTERMEDIO</span></div>-->
+<!--                </div>-->
+<!--                <div class="level" v-bind:class="{'active': user.progress &gt;= 100 }">-->
+<!--                    <div class="points radius-50X bg-danger"><img src="./img/icons/points.svg" alt=""/><span>AVANZADO</span></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="arrow-right"><img src="./img/icons/arrow-success.svg" alt="" srcset=""/></div>-->
+<!--        </div>-->
+<!--        <div class="body w70 m0auto flex mt-5">-->
+<!--            <div class="ranking">-->
+<!--                <div class="header bg-info text-white">Ranking por áreas</div>-->
+<!--                <div class="content">-->
+<!--                    <table>-->
+<!--                        <tr v-for="item in ranking">-->
+<!--                            <td>1</td>-->
+<!--                            <td>{{item.name}}</td>-->
+<!--                            <td><img src="./img/icons/as.svg" alt="" srcset=""/></td>-->
+<!--                            <td>{{item.points}} puntos</td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="progreso">-->
+<!--                <div class="header bg-info text-white">Mi progreso</div>-->
+<!--                <div class="content bg-white">-->
+<!--                    <div class="flex"><span>{{user.miProgress.allCurses}} cursos en el portafolio</span>-->
+<!--                        <div class="progress-bar-h">-->
+<!--                            <div class="active bg-success" :style="'width: '+(user.miProgress.progress)+'%'"></div><span class="text-white">{{user.miProgress.successFullCurses}} cursos terminados</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="valoration">-->
+<!--                        <div class="item"><span class="num">{{user.miProgress.prize}}</span><span class="bg-secondary">Premios Canjeados</span></div>-->
+<!--                        <div class="item"><span class="num">{{user.miProgress.valoration}}</span><span class="bg-secondary">Valoraciones</span></div>-->
+<!--                        <div class="item"><span class="num">{{user.miProgress.shared}}</span><span class="bg-secondary">Aprendizajes compartidos</span></div>-->
+<!--                        <div class="item"><span class="num">{{user.miProgress.discution}}</span><span class="bg-secondary">Discusiones</span></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="mis-cursos-2 w70 m0auto p60-50">
+        <div class="header flex">
+            <h2 class="mb-4"><span class="text-info gotham-medium">Todos </span><span class="text-success pacifig">mis cursos</span></h2>
+                <div class="options">
+                    <form action="">
+                        <div class="form-group">
+                            <input type="text" id="text-search"/>
+                            <label for="text-search">¿Qué curso estás buscando?</label>
+                            <button><img src="../local/qroma_front/img/icons/search-2.svg" alt="" srcset=""/></button>
+                        </div>
+                    </form>
+                    <form action="">
+                        <div class="form-group">
+                            <select>
+                                <option>Filtrar cursos por categoria</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
         </div>
-        <div class="arrow-right"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
-        <div class="actions">
-            <div class="item active"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-        </div>
-    {{/pendingcoursesexist}}
-</div>
-<div class="p60-50 bg-secondary progress-bar-general">
-    <div class="w70 m0auto pb-5 relative">
-        <div class="bar">
-            <div class="level active">
-                <div class="points radius-50X bg-primary">
-                    {{{levelimg2}}}
-                    <span style="width: 82%;">{{levelname}}</span>
+        <div class="body">
+            <div class="item" v-for="item in misCursos">
+                <div class="left">
+                    <div class="photo">
+                        <div class="img" :style="'background:url('+item.photo+')'"></div>
+                    </div>
+                    <div class="content"><span>{(item.name)}</span><a class="text-success" :href="item.url">ACCEDER ></a></div>
+                </div>
+                <div class="right">
+                    <div class="calendar"><img src="./img/icons/calendar.svg" alt="" srcset=""/>
+                        <div class="text"><span>Terminar el</span><br/><span>{(item.dateEnd.day)} de {(item.dateEnd.mount)}, {(item.dateEnd.year)}</span></div>
+                    </div>
+                    <div class="progress">
+                        <div class="container-progress danger">
+                            <div class="gauge-container">
+                                <svg class="gauge" viewBox="0 0 150 150">
+                                    <circle class="progress" r="67" data-target="84" cx="75" cy="75"></circle>
+                                    <circle class="rail" r="67" data-target="84" cx="75" cy="75"></circle>
+                                </svg><span class="center percentage"><span class="value">0</span><span class="percentSymbol">%</span></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="body w70 m0auto flex mt-5">
-        <div class="ranking">
-            <div class="header bg-info text-white">Ranking por áreas</div>
-            <div class="content">
-                <table>
-                    <tr>
-                        <td>1</td>
-                        <td>Comercial</td>
-                        <td><img src="../local/qroma_front/img/icons/as.svg" alt="" srcset=""/></td>
-                        <td>158 puntos</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Comercial</td>
-                        <td><img src="../local/qroma_front/img/icons/as.svg" alt="" srcset=""/></td>
-                        <td>158 puntos</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Comercial</td>
-                        <td><img src="../local/qroma_front/img/icons/as.svg" alt="" srcset=""/></td>
-                        <td>158 puntos</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
-<div class="mis-cursos-2 w70 m0auto p60-50">
-    <div class="header flex">
-        <h2 class="mb-4"><span class="text-info gotham-medium">Todos </span><span class="text-success pacifig">mis cursos</span></h2>
-            <div class="options">
-                <form action="">
-                    <div class="form-group">
-                        <input type="text" id="text-search"/>
-                        <label for="text-search">¿Qué curso estás buscando?</label>
-                        <button><img src="../local/qroma_front/img/icons/search-2.svg" alt="" srcset=""/></button>
-                    </div>
-                </form>
-                <form action="">
-                    <div class="form-group">
-                        <select>
-                            <option>Filtrar cursos por categoria</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-    </div>
-    <div class="body">
-        {{{allcourses}}}
-    </div>
-</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+<script src="/local/dashboard/dashboard.js"></script>

@@ -30,10 +30,16 @@ height: 457px;">
                             <input type="file" @change="changeFiles" ref="miarchivo" style="width: 200px;">
                         </div>
                     </div>
-                    <div class="row" style="padding-top: 20px;padding-bottom: 20px;">
+                    <div v-if="qromaType != 1" class="row" style="padding-top: 20px;padding-bottom: 20px;">
                         <label style="width: 200px; color: #9F9F9F;">Copia el link aquí:</label>
                         <div>
                             <input v-model="link" style="width: 200px;">
+                        </div>
+                    </div>
+                    <div v-if="qromaType == 1" class="row" style="padding-top: 20px;padding-bottom: 20px;">
+                        <label style="width: 200px; color: #9F9F9F;">Agrega el documento:</label>
+                        <div>
+                            <input type="file" @change="changeFiles2" ref="miarchivo2" style="width: 200px;">
                         </div>
                     </div>
                 </div>
@@ -48,7 +54,7 @@ height: 457px; box-shadow: 0 3px 6px #0000001A; border-radius: 8px; opacity: 1;"
                 <div style="color: #6ABF4C; font-weight: 500; font-size: 19px;">¡GRACIAS POR COMPARTIR!</div>
                 <div style="color: #6ABF4C; margin-top: 15px; font-size: 15px;">UN GESTOR REVISARÁ PRONTO TU APRENDIZAJE Y LO VALIDARÁ</div>
                 <div style="margin-top: 10%;">
-                    <a style="color: #085CB7;" href="create.php">REGRESAR</a>
+                    <a style="color: #085CB7;" href="index.php">REGRESAR</a>
                 </div>
             </div>
         </div>

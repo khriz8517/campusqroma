@@ -244,8 +244,14 @@ h6 {
 .gotham-qroma * {
     font-family: "Gotham";
     font-style: normal;
-    color: #0a78d1;
+    font-weight: 500 !important;
+    color: #0f63b8 !important;
 }
+
+.navbar-light .navbar-nav.wdm-custom-menus .nav-link {
+    color: #0f63b8 !important;
+}
+
 .icon-60 {
     height: 60px
 }
@@ -593,6 +599,64 @@ h6 {
 .card01 .item .profile img {
     height: 100%
 }
+.card01 .item-qroma {
+    width: calc(50% - 20px);
+    margin: 0 10px;
+    text-align: center;
+    box-shadow: 0 0 0 0 transparent
+}
+.card01 .item-qroma:hover .content-qroma {
+    box-shadow: var(--shadow-2)
+}
+.card01 .item-qroma:hover .content-qroma:before {
+    box-shadow: var(--shadow-2)
+}
+.card01 .item-qroma:hover .profile {
+    animation: skip 0.5s
+}
+.card01 .item-qroma .content-qroma {
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    position: relative;
+    padding: 10px;
+    height: 200px;
+    transition: all 0.3s
+}
+.card01 .item-qroma .content-qroma:after,
+.card01 .item-qroma .content-qroma:before {
+    content: "";
+    height: 35px;
+    width: 35px;
+    background-color: var(--secondary-color);
+    position: absolute;
+    transform: rotate(45deg);
+    bottom: -17.5px;
+    margin-left: -17.5px;
+}
+.card01 .item-qroma .content-qroma:before {
+    transition: all 0.3s;
+    z-index: -1
+}
+.card01 .item-qroma .content-qroma h2 {
+    margin-top: 18px;
+    font-size: 1.75em
+}
+.card01 .item-qroma .content-qroma p {
+    font-size: 0.8em
+}
+.card01 .item-qroma .profile {
+    margin: 40px auto 40px auto;
+    border-radius: 50%;
+    height: 70px;
+    width: 70px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+.card01 .item-qroma .profile img {
+    height: 100%
+}
 .container-progress {
     height: 80%;
     width: 80%;
@@ -792,19 +856,19 @@ header .options .btn-menu {
     transition: all 0.3s
 }
 .container-testimonials .after {
-    left: 0;
-    transform: rotate(180deg)
+    right: 0;
 }
 .container-testimonials .after:hover {
     opacity: 0.8;
-    transform: scale(0.9) rotate(180deg)
+    transform: scale(0.9);
 }
 .container-testimonials .before {
-    right: 0
+    left: 0;
+    transform: rotate(180deg);
 }
 .container-testimonials .before:hover {
     opacity: 0.8;
-    transform: scale(0.9)
+    transform: scale(0.9) rotate(180deg);
 }
 .container-testimonials .testimonials {
     padding-top: 15px;
@@ -981,8 +1045,8 @@ footer.color .redes .list .item.active {
 .tabs .body .item {
     background: white;
     position: relative;
-    margin-right: 2.66%;
-    width: 23%;
+    margin-right: 1%;
+    width: calc(14% - 20px);
     margin-bottom: 1.5em;
     transition: all 0.3s;
     transform-origin: center center;
@@ -1100,12 +1164,20 @@ footer.color .redes .list .item.active {
 }
 .desarrollo-personal .body .item h3 {
     padding: 0 10px;
-    padding-top: 25px;
+    padding-top: 7px;
     font-size: 1em
 }
+
+.desarrollo-personal .body .item h3 a{
+    color: #085CB7;
+    font-weight: 500;
+    text-decoration: none;
+}
+
 .desarrollo-personal .body .item .footer {
     padding-left: 10px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 30px;
     margin-top: auto
 }
 .desarrollo-personal .body .item .footer .like {
@@ -1221,7 +1293,8 @@ footer.color .redes .list .item.active {
     transform: rotate(180deg)
 }
 .mis-cursos .tabs {
-    flex-wrap: nowrap
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 .mis-cursos .tabs .body .item:nth-child(4n) {
     margin-right: 2.3%
@@ -1456,7 +1529,7 @@ footer.color .redes .list .item.active {
     justify-content: space-between
 }
 .mis-cursos-2 .header .options {
-    display: flex
+    display: none
 }
 .mis-cursos-2 .header .options .form-group {
     background: var(--secondary-color);
@@ -1539,6 +1612,10 @@ footer.color .redes .list .item.active {
 .mis-cursos-2 .body .item .left .content span {
     font-size: 16px;
     font-weight: 500
+}
+.mis-cursos-2 .body .item .left .content a.title{
+    font-size: 16px;
+    font-weight: 500;
 }
 .mis-cursos-2 .body .item .left .content a {
     font-size: 12px

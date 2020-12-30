@@ -7,7 +7,6 @@
 }
 
 .white-container {
-    width: 1391px;
     height: auto;
     background: #FFFFFF 0 0 no-repeat padding-box;
     box-shadow: 0 3px 6px #00000029;
@@ -18,8 +17,8 @@
 .white-container-footer {
     padding-top: 10px;
     padding-bottom: 15px;
-    margin-left: 46px;
-    width: 93%;
+    margin-left: 75px;
+    width: 89.5%;
 }
 
 .q-comentario-container {
@@ -39,7 +38,7 @@
     text-align: left;
     color: rgb(112, 112, 112);
     opacity: 1;
-    width: 1393px;
+    width: 100%;
     border: none;
     background: no-repeat;
     border-bottom: 1px solid #707070;
@@ -75,6 +74,7 @@
 
 .qromateca-white-button {
     background: #F9F9F9 0 0 no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
     border-radius: 21px;
     width: 304px;
     height: 50px;
@@ -100,7 +100,7 @@
 }
 
 .back {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(8, 92, 183, 0.36);
     position: fixed;
     display: none;
     top: 0;
@@ -112,7 +112,7 @@
 }
 .back .qroma-modal {
     font-family: sans-serif;
-    width: 600px;
+    width: 764px;
     background: #FFFFFF 0 0 no-repeat padding-box;
     box-shadow: 0 3px 6px #00000029;
     border-radius: 8px;
@@ -150,10 +150,9 @@
 }
 .back .qroma-modal .footer {
     display: flex;
-    justify-content: flex-end;
     padding: 40px;
     margin: auto;
-    width: 63%;
+    width: 50%;
 }
 
 .back .qroma-modal .qromateca-success-button {
@@ -185,7 +184,7 @@
 }
 
 .back-des {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(8, 92, 183, 0.36);
     position: fixed;
     display: none;
     top: 0;
@@ -197,7 +196,7 @@
 }
 .back-des .qroma-modal {
     font-family: sans-serif;
-    width: 600px;
+    width: 764px;
     background: #FFFFFF 0 0 no-repeat padding-box;
     box-shadow: 0 3px 6px #00000029;
     border-radius: 8px;

@@ -33,18 +33,24 @@
                     <div class="bg-img" :style="'background: url('+item.img+')'"></div>
                     <div class="icons"><!--<img class="like" src="./img/icons/like-2.svg"/>--><img :src="'/local/qroma_front/img/icons/' + item.icon"/></div>
                 </div>
+                <div style="padding: 0 10px; padding-top: 7px; font-size: 12px; color: #6ABF4C;">Compartido por {{item.user}}</div>
                 <h3 class="title text-info">
-                    <div>Compartido por {{item.user}}</div>
+                    <div></div>
                     <a :href="'view.php?id=' + item.id">{{item.nombre}}</a>
                 </h3>
                 <div class="footer">
-                    <div class="like">
-                        <img src="/local/qroma_front/img/icons/like.svg" height="100%"/>
-                        <span class="text-tercery">{{item.vistas}}</span>
-                        <img src="/local/qroma_front/img/icons/like.svg" height="100%"/>
-                        <span class="text-tercery">{{item.cant_comentarios}}</span>
-                        <img @click="aprobar(item.id)" style="margin-left: 45%; cursor: pointer" v-if="item.gestor && item.estado_aprobacion == 0" src="/local/qroma_front/img/icons/user.svg" height="100%"/>
-                        <img @click="desaprobar(item.id)" style="cursor: pointer" v-if="item.gestor" src="/local/qroma_front/img/icons/user-2.svg" height="100%"/>
+                    <div class="like row">
+                        <div class="h-100" style="width: 165px; margin-left: 6%;">
+                            <img src="/local/qroma_front/img/icons/like.svg" height="100%"/>
+                            <span class="text-tercery">{{item.vistas}}</span>
+                            <img src="/local/qroma_front/img/icons/like.svg" height="100%"/>
+                            <span class="text-tercery">{{item.cant_comentarios}}</span>
+                        </div>
+                        <div class="col-sm h-100">
+                            <img @click="aprobar(item.id)" style="cursor: pointer; width: 37px; height: 37px;" v-if="item.gestor && item.estado_aprobacion == 0" src="/local/qroma_front/img/icons/aprobado.svg" height="100%"/>
+                            <img style="width: 37px;" v-if="item.gestor && item.estado_aprobacion == 1"/>
+                            <img @click="desaprobar(item.id)" style="cursor: pointer; width: 37px; height: 37px;" v-if="item.gestor" src="/local/qroma_front/img/icons/desaprobado.svg" height="100%"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,10 +59,10 @@
                     <div class="title">
                         <h3>Contenido publicado</h3>
                         <h4>Ahora todos pueden verlo</h4>
-                        <div class="close" @click="closeModal">X</div>
+                        <div class="close" @click="closeModalAprobado">X</div>
                     </div>
                     <div class="footer">
-                        <div @click="continuar" class="btn-success qromateca-success-button">Continuar</div>
+                        <div @click="continuar" class="btn-success qromateca-success-button">CONTINUAR</div>
                     </div>
                 </div>
             </div>
@@ -68,8 +74,8 @@
                         <div class="close" @click="closeModal">X</div>
                     </div>
                     <div class="footer">
-                        <div @click="closeModal" class="qromateca-white-button">Cancelar</div>
-                        <div style="margin-left: 20px;" @click="desaprobarAction" class="qromateca-success-button">Continuar</div>
+                        <div @click="closeModal" class="qromateca-white-button">CANCELAR</div>
+                        <div style="margin-left: 20px;" @click="desaprobarAction" class="qromateca-success-button">CONFIRMAR</div>
                     </div>
                 </div>
             </div>

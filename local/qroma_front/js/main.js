@@ -4,7 +4,7 @@ var app = new Vue({
         return{
             menu: false,
             baner: [],
-            banerPoint: 0,
+            banerPoint: 1,
             marginLeftBaner: 0,
             card: [],
             cardPonit: 1,
@@ -26,7 +26,7 @@ var app = new Vue({
     mounted(){
         this.banerFormat();
         this.banerMov();
-        this.testimonialMov();
+        //this.testimonialMov();
         this.loadData();
         setTimeout(() => {
             var x = window.matchMedia("(max-width: 720px)")
@@ -93,7 +93,6 @@ var app = new Vue({
         },
 
         loadData: function(){
-           console.log('load data 2');
            this.loadSlider();
            this.loadTestimonios();
         },
@@ -145,30 +144,29 @@ var app = new Vue({
                     // this.cardWidth = cardWidth;
                 });
         },
-        banerMov: function(orint) {
-            // $('#baner .item:nth-child(1)').fadeIn();
+        banerMov: function() {
             setInterval(() => {
                 this.banerPoint = this.banerPoint + 1;
-                $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
                 let marginLeft = (100 * this.baner.length - 100)*-1;
                 this.marginLeftBaner -= 100;
                 if(marginLeft > this.marginLeftBaner){
                     this.marginLeftBaner = 0;
                 }
+                $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
                 if(this.banerPoint > this.baner.length){
                     this.banerPoint = 1;
                 }
             }, 10000);
         },
         prevBaner: function(){
-            let marginLeft = (100 * this.baner.length - 100)*-1;
-            this.marginLeftBaner -= 100;
-            if(marginLeft > this.marginLeftBaner){
-                this.marginLeftBaner = 0;
+            let marginLeft = 0;
+            this.marginLeftBaner += 100;
+            if(marginLeft < this.marginLeftBaner) {
+                this.marginLeftBaner = (100 * this.baner.length - 100)*-1;
             }
-            if(this.banerPoint < 1){
+            if(this.banerPoint == 1) {
                 this.banerPoint = this.baner.length;
-            } else{
+            } else {
                 this.banerPoint -= 1;
             }
             $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
@@ -176,24 +174,37 @@ var app = new Vue({
         nextBaner: function(){
             let marginLeft = (100 * this.baner.length - 100)*-1;
             this.marginLeftBaner -= 100;
-            if(marginLeft > this.marginLeftBaner){
+            if(marginLeft > this.marginLeftBaner) {
                 this.marginLeftBaner = 0;
             }
-            if(this.banerPoint <= this.baner.length){
-                this.banerPoint = 1;
-            } else{
+            if(this.banerPoint <  this.baner.length) {
                 this.banerPoint += 1;
+            } else if(this.banerPoint ==  this.baner.length) {
+                this.banerPoint = 1;
             }
             $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
         },
+        changeBaner: function(index){
+            this.banerPoint = index + 1;
+            if(index == 0) {
+                this.marginLeftBaner = -100 * index;
+                $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
+            } else {
+                let moveSign = 1;
+                if(this.banerPoint > index+1) {
+                    moveSign = -1;
+                }
+                this.marginLeftBaner = -100 * index * moveSign;
+                $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
+            }
+        },
         testimonialMov:function(){
             setInterval(() => {
-                console.log("asd");
                 $('.card01').animate({'margin-left': this.marginLeftCard+"%"}, 500);
-                let marginLeft = (100 * this.baner.length - 100)*-1;
-                this.marginLeftCard -= 100;
+                let marginLeft = 0;
+                this.marginLeftCard += 100;
                 if(marginLeft > this.marginLeftCard){
-                    this.marginLeftCard = 0;
+                    this.marginLeftCard = (100 * this.baner.length - 100)*-1;
                 }
                 this.cardPonit = this.cardPonit + 1;
                 if(this.cardPoint > this.card.length){
@@ -202,10 +213,28 @@ var app = new Vue({
             }, 10000);
         },
         prevTestimonial: function(){
-
+            let marginLeft = (100 * this.baner.length - 100)*-1;
+            this.marginLeftCard -= 100;
+            if(marginLeft == this.marginLeftCard){
+                this.marginLeftCard = 0;
+            }
+            this.cardPonit = this.cardPonit + 1;
+            if(this.cardPoint > this.card.length){
+                this.cardPoint = 1;
+            }
+            $('.card01').animate({'margin-left': this.marginLeftCard+"%"}, 500);
         },
         nextTestimonial: function(){
-
+            let marginLeft = (100 * this.baner.length - 100)*-1;
+            this.marginLeftCard -= 100;
+            if(marginLeft == this.marginLeftCard){
+                this.marginLeftCard = 0;
+            }
+            this.cardPonit = this.cardPonit + 1;
+            if(this.cardPoint > this.card.length){
+                this.cardPoint = 1;
+            }
+            $('.card01').animate({'margin-left': this.marginLeftCard+"%"}, 500);
         },
         marcasMov: function(){
             let time = this.marcas.length*0.5 *1000;

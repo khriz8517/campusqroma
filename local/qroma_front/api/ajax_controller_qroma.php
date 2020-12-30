@@ -1,6 +1,9 @@
 <?php
 
 use core_completion\progress;
+//use theme_remui\usercontroller;
+use block_xp\local\xp\level_with_name;
+use block_xp\local\xp\level_with_badge;
 
 error_reporting(E_ALL);
 
@@ -20,6 +23,9 @@ try {
     }
 
     switch ($_REQUEST['request_type']) {
+        case 'obtenerUsuario':
+            $returnArr = obtenerUsuario();
+            break;
         case 'obtenerTestimonios':
             $returnArr = obtenerTestimonios();
             break;
@@ -124,6 +130,87 @@ function timeSince($original) {
     return $res;
 }
 
+
+function getUserImage() {
+    global $USER;
+    return '/user/pix.php/'.$USER->id.'/f1.jpg';
+}
+
+function obtenerLevelPropertyValue($level, $property) {
+    $returnedValue = '';
+
+    switch($property) {
+        case 'name':
+            $name = $level instanceof level_with_name ? $level->get_name() : null;
+            if (empty($name)) {
+                $name = get_string('levelx', 'block_xp', $level->get_level());
+            }
+            $returnedValue = $name;
+            break;
+    }
+    return $returnedValue;
+}
+
+function getLevelBadge($level, $small) {
+    $levelnum = $level->get_level();
+
+    if($small == 1) {
+        $customClass = 'qroma-block_xp-level';
+    } else {
+        $customClass = 'qroma-block_xp-level-2';
+    }
+
+    $classes = $customClass . ' block_xp-level level-' . $levelnum;
+    $label = get_string('levelx', 'block_xp', $levelnum);
+    $classes .= ' d-badge';
+
+    $html = '';
+    if ($level instanceof level_with_badge && ($badgeurl = $level->get_badge_url()) !== null) {
+        $html .= html_writer::tag(
+            'div',
+            html_writer::empty_tag('img', ['src' => $badgeurl,
+                'alt' => $label, 'class'=> 'd-badge-img']),
+            ['class' => $classes . ' level-badge', 'style' => 'height: 75px;']
+        );
+    } else {
+        $html .= html_writer::tag('div', $levelnum, ['class' => $classes, 'aria-label' => $label]);
+    }
+    return $html;
+}
+
+function getUserLevel($small) {
+    global $USER;
+
+    $world = \block_xp\di::get('course_world_factory')->get_world(1);
+    $state = $world->get_store()->get_state($USER->id);
+    $widget = new \block_xp\output\xp_widget($state, [], null, []);
+    $level = $widget->state->get_level();
+
+    //Get data
+    $levelName = obtenerLevelPropertyValue($level, 'name');
+    $xp = $widget->state->get_xp();
+
+    $levelInfo = array('levelName' => $levelName, 'xp' =>$xp, 'img' => getLevelBadge($level, $small));
+
+    return $levelInfo;
+}
+
+function obtenerUsuario() {
+    global $USER;
+    $userArr = array(
+        'photo' => getUserImage(),
+        'name' => strtoupper($USER->firstname . ' ' . $USER->lastname),
+        'levelImage' => getUserLevel(1)['img'],
+        'points' => getUserLevel(1)['xp'],
+        'dateReg' => convertDateToSpanish($USER->firstaccess),
+    );
+
+    $response['status'] = true;
+    $response['data'] = $userArr;
+
+    return $response;
+}
+
 function obtenerSlider($ferreteria) {
     $slides = array();
     $sliderData = \theme_remui\sitehomehandler::get_slider_data();
@@ -138,9 +225,9 @@ function obtenerSlider($ferreteria) {
     }
 
     if(isset($ferreteria) && $ferreteria) {
-        $slides = array_slice($slides,2,3);
+        $slides = array_slice($slides,3,2);
     } else {
-        $slides = array_slice($slides,0,2);
+        $slides = array_slice($slides,0,3);
     }
 
     $response['status'] = true;
@@ -456,6 +543,15 @@ function obtenerQromateca($id) {
     $response['data']['creado'] = convertDateToSpanish(strtotime($qromateca->created_at));
     $response['data']['estado_aprobacion'] = $qromateca->estado_aprobacion;
 
+    $documentoExt = $qromateca->documento_extension;
+
+    $url = '//view.officeapps.live.com/op/embed.aspx?src=';
+    if($documentoExt == 'pdf') {
+       $url = 'https://docs.google.com/viewer?embedded=true&url=';
+    }
+
+    $response['data']['documento_url'] = $url . 'https://www.campusqroma.com/local/qromateca/docs/' . $qromateca->documento;
+
     return $response;
 }
 
@@ -464,9 +560,11 @@ function guardarQromateca($details) {
 
     $responseStatus = true;
     $nombre = $details['nombre'];
-    $link = $details['link'];
+    $link = !empty($details['link']) ? $details['link'] : '';
     $type = $details['type'];
+
     $qromaFile = $_FILES['qromaFile'];
+    $qromaFileDoc = $_FILES['qromaFileDoc'];
 
     $qromateca = new stdClass();
     $qromateca->nombre = $nombre;
@@ -502,7 +600,33 @@ function guardarQromateca($details) {
         }
     }
 
+    if(!empty($qromaFileDoc)) {
+        $filenameDoc = urlencode($qromaFileDoc['name']);
+        $location = "qromateca/docs/".$filenameDoc;
+        $uploadOk = 1;
+        $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+
+        /* Valid Extensions */
+        $valid_extensions = array("doc","docx","xls","xlsx","odt","pdf","ppt","pptx");
+        /* Check file extension */
+        if( !in_array(strtolower($imageFileType), $valid_extensions) ) {
+            $uploadOk = 0;
+        }
+
+        if($uploadOk == 0){
+            $responseStatus = false;
+        }else{
+            /* Upload file */
+            $fullPathLocation = dirname(__DIR__, 2) .'/' . $location;
+            if(!move_uploaded_file($qromaFileDoc['tmp_name'], $fullPathLocation)){
+                echo 0;
+            }
+        }
+    }
+
     $qromateca->imagen = $filename;
+    $qromateca->documento = $filenameDoc;
+    $qromateca->documento_extension = strtolower($imageFileType);
 
     $DB->insert_record('qromateca', $qromateca);
 
