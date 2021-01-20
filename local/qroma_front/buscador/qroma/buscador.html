@@ -12,7 +12,12 @@
         </div>
     </div>
     <div class="search w70 m0auto p60-50">
-        <h2 class="mb-4"><span class="text-info gotham-medium">Hemos encontrado </span><span class="text-success pacifig">{{cursos.length}} cursos</span></h2>
+        <h2 class="mb-4">
+            <span class="text-info gotham-medium">Hemos encontrado </span><span class="text-success pacifig">{{cursos.length}}
+            </span>
+            <span v-if="cursos.length != 1"> cursos</span>
+            <span v-if="cursos.length == 1"> curso</span>
+        </h2>
         <div class="tabs">
             <div class="body">
                 <div class="item" v-for="item in cursos">

@@ -21,8 +21,8 @@ if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
     header ("Location: " . $authenticated_url);
 } else {
     // Set params
-    $client_id = "b4658a36-d4f9-4bf4-8c21-35898b037bd0"; // Client App ID (from Microsoft)
-    $client_secret = "fxRcYBB_ejtX.hk722Y~Ie-aF8SSrHT6O3"; // Client App Secrect (from Microsoft)
+    $client_id = "c45d7b04-10e2-427f-8be0-6fe59a9b9a09"; // Client App ID (from Microsoft)
+    $client_secret = "~~Ea4e8k.F_K_4236KMz3CK~1fPk_0gaD8"; // Client App Secrect (from Microsoft)
     $client_space = "cppqsa.onmicrosoft.com"; // Microsoft Domain ID
     $client_redirect = "https://www.campusqroma.com/local/systemscripts/testSSO.php"; // Where to redirect after authenticated
     $scopes = "User.Read"; // Scopes of data requested (ex. 'openid+profile+user.read')

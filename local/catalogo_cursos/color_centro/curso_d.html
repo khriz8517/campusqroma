@@ -12,19 +12,23 @@
         </div>
     </div>
     <div class="category-title w70 m0auto p60-50 text-center">
-        <h2 class="mb-1 pb-4 line"><span class="text-tercery">{{general}} Cursos disponibles para ti</span></h2>
+        <h2 class="mb-1 pb-4 line"><span class="text-tercery">{{general}} {{cursoTxt}} disponibles para ti</span></h2>
     </div>
     <div class="border-primary">
         <div class="w70 m0auto p60-50 tabs">
             <div class="body" id="body-color-tabs">
                 <div class="item" v-for="item in cursos">
                     <div class="img">
-                        <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                        <a :href="'../../' + item.url" style="text-decoration: none">
+                            <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                        </a>
                     </div>
                     <div class="contry"><img class="contry-flag" src="../../local/qroma_front/img/pais/peru.jpg" alt="" srcset=""/>
                         <div class="contry-name">{{item.pais}}</div>
                     </div>
-                    <h3 class="title gotham-medium">{{item.name}}</h3>
+                    <a :href="'../../' + item.url" style="text-decoration: none">
+                        <h3 class="title gotham-medium">{{item.name}}</h3>
+                    </a>
                     <div class="footer">
                         <a class="btn btn-info" :href="'../../' + item.url">ACCEDER</a>
                         <div class="progress">

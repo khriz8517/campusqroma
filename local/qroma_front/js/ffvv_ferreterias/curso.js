@@ -3,7 +3,7 @@ var app = new Vue({
     data(){
         return{
             menu: false,
-            general: 0,
+            general: 0, cursoTxt: '', disponibleTxt:'',
             cursos: [],
             subcategory:[],
             subsubcategory:[],
@@ -104,7 +104,7 @@ var app = new Vue({
             frm.append('idCat',11);
             axios.post('../qroma_front/api/ajax_controller_qroma.php',frm)
                 .then((response) => {
-                    this.general = response.data.totalCourses;
+                    this.general = response.data.totalCourses; this.cursoTxt = response.data.cursoTxt; this.disponibleTxt = response.data.disponibleTxt;
                 });
         },
         loadAllCourses: function() {

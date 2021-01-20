@@ -17,26 +17,28 @@
     <div class="access">
         <h2><span class="text-success pacifig">¡Pinta </span><span class="text-info" style="font-weight: 500"> tu mejor versión!</span></h2>
         <div class="widget01 n2">
-            <div class="item bg-primary"><img class="icon" src="./local/qroma_front/img/icons/quars.svg" alt=""/>
-                <div class="text">
-                    <div class="title">MIS CURSOS</div>
-                    <div class="subtitle">Acumula puntos</div>
+            <a href="https://www.campusqroma.com/my/" class="text-decoration-none">
+                <div class="item bg-primary ml-0"><img class="icon" src="./local/qroma_front/img/icons/quars.svg" alt=""/>
+                    <div class="text">
+                        <div class="title">MIS CURSOS</div>
+                    </div>
                 </div>
-            </div>
-            <div class="item bg-danger"><img class="icon" src="./local/qroma_front/img/icons/screen.svg" alt=""/>
-                <div class="text">
-                    <div class="title">CATÁLOGO DE CURSOS</div>
-                    <div class="subtitle">+100 cursos para ti</div>
+            </a>
+            <a href="https://www.campusqroma.com/local/catalogo_cursos/" class="ml-80 text-decoration-none">
+                <div class="item bg-danger ml-0"><img class="icon" src="./local/qroma_front/img/icons/screen.svg" alt=""/>
+                    <div class="text">
+                        <div class="title">CATÁLOGO DE CURSOS</div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="container-testimonials w70">
         <h2><span class="text-info" style="font-weight: 500">Qué dicen </span><span class="text-success pacifig">nuestros aliados</span></h2>
-        <h3 style="font-family: Gotham">Nuestros alumnos respaldan nuestra calidad de educativa</h3>
+        <h3 style="font-family: Gotham">Nuestros aliados respaldan nuestra calidad de educativa</h3>
         <div class="testimonials">
             <div class="before" @click="prevTestimonial()"></div>
-            <div class="card01" style="width: 1860px;height: 100%;display: flex;position: relative;">
+            <div class="card01 card01-qroma">
                 <div class="item-qroma" v-for="item in card">
                     <div class="content-qroma">
                         <h2 :class="'text-'+item.type">{{item.title}}</h2>

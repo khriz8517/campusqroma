@@ -25,7 +25,7 @@ var app = new Vue({
     },
     mounted(){
         this.banerFormat();
-        this.banerMov();
+        //this.banerMov();
         //this.testimonialMov();
         this.loadData();
         setTimeout(() => {
@@ -213,8 +213,8 @@ var app = new Vue({
             }, 10000);
         },
         prevTestimonial: function(){
-            let marginLeft = (100 * this.baner.length - 100)*-1;
-            this.marginLeftCard -= 100;
+            let marginLeft = (50.5 * this.baner.length - 50.5)*-1;
+            this.marginLeftCard -= 50.5;
             if(marginLeft == this.marginLeftCard){
                 this.marginLeftCard = 0;
             }
@@ -225,8 +225,8 @@ var app = new Vue({
             $('.card01').animate({'margin-left': this.marginLeftCard+"%"}, 500);
         },
         nextTestimonial: function(){
-            let marginLeft = (100 * this.baner.length - 100)*-1;
-            this.marginLeftCard -= 100;
+            let marginLeft = (50.5 * this.baner.length - 50.5)*-1;
+            this.marginLeftCard -= 50.5;
             if(marginLeft == this.marginLeftCard){
                 this.marginLeftCard = 0;
             }

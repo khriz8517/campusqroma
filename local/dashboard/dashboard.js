@@ -4,53 +4,29 @@ var app = new Vue({
     data(){
         return{
             menu: false,
+            divSize: 0,
             cursospaginate: [],
             pages: 0,
             marginLeftBaner: 0,
             banerPoint: 1,
             user: {
+                id: '',
                 photo: '',
                 name: '',
                 points: 0,
-                dateReg: ''
-            },
-            cursos: [
-                {
-                    img: '/local/qroma_front/img/cursos.jpg',
-                    title: 'Titulo del Primer curso',
-                    pais: 'PERÚ',
-                    flat: '/local/qroma_front/img/pais/peru.jpg',
-                    porcent: '0'
-                },
-                {
-                    img: '/local/qroma_front/img/cursos.jpg',
-                    title: 'Titulo del Segundo curso',
-                    pais: 'PERÚ',
-                    flat: '/local/qroma_front/img/pais/peru.jpg',
-                    porcent: '0'
-                },
-                {
-                    img: '/local/qroma_front/img/cursos.jpg',
-                    title: 'Titulo del Tercero curso',
-                    pais: 'PERÚ',
-                    flat: '/local/qroma_front/img/pais/peru.jpg',
-                    porcent: '0'
-                },
-                {
-                    img: '/local/qroma_front/img/cursos.jpg',
-                    title: 'Titulo del Tercero curso',
-                    pais: 'PERÚ',
-                    flat: '/local/qroma_front/img/pais/peru.jpg',
-                    porcent: '0'
-                },
-                {
-                    img: '/local/qroma_front/img/cursos.jpg',
-                    title: 'Titulo del Tercero curso',
-                    pais: 'PERÚ',
-                    flat: '/local/qroma_front/img/pais/peru.jpg',
-                    porcent: '0'
+                dateReg: '',
+                progress: 50,
+                miProgress: {
+                    allCurses: 254,
+                    successFullCurses: 250,
+                    progress: 80,
+                    prize: 15,
+                    valoration: 12,
+                    shared: 6,
+                    discution: 0
                 }
-            ],
+            },
+            cursos: [],
             ranking: [
                 {
                     name: 'Comercial',
@@ -69,77 +45,50 @@ var app = new Vue({
                     points: 158,
                 }
             ],
-            misCursos:[
-                {
-                    name: 'Nombre completo del primer curso de prueba con dos filas de text para nombres largos',
-                    photo: '/local/qroma_front/img/cursos.jpg',
-                    url: '#',
-                    porcent: 0,
-                    dateEnd: {
-                        day: 15,
-                        mount: "Abril",
-                        year: 2020
-                    }
-                },
-                {
-                    name: 'Nombre completo del primer curso de prueba con dos filas de text para nombres largos',
-                    photo: '/local/qroma_front/img/cursos.jpg',
-                    url: '#',
-                    porcent: 0,
-                    dateEnd: {
-                        day: 15,
-                        mount: "Abril",
-                        year: 2020
-                    }
-                },
-                {
-                    name: 'Nombre completo del primer curso de prueba con dos filas de text para nombres largos',
-                    photo: '/local/qroma_front/img/cursos.jpg',
-                    url: '#',
-                    porcent: 0,
-                    dateEnd: {
-                        day: 15,
-                        mount: "Abril",
-                        year: 2020
-                    }
-                },
-                {
-                    name: 'Nombre completo del primer curso de prueba con dos filas de text para nombres largos',
-                    photo: '/local/qroma_front/img/cursos.jpg',
-                    url: '#',
-                    porcent: 0,
-                    dateEnd: {
-                        day: 15,
-                        mount: "Abril",
-                        year: 2020
-                    }
-                },
-                {
-                    name: 'Nombre completo del primer curso de prueba con dos filas de text para nombres largos',
-                    photo: '/local/qroma_front/img/cursos.jpg',
-                    url: '#',
-                    porcent: 0,
-                    dateEnd: {
-                        day: 15,
-                        mount: "Abril",
-                        year: 2020
-                    }
-                },
-                {
-                    name: 'Nombre completo del primer curso de prueba con dos filas de text para nombres largos',
-                    photo: '/local/qroma_front/img/cursos.jpg',
-                    url: '#',
-                    porcent: 0,
-                    dateEnd: {
-                        day: 15,
-                        mount: "Abril",
-                        year: 2020
-                    }
-                },
-            ],
+            misCursos:[],
             btnBefore: false,
             btnAfter: false,
-        }
+            //Seguimiento
+            cursosList: [],
+            usuarios: [],
+            gereniasList: [
+                {name:"Gerencia de mantenimiento"},
+                {name:"Gerencia de operaciones"},
+                {name:"Gerencia GH"},
+                {name:"Gerencia finanzas"},
+                {name:"Gerencia general"},
+                {name:"Gerencia TI"},
+            ],
+            areasList: [
+                {name:"Contabilidad"},
+                {name:"Operaciones"},
+                {name:"Auditoria"},
+                {name:"Administracion y finanzas"},
+                {name:"TI"},
+                {name:"Mantenimiento"},
+                {name:"logistica"}
+            ],
+            zonasList:[
+                {name:"Zona Este"},
+                {name:"Zona Este"},
+                {name:"Corporativo"},
+            ],
+            act: {},
+            order: true,
+            orderUser: true,
+            users: false,
+            general: true,
+            listPorcent: {},
+            searchCursos: '',
+            searchAlumnos: '',
+            searchUsers:[],
+            backIds: '',
+            textMails: '',
+            selectedUser: '',
+            selectedUsers: [],
+            textMailsSingle: '',
+            loadingUsers: false
+        };
     },
     created(){
         this.sizeWeb();
@@ -147,10 +96,19 @@ var app = new Vue({
 
     },
     mounted(){
-        this.pages = Math.ceil(this.cursos.length/4);
-        this.cursospaginate = new Array(this.pages);
         this.subCategoryFormat();
         this.obtenerUsuario();
+        this.obtenerCursosPendientes();
+        this.obtenerTotalCursos();
+        this.obtenerCursosPanel();
+    },
+    computed: {
+        searchCurse: function (){
+            return this.cursosList.filter((item) => item.name.includes(this.searchCursos));
+        },
+        // searchUsers: function(){
+        //   return this.usuarios.filter((item) => item.name.includes(this.searchAlumnos));
+        // },
     },
     methods: {
         obtenerUsuario: function(){
@@ -160,11 +118,76 @@ var app = new Vue({
                 .then((response) => {
                     // handle success
                     let data = response.data.data;
+                    this.user.id = data.id;
                     this.user.photo = data.photo;
                     this.user.name = data.name;
                     this.user.levelImage = data.levelImage;
                     this.user.points = data.points;
                     this.user.dateReg = data.dateReg;
+                    this.user.progress = 50;
+                });
+        },
+        obtenerCursosPendientes: function () {
+            let frm = new FormData();
+            frm.append('request_type','obtenerCursosPendientes');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php',frm)
+                .then((response) => {
+                    // handle success
+                    let data = response.data.data;
+                    let cursos = [];
+                    
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let img = dataVal.img;
+                        let title = dataVal.title;
+                        let pais = dataVal.pais;
+                        let flag = dataVal.flag;
+                        let url = dataVal.url;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'img': img,
+                            'title': title,
+                            'pais': pais,
+                            'flag': flag,
+                            'url': url,
+                            'progress': progress
+                        };
+                        cursos.push(newElem);
+                    });
+                    this.cursos = cursos;
+                    this.divSize = this.cursos.length * 300 + 'px';
+                    this.pages = Math.ceil(this.cursos.length/4);
+                    this.cursospaginate = new Array(this.pages);
+                });
+        },
+        obtenerTotalCursos: function () {
+            let frm = new FormData();
+            frm.append('request_type','obtenerTotalCursos');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php',frm)
+                .then((response) => {
+                    // handle success
+                    let data = response.data.data;
+                    let cursos = [];
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let img = dataVal.img;
+                        let title = dataVal.title;
+                        let url = dataVal.url;
+                        let dateEnd = dataVal.dateEnd;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'img': img,
+                            'title': title,
+                            'url': url,
+                            'dateEnd': dateEnd,
+                            'progress': progress
+                        };
+                        cursos.push(newElem);
+                    });
+                    this.misCursos = cursos;
                 });
         },
         prevBaner: function() {
@@ -250,6 +273,176 @@ var app = new Vue({
             console.log($('#tabs-header .item'));
             $('#tabs-header .item').removeClass('active');
             $('#tabs-header .item:nth-child('+obj+')').addClass('active');
-        }
+        },
+        searchName: function(){
+            if(this.searchAlumnos != ''){
+                this.searchUsers = this.usuarios.filter((item) => item.name.includes(this.searchAlumnos));
+            } else{
+                this.searchUsers = this.usuarios;
+            }
+            $('.circlechart').circlechart();
+        },
+        filterGerencia: function(name){
+            this.searchUsers = this.usuarios.filter((item) => item.gerencia.includes(name));
+            $('.circlechart').circlechart();
+        },
+        filterArea: function(name){
+            this.searchUsers = this.usuarios.filter((item) => item.area.includes(name));
+            $('.circlechart').circlechart();
+        },
+        filterZona: function(name){
+            this.searchUsers = this.usuarios.filter((item) => item.zona.includes(name));
+            $('.circlechart').circlechart();
+        },
+        sizeWeb: function(){
+            if (window.innerWidth < 768)
+                this.menu = false;
+            else
+                this.menu = true;
+        },
+        changeOrder: function(){
+            this.order = this.order ? false : true;
+            this.cursosList = this.cursosList.slice().reverse();
+        },
+        close: function(){
+            this.general = true;
+            this.users = false;
+        },
+        activeOptions: function(key){
+            if(!document.querySelector('#option_'+key).classList.contains('active')){
+                document.querySelector('#option_'+key).classList.add('active');
+            } else{
+                document.querySelector('#option_'+key).classList.remove('active');
+            }
+        },
+        activeSubmenu: function(elem){
+            if(!document.querySelector('#'+elem).classList.contains('show')){
+                document.querySelector('#'+elem).classList.add('show');
+            } else{
+                document.querySelector('#'+elem).classList.remove('show');
+            }
+        },
+
+        //Seguimiento
+
+        obtenerCursosPanel: function() {
+            let frm = new FormData();
+            frm.append('request_type','panelUserCursos');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let courses = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let id = dataVal.id;
+                        let name = dataVal.name;
+                        let numEstu = dataVal.numEstu;
+                        let date = dataVal.date;
+                        let progress = dataVal.progress;
+                        let userIdsMail = dataVal.userIdsMail;
+
+                        let newElem = {
+                            'id': id,
+                            'name': name,
+                            'numEstu': numEstu,
+                            'date': date,
+                            'progress': progress,
+                            'userIdsMail': userIdsMail
+                        };
+                        courses.push(newElem);
+                    });
+                    this.cursosList = courses;
+                });
+        },
+        viewUser: function(cursoId){
+            this.general = false;
+            this.users = true;
+            this.loadingUsers = true;
+
+            let frm = new FormData();
+            frm.append('courseId', cursoId);
+            frm.append('request_type','getUsuariosByCurso');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let usuarios = Array();
+
+                    this.act = {
+                        name: response.data.nombreCurso
+                    };
+
+                    // let gerenciasList = response.data.gerenciasList;
+                    // let areasList = response.data.areasList;
+                    // let zonasList = response.data.zonasList;
+
+                    let data = response.data.data;
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let id = dataVal.id;
+                        let name = dataVal.name;
+                        let gerencia = 'test gerencia';
+                        let area = 'test area';
+                        let zona = 'test zona';
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'id': id,
+                            'name': name,
+                            'gerencia': gerencia,
+                            'area': area,
+                            'zona': zona,
+                            'progress': progress
+                        };
+                        usuarios.push(newElem);
+                    });
+                    this.loadingUsers = false;
+                    this.usuarios = usuarios;
+                    this.searchUsers = this.usuarios;
+                    this.gerenciasList = [];
+                    this.areasList = [];
+                    this.zonasList = [];
+                });
+        },
+        enviarCorreos: function() {
+            let frm = new FormData();
+            frm.append('idUsersAll', this.backIds);
+            frm.append('message', this.textMails);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
+        enviarCorreosSingle: function() {
+            let frm = new FormData();
+            frm.append('idUser', this.selectedUsers);
+            frm.append('message', this.textMailsSingle);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
+        closeModal: function(){
+            document.querySelector(".back").style.display = "none";
+        },
+        closeModal2: function(){
+            document.querySelector(".back-single").style.display = "none";
+        },
+        showModal: function(userIdsMail){
+            document.querySelector(".back").style.display = "flex";
+            this.backIds = userIdsMail;
+        },
+        selectUserClick: function(id) {
+            var check = this.selectedUsers.includes(id);
+            if(check) {
+                this.selectedUsers.pop(id);
+            } else {
+                this.selectedUsers.push(id);
+            }
+        },
+        showModal2: function(){
+            document.querySelector(".back-single").style.display = "flex";
+        },
+
     }
 });

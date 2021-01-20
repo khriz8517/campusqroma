@@ -36,37 +36,37 @@ body {
 a {
     color: #535353
 }
-header {
-    background: white;
-    box-shadow: var(--shadow-1)
-}
-header .actions .item,
-header .menu .item {
-    color: var(--info-color)
-}
-header .actions .item.active,
-header .menu .item.active {
-    color: var(--primary-color)
-}
-header .actions.menu-color .item,
-header .menu.menu-color .item {
-    color: var(--tercery-color)
-}
-header .actions.menu-color .item.active,
-header .menu.menu-color .item.active {
-    color: var(--primary-color-2);
-    position: relative
-}
-header .actions.menu-color .item.active:after,
-header .menu.menu-color .item.active:after {
-    content: "";
-    position: absolute;
-    height: 2px;
-    width: 80%;
-    bottom: 0;
-    left: 10%;
-    background-color: var(--primary-color-2)
-}
+/*header {*/
+/*    background: white;*/
+/*    box-shadow: var(--shadow-1)*/
+/*}*/
+/*header .actions .item,*/
+/*header .menu .item {*/
+/*    color: var(--info-color)*/
+/*}*/
+/*header .actions .item.active,*/
+/*header .menu .item.active {*/
+/*    color: var(--primary-color)*/
+/*}*/
+/*header .actions.menu-color .item,*/
+/*header .menu.menu-color .item {*/
+/*    color: var(--tercery-color)*/
+/*}*/
+/*header .actions.menu-color .item.active,*/
+/*header .menu.menu-color .item.active {*/
+/*    color: var(--primary-color-2);*/
+/*    position: relative*/
+/*}*/
+/*header .actions.menu-color .item.active:after,*/
+/*header .menu.menu-color .item.active:after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    height: 2px;*/
+/*    width: 80%;*/
+/*    bottom: 0;*/
+/*    left: 10%;*/
+/*    background-color: var(--primary-color-2)*/
+/*}*/
 .marcas {
     background: white
 }
@@ -236,15 +236,13 @@ h6 {
 }
 .gotham-medium,
 .gotham-medium * {
-    font-family: "Gotham";
     font-weight: 500;
     font-style: normal
 }
 .gotham-qroma,
 .gotham-qroma * {
-    font-family: "Gotham";
     font-style: normal;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
     color: #0f63b8 !important;
 }
 
@@ -619,7 +617,7 @@ h6 {
     border-radius: 20px;
     position: relative;
     padding: 10px;
-    height: 200px;
+    height: 67%;
     transition: all 0.3s
 }
 .card01 .item-qroma .content-qroma:after,
@@ -718,50 +716,50 @@ h6 {
 :root {
     --width-logo: 170px
 }
-header {
-    display: flex;
-    width: 100%;
-    padding: 0 6.5vw;
-    align-items: center;
-    height: 70px;
-    z-index: 2;
-    position: -webkit-sticky;
-    position: sticky
-}
-header .logo {
-    width: var(--width-logo);
-    padding: 10px;
-    margin: 0 15px
-}
-header .options {
-    width: calc(100% - var(--width-logo));
-    display: flex;
-    justify-content: space-between
-}
-header .options .actions,
-header .options .menu {
-    display: flex
-}
-header .options .actions .item,
-header .options .menu .item {
-    text-decoration: none;
-    font-size: 0.8em
-}
-header .options .menu {
-    margin-left: 20px
-}
-header .options .menu .item {
-    text-align: center;
-    padding: 0 15px
-}
-header .options .actions .item img,
-header .options .menu .item img {
-    height: 20px;
-    margin-right: 10px
-}
-header .options .btn-menu {
-    display: none
-}
+/*header {*/
+/*    display: flex;*/
+/*    width: 100%;*/
+/*    padding: 0 6.5vw;*/
+/*    align-items: center;*/
+/*    height: 70px;*/
+/*    z-index: 2;*/
+/*    position: -webkit-sticky;*/
+/*    position: sticky*/
+/*}*/
+/*header .logo {*/
+/*    width: var(--width-logo);*/
+/*    padding: 10px;*/
+/*    margin: 0 15px*/
+/*}*/
+/*header .options {*/
+/*    width: calc(100% - var(--width-logo));*/
+/*    display: flex;*/
+/*    justify-content: space-between*/
+/*}*/
+/*header .options .actions,*/
+/*header .options .menu {*/
+/*    display: flex*/
+/*}*/
+/*header .options .actions .item,*/
+/*header .options .menu .item {*/
+/*    text-decoration: none;*/
+/*    font-size: 0.8em*/
+/*}*/
+/*header .options .menu {*/
+/*    margin-left: 20px*/
+/*}*/
+/*header .options .menu .item {*/
+/*    text-align: center;*/
+/*    padding: 0 15px*/
+/*}*/
+/*header .options .actions .item img,*/
+/*header .options .menu .item img {*/
+/*    height: 20px;*/
+/*    margin-right: 10px*/
+/*}*/
+/*header .options .btn-menu {*/
+/*    display: none*/
+/*}*/
 .baner {
     width: 100%;
     height: 455px;
@@ -772,7 +770,6 @@ header .options .btn-menu {
 .baner .item {
     position: relative;
     width: 100%;
-    height: 100%
 }
 .baner .item img {
     width: 100%
@@ -913,7 +910,7 @@ footer .w70 .redes {
 }
 footer .w70 .redes .list {
     display: flex;
-    margin-left: 5px;
+    margin-left: 55px;
     padding-top: 3px
 }
 footer .w70 .redes .list .item {
@@ -1045,8 +1042,8 @@ footer.color .redes .list .item.active {
 .tabs .body .item {
     background: white;
     position: relative;
-    margin-right: 1%;
-    width: calc(14% - 20px);
+    margin-right: 2.66%;
+    width: 23%;
     margin-bottom: 1.5em;
     transition: all 0.3s;
     transform-origin: center center;
@@ -1054,6 +1051,13 @@ footer.color .redes .list .item.active {
     display: flex;
     flex-direction: column
 }
+
+.dashsboard-qroma-item {
+    margin-right: 13px !important;
+    width: 221px !important;
+    margin-left: 15px;
+}
+
 .tabs .body .item:nth-child(4n) {
     margin-right: 0
 }
@@ -1164,8 +1168,10 @@ footer.color .redes .list .item.active {
 }
 .desarrollo-personal .body .item h3 {
     padding: 0 10px;
-    padding-top: 7px;
-    font-size: 1em
+    padding-top: 25px;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 100;
 }
 
 .desarrollo-personal .body .item h3 a{
@@ -1175,9 +1181,9 @@ footer.color .redes .list .item.active {
 }
 
 .desarrollo-personal .body .item .footer {
-    padding-left: 10px;
+    padding-left: 15px;
     padding-top: 10px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     margin-top: auto
 }
 .desarrollo-personal .body .item .footer .like {
@@ -1830,10 +1836,8 @@ footer.color .redes .list .item.active {
         width: 100%
     }
     .container-testimonials .testimonials .before {
-        right: -20px
-    }
-    .container-testimonials .testimonials .after {
-        left: -20px
+        right: -20px;
+        z-index: 1;
     }
     .container-testimonials .testimonials .card01 {
         overflow: hidden

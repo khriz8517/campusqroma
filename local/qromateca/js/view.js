@@ -40,6 +40,7 @@ var app = new Vue({
                         this.creado = data.creado;
                         this.estado_aprobacion = data.estado_aprobacion;
                         this.documento_url = data.documento_url;
+                        this.tipo = data.tipo;
                     } else {
                         window.location.href = 'index.php';
                     }
@@ -117,7 +118,7 @@ var app = new Vue({
             frm.append('request_type','desaprobar');
             axios.post('../qroma_front/api/ajax_controller_qroma.php',frm)
                 .then((response) => {
-                    location.reload();
+                    window.location.href = 'index.php';
                 });
         },
         comentar: function() {

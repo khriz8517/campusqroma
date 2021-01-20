@@ -44,8 +44,8 @@ function getADToken() {
     $data = array(
         'url' => 'https://login.microsoftonline.com/cppqsa.onmicrosoft.com/oauth2/v2.0/token',
         'postFields' => http_build_query(array('grant_type' => 'client_credentials',
-            'client_id' => 'b4658a36-d4f9-4bf4-8c21-35898b037bd0',
-            'client_secret' => 'fxRcYBB_ejtX.hk722Y~Ie-aF8SSrHT6O3',
+            'client_id' => 'c45d7b04-10e2-427f-8be0-6fe59a9b9a09',
+            'client_secret' => '~~Ea4e8k.F_K_4236KMz3CK~1fPk_0gaD8',
             'scope' => 'https://graph.microsoft.com/.default'), '', '&'),
         'httpMethod' => 'POST',
         'httpHeader' => array('host: login.microsoftonline.com',

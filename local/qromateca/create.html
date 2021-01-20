@@ -1,8 +1,7 @@
 <div id="app">
-    <div style="width: 50%; margin: auto; padding: 2%;">
-        <h2 style="text-align: center; padding-bottom: 5%; color: #085CB6; font-weight: 600;">COMPARTE TU APRENDIZAJE</h2>
-        <div v-if="firstpage" style="background-color: white; padding-top: 16%; padding-bottom: 20%; box-shadow: 0 3px 6px #0000001A; border-radius: 8px; width: 806px;
-height: 457px;">
+    <div class="q-create-container">
+        <h2>COMPARTE TU APRENDIZAJE</h2>
+        <div v-if="firstpage" class="q-create-container-white">
             <div style="margin: auto; text-align: center;">
                 <h4 style="color: #9F9F9F;">¿Qué quieres compartir?</h4>
             </div>
@@ -15,36 +14,50 @@ height: 457px;">
                 <span style="color: #085CB6; font-weight: 500;">Página</span>
             </div>
         </div>
-        <div v-if="secondpage" style="background-color: white; padding-top: 10%; padding-bottom: 10%; box-shadow: 0 3px 6px #0000001A; border-radius: 8px;">
-            <div style="margin-top: 3%;">
-                <div style="display: table;width: 45%;margin: auto;">
-                    <div class="row" style="padding-top: 20px;padding-bottom: 20px;">
-                        <label style="width: 200px; color: #9F9F9F;">Ponle un título atractivo:</label>
-                        <div>
-                            <input v-model="nombre" style="width: 200px;">
-                         </div>
+        <div v-if="secondpage" class="q-create-container-white">
+            <div class="q-create-container-inputs">
+                <div class="row p-2">
+                    <div class="col-sm">
+                        <label class="q-create-gray">Ponle un título atractivo:</label>
                     </div>
-                    <div class="row" style="padding-top: 20px;padding-bottom: 20px;">
-                        <label style="width: 200px; color: #9F9F9F;">Agrega imagen desriptiva:</label>
-                        <div>
-                            <input type="file" @change="changeFiles" ref="miarchivo" style="width: 200px;">
-                        </div>
+                    <div class="col-sm">
+                        <input v-model="nombre" style="width: 80%">
+                     </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-sm">
+                        <label class="q-create-gray">Agrega imagen desriptiva:</label>
                     </div>
-                    <div v-if="qromaType != 1" class="row" style="padding-top: 20px;padding-bottom: 20px;">
-                        <label style="width: 200px; color: #9F9F9F;">Copia el link aquí:</label>
-                        <div>
-                            <input v-model="link" style="width: 200px;">
-                        </div>
-                    </div>
-                    <div v-if="qromaType == 1" class="row" style="padding-top: 20px;padding-bottom: 20px;">
-                        <label style="width: 200px; color: #9F9F9F;">Agrega el documento:</label>
-                        <div>
-                            <input type="file" @change="changeFiles2" ref="miarchivo2" style="width: 200px;">
-                        </div>
+                    <div class="col-sm">
+                        <input type="file" @change="changeFiles" ref="miarchivo">
                     </div>
                 </div>
-                <div class="row" style="text-align: center; margin: auto; display: block; margin-top: 100px;">
-                    <div><a type="button" class="btn-success qromateca-success-button" @click="share">COMPARTE AHORA</a></div>
+                <div v-if="qromaType != 1" class="row p-2">
+                    <div class="col-sm">
+                        <label class="q-create-gray">Copia el código embed aquí:</label>
+                    </div>
+                    <div class="col-sm">
+                        <input v-model="link">
+                    </div>
+                </div>
+                <div v-if="qromaType == 1" class="row p-2">
+                    <div class="col-sm">
+                        <label class="q-create-gray">Agrega el documento:</label>
+                    </div>
+                    <div class="col-sm">
+                        <input type="file" @change="changeFiles2" ref="miarchivo2">
+                    </div>
+                </div>
+            </div>
+            <div v-if="disabledButton" style="text-align: center; position: absolute;">
+                <img src="/local/qroma_front/img/load2.gif" style="width: 16%; margin: auto;">
+            </div>
+            <div class="row" style="text-align: center; margin: auto; display: block; margin-top: 100px;">
+                <div v-if="disabledButton" class="q-create-container-button">
+                    <a type="button" class="qromateca-disabled-button">COMPARTE AHORA</a>
+                </div>
+                <div v-if="!disabledButton" class="q-create-container-button">
+                    <a type="button" class="btn-success qromateca-success-button w-100" @click="share">COMPARTE AHORA</a>
                 </div>
             </div>
         </div>
@@ -52,7 +65,7 @@ height: 457px;">
 height: 457px; box-shadow: 0 3px 6px #0000001A; border-radius: 8px; opacity: 1;">
             <div style="text-align: center; margin-top: 75px;">
                 <div style="color: #6ABF4C; font-weight: 500; font-size: 19px;">¡GRACIAS POR COMPARTIR!</div>
-                <div style="color: #6ABF4C; margin-top: 15px; font-size: 15px;">UN GESTOR REVISARÁ PRONTO TU APRENDIZAJE Y LO VALIDARÁ</div>
+                <div style="color: #6ABF4C; margin-top: 15px; font-size: 15px;">UN GESTOR REVISARÁ PRONTO TU CONTENIDO</div>
                 <div style="margin-top: 10%;">
                     <a style="color: #085CB7;" href="index.php">REGRESAR</a>
                 </div>

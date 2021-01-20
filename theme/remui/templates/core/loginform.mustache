@@ -127,7 +127,13 @@
                     {{/logourl}}
                 {{/logopos}}
                 {{/loginpage_context}}
-                <div class="card-body">
+                <div>INICIA SESIÓN CON TU CUENTA QROMA</div>
+                <div>
+                    <a type="button" class="btn btn-primary btn-block mt-4 qroma-color-peru" href="../../local/systemscripts/testSSO.php"> Usuarios Perú </a>
+                    <a type="button" class="btn btn-primary btn-block mt-4 qroma-color-chile" href="../../local/systemscripts/chileSSO.php"> Usuarios Chile </a>
+                    <a type="button" class="btn btn-primary btn-block mt-4 qroma-color-ecuador" href="../../local/systemscripts/testSSO.php"> Usuarios Ecuador </a>
+                </div>
+                <div class="card-body mt-4 hidden">
                     {{#cansignup}}
                         <div class="sr-only">
                             <a href="{{signupurl}}">{{#str}} tocreatenewaccount {{/str}}</a>
@@ -143,7 +149,8 @@
 
                     <div class="row justify-content-md-center">
                         <div class="col-md-12">
-                            <h3 class="mb-4">{{# str }} signin, theme_remui {{/ str }}</h3>
+                            <h4 class="mb-4">ACCESO A PERSONAL EXTERNO</h4>
+                            <h5 class="mb-4">Color Centro, Ferreterías e Invitados</h5>
                             <form class="my-3" action="{{loginurl}}" method="post" id="login">
                                 <input id="anchor" type="hidden" name="anchor" value="">
                                 <script>document.getElementById('anchor').value = location.hash;</script>
@@ -158,30 +165,27 @@
                                         {{/canloginbyemail}}
                                     </label>
                                     <input type="text" name="username" id="username"
-                                        class="form-control"
-                                        value="{{username}}"
-                                        placeholder={{#quote}}{{^canloginbyemail}}{{#str}}username{{/str}}{{/canloginbyemail}}{{#canloginbyemail}}{{#str}}usernameemail{{/str}}{{/canloginbyemail}}{{/quote}}
-                                        autocomplete="username">
+                                           class="form-control"
+                                           value="{{username}}"
+                                           placeholder={{#quote}}{{^canloginbyemail}}{{#str}}username{{/str}}{{/canloginbyemail}}{{#canloginbyemail}}{{#str}}usernameemail{{/str}}{{/canloginbyemail}}{{/quote}}
+                                           autocomplete="username">
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="sr-only">{{#str}} password {{/str}}</label>
                                     <input type="password" name="password" id="password" value=""
-                                        class="form-control"
-                                        placeholder={{#quote}}{{#str}}password{{/str}}{{/quote}}
-                                        autocomplete="current-password">
+                                           class="form-control"
+                                           placeholder={{#quote}}{{#str}}password{{/str}}{{/quote}}
+                                           autocomplete="current-password">
                                 </div>
                                 {{#rememberusername}}
                                     <div class="rememberpass mt-3 checkbox-custom">
                                         <input type="checkbox" name="rememberusername" id="rememberusername" value="1" {{#username}}checked="checked"{{/username}} />
                                         <label for="rememberusername">{{#str}} rememberusername, admin {{/str}}</label>
-                                        <a class="float-right" href="{{forgotpasswordurl}}">{{# str }} forgotpassword, theme_remui {{/ str }}</a> 
+                                        <a class="float-right" href="{{forgotpasswordurl}}">{{# str }} forgotpassword, theme_remui {{/ str }}</a>
                                     </div>
                                 {{/rememberusername}}
 
                                 <button type="submit" class="btn btn-primary btn-block mt-4" id="loginbtn">{{#str}}login{{/str}}</button>
-
-                                <a type="button" class="btn btn-primary btn-block mt-4" href="../../local/systemscripts/testSSO.php"> SSO Perú Login </a>
-                                <a type="button" class="btn btn-primary btn-block mt-4" href="../../local/systemscripts/chileSSO.php"> SSO Chile Login </a>
                             </form>
                         </div>
 
@@ -220,38 +224,48 @@
                             {{/hasidentityproviders}}
                             <footer class="page-copyright py-4">
                                 {{# loginsocial_context }}
-                                {{# social }}
-                                <p class="text-center">{{# str }} followus, theme_remui {{/ str }}</p>
-                                <div class="social text-center">
-                                    {{# facebook }}
-                                        <a href="{{ facebook }}" class="btn btn-icon btn-round social-facebook m-1"><i class="icon fa text-white fa-facebook" aria-hidden="true"></i></a>
-                                    {{/ facebook }}
-                                    {{# twitter }}
-                                        <a href="{{ twitter }}" class="btn btn-icon btn-round social-twitter m-1"><i class="icon fa text-white fa-twitter" aria-hidden="true"></i></a>
-                                    {{/ twitter }}
-                                    {{# quora }}
-                                        <a href="{{ quora }}" target="_blank" class="btn btn-icon btn-round social-pinterest"><i class="icon fa text-white fa-quora" aria-hidden="true"></i></a>
-                                    {{/ quora }}
-                                    {{# linkedin }}
-                                        <a href="{{ linkedin }}" class="btn btn-icon btn-round social-linkedin m-1"><i class="icon fa text-white fa-linkedin" aria-hidden="true"></i></a>
-                                    {{/ linkedin }}
-                                    {{# gplus }}
-                                        <a href="{{ gplus }}" class="btn btn-icon btn-round social-google-plus m-1"><i class="icon fa text-white fa-google-plus" aria-hidden="true"></i></a>
-                                    {{/ gplus }}
-                                    {{# instagram }}
-                                        <a href="{{ instagram }}" class="btn btn-icon btn-round social-instagram m-1"><i class="icon fa text-white fa-instagram" aria-hidden="true"></i></a>
-                                    {{/ instagram }}
-                                    {{# youtube }}
-                                        <a href="{{ youtube }}" class="btn btn-icon btn-round social-youtube m-1"><i class="icon fa text-white fa-youtube" aria-hidden="true"></i></a>
-                                    {{/ youtube }}
-                                    {{# pinterest }}
-                                        <a href="{{ pinterest }}" class="btn btn-icon btn-round social-pinterest m-1"><i class="icon fa text-white fa-pinterest" aria-hidden="true"></i></a>
-                                    {{/ pinterest }}
-                                </div>
-                                {{/ social }}
+                                    {{# social }}
+                                        <p class="text-center">{{# str }} followus, theme_remui {{/ str }}</p>
+                                        <div class="social text-center">
+                                            {{# facebook }}
+                                                <a href="{{ facebook }}" class="btn btn-icon btn-round social-facebook m-1"><i class="icon fa text-white fa-facebook" aria-hidden="true"></i></a>
+                                            {{/ facebook }}
+                                            {{# twitter }}
+                                                <a href="{{ twitter }}" class="btn btn-icon btn-round social-twitter m-1"><i class="icon fa text-white fa-twitter" aria-hidden="true"></i></a>
+                                            {{/ twitter }}
+                                            {{# quora }}
+                                                <a href="{{ quora }}" target="_blank" class="btn btn-icon btn-round social-pinterest"><i class="icon fa text-white fa-quora" aria-hidden="true"></i></a>
+                                            {{/ quora }}
+                                            {{# linkedin }}
+                                                <a href="{{ linkedin }}" class="btn btn-icon btn-round social-linkedin m-1"><i class="icon fa text-white fa-linkedin" aria-hidden="true"></i></a>
+                                            {{/ linkedin }}
+                                            {{# gplus }}
+                                                <a href="{{ gplus }}" class="btn btn-icon btn-round social-google-plus m-1"><i class="icon fa text-white fa-google-plus" aria-hidden="true"></i></a>
+                                            {{/ gplus }}
+                                            {{# instagram }}
+                                                <a href="{{ instagram }}" class="btn btn-icon btn-round social-instagram m-1"><i class="icon fa text-white fa-instagram" aria-hidden="true"></i></a>
+                                            {{/ instagram }}
+                                            {{# youtube }}
+                                                <a href="{{ youtube }}" class="btn btn-icon btn-round social-youtube m-1"><i class="icon fa text-white fa-youtube" aria-hidden="true"></i></a>
+                                            {{/ youtube }}
+                                            {{# pinterest }}
+                                                <a href="{{ pinterest }}" class="btn btn-icon btn-round social-pinterest m-1"><i class="icon fa text-white fa-pinterest" aria-hidden="true"></i></a>
+                                            {{/ pinterest }}
+                                        </div>
+                                    {{/ social }}
                                 {{/ loginsocial_context }}
                             </footer>
                         </div>
+                    </div>
+                </div>
+                <div class="card-body mt-4">
+                    <div class="redes w25 text-center margin-auto">
+                        <h5>Síguenos</h5>
+                        <a href="https://www.linkedin.com/company/qroma/">
+                            <div class="qroma-social-media-div margin-auto">
+                                <img class="qroma-social-media-img" src="/local/qroma_front/img/icons/linkeding.svg" alt=""/>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

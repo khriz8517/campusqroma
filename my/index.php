@@ -111,6 +111,7 @@ if(
 
 $PAGE->requires->css('/local/qroma_front/css/_base.css');
 $PAGE->requires->css('/local/qroma_front/css/general.css');
+$PAGE->requires->css('/local/dashboard/seguimiento.css');
 
 if (!isguestuser()) {   // Skip default home page for guests
     if (get_home_page() != HOMEPAGE_MY) {

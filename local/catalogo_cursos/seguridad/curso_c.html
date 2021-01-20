@@ -12,8 +12,9 @@
         </div>
     </div>
     <div class="category-title w70 m0auto p60-50">
-        <h2 class="mb-1"><span class="text-info gotham-medium">166 Cursos </span><span class="text-success pacifig">disponibles para ti</span></h2>
-        <h5>Selecciona una categoría y encuentra los cursos disponibles</h5>
+        <h2 class="mb-1"><span class="text-info gotham-medium">{{general}} {{cursoTxt}} </span><span class="text-success pacifig">{{disponibleTxt}} para ti</span></h2>
+        <!-- <h5>Selecciona una categoría y encuentra los cursos disponibles</h5> -->
+<h5>Comienza a aprender con este curso, pronto podrás visualizar más contenido</h5>
     </div>
     <div class="search bg-d-1">
         <div class="w70 m0auto p60-50 tabs">
@@ -29,14 +30,20 @@
             <div class="body">
                 <div class="item" v-for="item in cursos">
                     <div class="img">
-                        <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                        <a :href="'../../' + item.url" style="text-decoration: none">
+                            <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                        </a>
                     </div>
                     <div class="contry"><img class="contry-flag" :src="item.flat" alt="" srcset=""/>
                         <div class="contry-name">{{item.pais}}</div>
                     </div>
-                    <h3 class="title gotham-medium">{{item.title}}</h3>
+                    <a :href="'../../' + item.url" style="text-decoration: none">
+                        <h3 class="title gotham-medium">{{item.title}}</h3>
+                    </a>
                     <div class="footer">
-                        <div class="btn btn-info">ACCEDER</div>
+                        <a :href="'../../' + item.url" style="text-decoration: none">
+                            <div class="btn btn-info">ACCEDER</div>
+                        </a>
                         <div class="progress">
                             <div class="container-progress danger">
                                 <div class="gauge-container">

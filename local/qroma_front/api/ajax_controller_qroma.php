@@ -1,13 +1,16 @@
 <?php
 
 use core_completion\progress;
-//use theme_remui\usercontroller;
 use block_xp\local\xp\level_with_name;
 use block_xp\local\xp\level_with_badge;
+use core_course\external\course_summary_exporter;
 
 error_reporting(E_ALL);
 
 require_once(dirname(__FILE__) . '/../../../config.php');
+require_once($CFG->dirroot . '/enrol/externallib.php');
+require_once($CFG->dirroot. '/course/lib.php');
+require_once($CFG->dirroot . '/user/profile/lib.php');
 
 const QROMATECA_DOCUMENT_TYPE = 1;
 const QROMATECA_VIDEO_TYPE = 2;
@@ -74,6 +77,18 @@ try {
         case 'eliminarComentario':
             $returnArr = eliminarComentario($_POST['id']);
             break;
+        case 'obtenerCursosPendientes':
+            $returnArr = obtenerCursosPendientes();
+            break;
+        case 'obtenerTotalCursos':
+            $returnArr = obtenerTotalCursos();
+            break;
+        case 'panelUserCursos':
+            $returnArr = panelUserCursos();
+            break;
+        case 'getUsuariosByCurso':
+            $returnArr = getUsuariosByCurso($_POST['courseId']);
+            break;
     }
 } catch (Exception $e) {
     $returnArr['status'] = false;
@@ -130,10 +145,26 @@ function timeSince($original) {
     return $res;
 }
 
-
 function getUserImage() {
     global $USER;
     return '/user/pix.php/'.$USER->id.'/f1.jpg';
+}
+
+function getCourseImage($course) {
+    $data = new \stdClass();
+    $data->id = $course->id;
+    $data->fullname = $course->fullname;
+    $data->hidden = $course->visible;
+    $options = [
+        'course' => $course->id,
+    ];
+    $viewurl = new \moodle_url('/admin/tool/moodlenet/options.php', $options);
+    $data->viewurl = $viewurl->out(false);
+    $category = \core_course_category::get($course->category);
+    $data->coursecategory = $category->name;
+    $courseimage = course_summary_exporter::get_course_image($data);
+
+    return $courseimage;
 }
 
 function obtenerLevelPropertyValue($level, $property) {
@@ -198,6 +229,7 @@ function getUserLevel($small) {
 function obtenerUsuario() {
     global $USER;
     $userArr = array(
+        'id' => $USER->id,
         'photo' => getUserImage(),
         'name' => strtoupper($USER->firstname . ' ' . $USER->lastname),
         'levelImage' => getUserLevel(1)['img'],
@@ -301,7 +333,7 @@ function obtenerSubcategoriasByCat($idCat) {
                     foreach($allcourses as $course) {
                         $firstCourses[] = [
                             'name'=> $course->fullname,
-                            'pais' => 'peru',
+                            'pais' => 'Perú',
                             'url'=> 'course/view.php?id='.$course->id,
                             'img' => \theme_remui_coursehandler::get_course_image($course, 1)
                         ];
@@ -333,7 +365,7 @@ function obtenerSubcategoriasByCat($idCat) {
             $percentage = round(progress::get_course_progress_percentage($courseObj, $USER->id));
             $firstCourses[] = [
                 'name'=> $course->fullname,
-                'pais' => 'peru',
+                'pais' => 'Perú',
                 'url'=> 'course/view.php?id='.$course->id,
                 'percentage' => $percentage ? $percentage : 0,
                 'img' => \theme_remui_coursehandler::get_course_image($course, 1),
@@ -350,13 +382,15 @@ function obtenerSubcategoriasByCat($idCat) {
 
 function obtenerCursosByCat($idCat) {
     $courses = array();
+    $cursoTxt = 'Curso';
+    $disponibleTxt = 'disponible';
     $allcourses = core_course_category::get($idCat)->get_courses(
         array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
 
     foreach($allcourses as $course) {
         $courses[] = [
             'name'=> $course->fullname,
-            'pais' => 'peru',
+            'pais' => 'Perú',
             'url'=> 'course/view.php?id='.$course->id,
             'img' => \theme_remui_coursehandler::get_course_image($course, 1)
         ];
@@ -365,6 +399,15 @@ function obtenerCursosByCat($idCat) {
     $response['status'] = true;
     $response['data'] = $courses;
     $response['totalCourses'] = count($courses);
+
+    if(count($courses) != 1) {
+        $cursoTxt = 'Cursos';
+        $disponibleTxt = 'disponibles';
+    }
+
+    $response['totalCourses'] = count($courses);
+    $response['cursoTxt'] = $cursoTxt;
+    $response['disponibleTxt'] = $disponibleTxt;
 
     return $response;
 }
@@ -380,7 +423,7 @@ function obtenerCursosBySearch($name, $idCat) {
             $percentage = round(progress::get_course_progress_percentage($course, $USER->id));
             $courses[] = [
                 'name'=> $course->fullname,
-                'pais' => 'peru',
+                'pais' => 'Perú',
                 'url'=> 'course/view.php?id='.$course->id,
                 'percentage'=> $percentage ? $percentage : 0,
                 'img' => \theme_remui_coursehandler::get_course_image($course, 1)
@@ -397,7 +440,7 @@ function obtenerCursosBySearch($name, $idCat) {
 
 function obtenerQromatecas() {
     global $DB, $USER;
-    $data = $DB->get_records_sql("SELECT * FROM {qromateca} ORDER BY vistas desc");
+    $data = $DB->get_records_sql("SELECT * FROM {qromateca} WHERE habilitado = 1 ORDER BY vistas desc");
 
     $qromatecas = !empty($data) ? $data : array();
 
@@ -453,9 +496,9 @@ function obtenerQromatecasSorted($id) {
     global $DB, $USER;
 
     if($id == 1) {
-        $data = $DB->get_records_sql("SELECT * FROM {qromateca} ORDER BY vistas desc");
+        $data = $DB->get_records_sql("SELECT * FROM {qromateca}  WHERE habilitado = 1 ORDER BY vistas desc");
     } elseif($id == 2) {
-        $data = $DB->get_records_sql("SELECT * FROM {qromateca} ORDER BY created_at desc");
+        $data = $DB->get_records_sql("SELECT * FROM {qromateca}  WHERE habilitado = 1 ORDER BY created_at desc");
     }
 
 
@@ -518,7 +561,7 @@ function obtenerQromateca($id) {
         $isManager = 0;
     }
 
-    $data = $DB->get_record_sql("SELECT * FROM {qromateca} WHERE id = ?", array($id));
+    $data = $DB->get_record_sql("SELECT * FROM {qromateca}  WHERE habilitado = 1 AND id = ?", array($id));
     $qromateca = !empty($data) ? $data : array();
 
     if(!$isManager && $qromateca->estado_aprobacion == 0) {
@@ -542,6 +585,7 @@ function obtenerQromateca($id) {
     $response['data']['gestor'] = $isManager;
     $response['data']['creado'] = convertDateToSpanish(strtotime($qromateca->created_at));
     $response['data']['estado_aprobacion'] = $qromateca->estado_aprobacion;
+    $response['data']['tipo'] = $qromateca->tipo;
 
     $documentoExt = $qromateca->documento_extension;
 
@@ -557,7 +601,6 @@ function obtenerQromateca($id) {
 
 function guardarQromateca($details) {
     global $DB, $USER;
-
     $responseStatus = true;
     $nombre = $details['nombre'];
     $link = !empty($details['link']) ? $details['link'] : '';
@@ -577,13 +620,13 @@ function guardarQromateca($details) {
     $qromateca->created_at = date("Y-m-d H:i:s");
 
     if(!empty($qromaFile)) {
-        $filename = urlencode($qromaFile['name']);
+        $filename = urlencode(preg_replace("/[^a-zA-Z0-9.]/", "", $qromaFile['name']));
         $location = "qromateca/files/".$filename;
         $uploadOk = 1;
         $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
 
         /* Valid Extensions */
-        $valid_extensions = array("jpg","jpeg","png");
+        $valid_extensions = array("jpg","jpeg","png","gif","jfif");
         /* Check file extension */
         if( !in_array(strtolower($imageFileType), $valid_extensions) ) {
             $uploadOk = 0;
@@ -601,7 +644,7 @@ function guardarQromateca($details) {
     }
 
     if(!empty($qromaFileDoc)) {
-        $filenameDoc = urlencode($qromaFileDoc['name']);
+        $filenameDoc = urlencode(preg_replace("/[^a-zA-Z0-9.]/", "", $qromaFileDoc['name']));
         $location = "qromateca/docs/".$filenameDoc;
         $uploadOk = 1;
         $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
@@ -677,6 +720,7 @@ function desaprobar($id) {
 
     if (!empty($qromatecaObj)) {
         $qromatecaObj->estado_aprobacion = 0;
+        $qromatecaObj->habilitado = 0;
         $qromatecaObj->updated_at = date("Y-m-d H:i:s");
         $DB->update_record('qromateca', $qromatecaObj);
     }
@@ -743,4 +787,166 @@ function eliminarComentario($id) {
     $response['status'] = true;
 
     return $response;
+}
+
+function obtenerCursosPendientes() {
+    global $USER;
+    $pais = 'Perú';
+    $flag = '';
+    $returnArr = array();
+    $userCourses = enrol_get_users_courses($USER->id, true);
+
+    if($pais == 'Perú') {
+        $flag = '/local/qroma_front/img/pais/peru.jpg';
+    }
+
+    foreach($userCourses as $course) {
+        $percentage = progress::get_course_progress_percentage($course, $USER->id);
+        if($percentage == 100) {
+            continue;
+        }
+        $returnArr[] = [
+            'title'=> $course->fullname,
+            'pais' => $pais,
+            'flag' => $flag,
+            'url'=> 'course/view.php?id='.$course->id,
+            'img' => getCourseImage($course),
+            'progress' => round($percentage)
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $returnArr;
+
+    return $response;
+}
+
+function obtenerTotalCursos() {
+    global $USER;
+
+    $returnArr = array();
+    $userCourses = enrol_get_users_courses($USER->id, true);
+
+    foreach($userCourses as $course) {
+        $percentage = progress::get_course_progress_percentage($course, $USER->id);
+        $returnArr[] = [
+            'title'=> $course->fullname,
+            'pais' => 'Perú',
+            'url'=> 'course/view.php?id='.$course->id,
+            'img' => getCourseImage($course),
+            'dateEnd' => !empty($course->enddate) ? convertDateToSpanish($course->enddate) : '',
+            'progress' => round($percentage)
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $returnArr;
+
+    return $response;
+}
+
+function panelUserCursos() {
+    global $USER;
+    $allCourses = enrol_get_users_courses($USER->id, true);
+
+    foreach($allCourses as $course) {
+        $userList = array();
+        if($course->visible == 0) {
+            continue;
+        }
+
+        $context = CONTEXT_COURSE::instance($course->id);
+        $users = get_enrolled_users($context);
+
+        $progress = round(progress::get_course_progress_percentage($course, $USER->id));
+
+        foreach($users as $singleUser) {
+            $userList[] = $singleUser->id;
+        }
+
+        $userList = implode('|||', $userList);
+
+        $courses[] = [
+            'name'=> $course->fullname,
+            'id'=> $course->id,
+            'numEstu' => count($users),
+            'date' => convertDateToSpanish($course->startdate),
+            'progress' => $progress,
+            'userIdsMail' => $userList,
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $courses;
+
+    return $response;
+}
+
+function getUnique($data) {
+    $result = array_filter(
+        $data,
+        function ($value, $key) use ($data) {
+            return $key === array_search($value['name'], array_column($data,'name'));
+        },
+        ARRAY_FILTER_USE_BOTH
+    );
+    return $result;
+}
+
+function getUsuariosByCurso($courseId) {
+    $course = get_course($courseId);
+    $context = CONTEXT_COURSE::instance($courseId);
+    $users = get_enrolled_users($context);
+    $return = array();
+    $gerenciasList = array();
+    $areasList = array();
+    $zonasList = array();
+
+
+    foreach($users as $key=>$user) {
+        profile_load_custom_fields($user);
+//        $gerencia = $user->profile['gerencia'];
+//        $area = $user->profile['area_funcional'];
+//        $zona = $user->profile['zona'];
+
+        $progress = round(progress::get_course_progress_percentage($course, $user->id));
+
+        if(empty($user->firstname)) {
+            continue;
+        }
+
+//        $gerenciasList[] = ['name' => $gerencia];
+//        $areasList[] = ['name' => $area];
+//        $zonasList[] = ['name' => $zona];
+
+        $return[] = [
+            'name' => $user->firstname . ' ' . $user->lastname,
+            'id' => $user->id,
+//            'gerencia' => !empty($gerencia) ? $gerencia: '-',
+//            'area' => !empty($area) ? $area: '-',
+//            'zona' => !empty($zona) ? $zona: '-',
+            'progress' => $progress
+        ];
+    }
+
+    array_multisort( $return);
+
+//    $gerenciasList = getUnique($gerenciasList);
+//    $areasList = getUnique($areasList);
+//    $zonasList = getUnique($zonasList);
+
+    $response['status'] = true;
+    $response['data'] = $return;
+    $response['nombreCurso'] = $course->fullname;
+//    $response['gerenciasList'] = $gerenciasList;
+//    $response['areasList'] = $areasList;
+//    $response['zonasList'] = $zonasList;
+
+    return $response;
+
+}
+
+function cleanStr($string) {
+    $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    return $string;
 }

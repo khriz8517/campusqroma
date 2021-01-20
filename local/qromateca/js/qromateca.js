@@ -5,6 +5,7 @@ var app = new Vue({
             menu: false,
             tabActive: 1,
             qromaType: 1,
+            disabledButton: 0,
             firstpage: true,
             secondpage: false,
             thirdpage: false,
@@ -44,6 +45,8 @@ var app = new Vue({
                 }
             }
 
+            this.disabledButton = 1;
+
             let frm = new FormData();
             frm.append('request_type','guardarQromateca');
             frm.append('nombre',this.nombre);
@@ -51,6 +54,7 @@ var app = new Vue({
             frm.append('type',this.qromaType);
             frm.append('qromaFile',this.qromaFile);
             frm.append('qromaFileDoc',this.qromaFileDoc);
+
             axios.post('../qroma_front/api/ajax_controller_qroma.php', frm, {
                 header:{
                     'Content-Type' : 'multipart/form-data'

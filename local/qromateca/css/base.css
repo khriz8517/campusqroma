@@ -17,7 +17,7 @@
 .white-container-footer {
     padding-top: 10px;
     padding-bottom: 15px;
-    margin-left: 75px;
+    margin-left: 5%;
     width: 89.5%;
 }
 
@@ -72,6 +72,19 @@
 
 }
 
+.qromateca-disabled-button {
+    background: #dad9d9 0 0 no-repeat padding-box;
+    border-radius: 21px;
+    width: 304px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none !important;
+    padding-top: 15px;
+    color: white !important;
+    font-weight: 500;
+    cursor: auto !important;
+}
+
 .qromateca-white-button {
     background: #F9F9F9 0 0 no-repeat padding-box;
     box-shadow: 0px 3px 6px #00000029;
@@ -97,6 +110,19 @@
     color: #085CB6;
     font-weight: 600;
     font-size: 32px;
+}
+
+.qromateca-compartido-text {
+    font-size: 12px;
+    color: #6abf4c;
+}
+
+.qromateca-text-info {
+    padding: 15px 0 0 0 !important;
+    height: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
 }
 
 .back {
@@ -268,4 +294,70 @@
 .back-des .qroma-modal .btn.btn-options {
     width: 25px;
     height: 25px;
+}
+
+.q-create-container {
+    width: 50%;
+    margin: auto;
+    padding: 2%;
+}
+
+.q-create-container h2{
+    text-align: center;
+    padding-bottom: 5%;
+    color: #085CB6;
+    font-weight: 600;
+}
+
+.q-create-container-white {
+    background-color: white;
+    padding-top: 16%;
+    padding-bottom: 20%;
+    box-shadow: 0 3px 6px #0000001A;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.q-create-container-inputs {
+    margin: auto;
+    width: 75%;
+}
+
+.q-create-gray {
+    color: #9F9F9F;
+}
+
+.q-create-container-button {
+    width: 60%;
+    margin: auto;
+}
+
+/* less than ipad */
+
+@media only screen and (max-width: 768px) {
+    .q-create-container {
+        width: 75%;
+        margin: auto;
+        padding: 2%;
+    }
+}
+
+/* ipad */
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .q-create-container {
+        width: 75%;
+        margin: auto;
+        padding: 2%;
+    }
+}
+
+/* ipad pro */
+
+@media only screen and (min-width: 1024px) and (max-width: 1030px) {
+    .q-create-container {
+        width: 75%;
+        margin: auto;
+        padding: 2%;
+    }
 }

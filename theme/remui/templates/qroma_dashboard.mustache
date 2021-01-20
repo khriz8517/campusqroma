@@ -15,28 +15,33 @@
             </div>
         </div>
     </div>
-    <div class="mis-cursos w70 m0auto p60-50">
+    <div v-if="cursos.length > 0" class="mis-cursos w70 m0auto p60-50">
         <h2 class="mb-4"><span class="text-info gotham-medium">Mis cursos  </span><span class="text-success pacifig">pendientes</span></h2>
-            <div class="arrow-left" @click="prevBaner"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
+            <div class="arrow-left" v-if="banerPoint > 1" @click="prevBaner"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
             <div class="tabs">
-                <div class="body cursos01" style="width: 1817px;height: 100%;display: flex;position: relative;margin-left: 0;">
-                    <div class="item" v-for="item in cursos">
-                        <div class="img">
-                            <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                <div class="body cursos01" :style="{'width':divSize}" style="height: 100%;display: flex;position: relative;margin-left: 0;">
+                    <div class="item dashsboard-qroma-item" v-for="item in cursos">
+                        <a :href="'/'+item.url" style="text-decoration: none">
+                            <div class="img">
+                                <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                            </div>
+                        </a>
+                        <div class="contry"><img class="contry-flag" :src="item.flag" alt="" srcset=""/>
                         </div>
-                        <div class="contry"><img class="contry-flag" :src="item.flat" alt="" srcset=""/>
-                            <div class="contry-name">{(item.pais)}</div>
-                        </div>
-                        <h3 class="title gotham-medium">{(item.title)}</h3>
+                        <a :href="'/'+item.url" style="text-decoration: none">
+                            <h3 class="title gotham-medium">{(item.title)}</h3>
+                        </a>
                         <div class="footer">
-                            <div class="btn btn-info">ACCEDER</div>
+                            <a :href="'/'+item.url" style="text-decoration: none">
+                                <div class="btn btn-info">ACCEDER</div>
+                            </a>
                             <div class="progress">
                                 <div class="container-progress danger">
                                     <div class="gauge-container">
                                         <svg class="gauge" viewBox="0 0 150 150">
                                             <circle class="progress" r="67" data-target="84" cx="75" cy="75"></circle>
                                             <circle class="rail" r="67" data-target="84" cx="75" cy="75"></circle>
-                                        </svg><span class="center percentage"><span class="value">{{item.porcent}}</span><span class="percentSymbol">%</span></span>
+                                        </svg><span class="center percentage"><span class="value">{(item.progress)}</span><span class="percentSymbol">%</span></span>
                                     </div>
                                 </div>
                             </div>
@@ -44,62 +49,213 @@
                     </div>
                 </div>
             </div>
-            <div class="arrow-right" @click="nextBaner"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
+            <div class="arrow-right" v-if="cursospaginate.length * 4 > 4" @click="nextBaner"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
             <div class="actions">
                 <div class="item" @click="changeBaner(index)" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in cursospaginate"></div>
             </div>
     </div>
-<!--    <div class="p60-50 bg-secondary progress-bar-general">-->
-<!--        <div class="w70 m0auto pb-5 relative">-->
-<!--            <div class="arrow-left"><img src="./img/icons/arrow-success.svg" alt="" srcset=""/></div>-->
-<!--            <div class="bar">-->
-<!--                <div class="color">-->
-<!--                    <div class="griss" :style="'width: '+(100-user.progress)+'%'"></div>-->
-<!--                </div>-->
-<!--                <div class="level" v-bind:class="{'active': user.progress &lt; 50 }">-->
-<!--                    <div class="points radius-50X bg-info"><img src="./img/icons/points.svg" alt=""/><span>JUNIOR</span></div>-->
-<!--                </div>-->
-<!--                <div class="level" v-bind:class="{'active': user.progress &gt;= 50 &amp;&amp; user.progress &lt; 100}">-->
-<!--                    <div class="points radius-50X bg-primary"><img src="./img/icons/points.svg" alt=""/><span>INTERMEDIO</span></div>-->
-<!--                </div>-->
-<!--                <div class="level" v-bind:class="{'active': user.progress &gt;= 100 }">-->
-<!--                    <div class="points radius-50X bg-danger"><img src="./img/icons/points.svg" alt=""/><span>AVANZADO</span></div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="arrow-right"><img src="./img/icons/arrow-success.svg" alt="" srcset=""/></div>-->
-<!--        </div>-->
-<!--        <div class="body w70 m0auto flex mt-5">-->
-<!--            <div class="ranking">-->
-<!--                <div class="header bg-info text-white">Ranking por áreas</div>-->
-<!--                <div class="content">-->
-<!--                    <table>-->
-<!--                        <tr v-for="item in ranking">-->
-<!--                            <td>1</td>-->
-<!--                            <td>{{item.name}}</td>-->
-<!--                            <td><img src="./img/icons/as.svg" alt="" srcset=""/></td>-->
-<!--                            <td>{{item.points}} puntos</td>-->
-<!--                        </tr>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="progreso">-->
-<!--                <div class="header bg-info text-white">Mi progreso</div>-->
-<!--                <div class="content bg-white">-->
-<!--                    <div class="flex"><span>{{user.miProgress.allCurses}} cursos en el portafolio</span>-->
-<!--                        <div class="progress-bar-h">-->
-<!--                            <div class="active bg-success" :style="'width: '+(user.miProgress.progress)+'%'"></div><span class="text-white">{{user.miProgress.successFullCurses}} cursos terminados</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="valoration">-->
-<!--                        <div class="item"><span class="num">{{user.miProgress.prize}}</span><span class="bg-secondary">Premios Canjeados</span></div>-->
-<!--                        <div class="item"><span class="num">{{user.miProgress.valoration}}</span><span class="bg-secondary">Valoraciones</span></div>-->
-<!--                        <div class="item"><span class="num">{{user.miProgress.shared}}</span><span class="bg-secondary">Aprendizajes compartidos</span></div>-->
-<!--                        <div class="item"><span class="num">{{user.miProgress.discution}}</span><span class="bg-secondary">Discusiones</span></div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div v-if="user.id == 2395" class="p60-50 bg-secondary progress-bar-general">
+        <div class="w70 m0auto pb-5 relative">
+            <div class="arrow-left"><img src="./img/icons/arrow-success.svg" alt="" srcset=""/></div>
+            <div class="bar">
+                <div class="color">
+                    <div class="griss" :style="'width: '+(100-user.progress)+'%'"></div>
+                </div>
+                <div class="level" v-bind:class="{'active': user.progress &lt; 50 }">
+                    <div class="points radius-50X bg-info"><img src="./img/icons/points.svg" alt=""/><span>JUNIOR</span></div>
+                </div>
+                <div class="level" v-bind:class="{'active': user.progress &gt;= 50 &amp;&amp; user.progress &lt; 100}">
+                    <div class="points radius-50X bg-primary"><img src="./img/icons/points.svg" alt=""/><span>INTERMEDIO</span></div>
+                </div>
+                <div class="level" v-bind:class="{'active': user.progress &gt;= 100 }">
+                    <div class="points radius-50X bg-danger"><img src="./img/icons/points.svg" alt=""/><span>AVANZADO</span></div>
+                </div>
+            </div>
+            <div class="arrow-right"><img src="./img/icons/arrow-success.svg" alt="" srcset=""/></div>
+        </div>
+        <div class="body w70 m0auto flex mt-5">
+            <div class="ranking">
+                <div class="header bg-info text-white">Ranking por áreas</div>
+                <div class="content">
+                    <table>
+                        <tr v-for="item in ranking">
+                            <td>1</td>
+                            <td>{{item.name}}</td>
+                            <td><img src="./img/icons/as.svg" alt="" srcset=""/></td>
+                            <td>{{item.points}} puntos</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="progreso">
+                <div class="header bg-info text-white">Mi progreso</div>
+                <div class="content bg-white">
+                    <div class="flex"><span>{{user.miProgress.allCurses}} cursos en el portafolio</span>
+                        <div class="progress-bar-h">
+                            <div class="active bg-success" :style="'width: '+(user.miProgress.progress)+'%'"></div><span class="text-white">{{user.miProgress.successFullCurses}} cursos terminados</span>
+                        </div>
+                    </div>
+                    <div class="valoration">
+                        <div class="item"><span class="num">{{user.miProgress.prize}}</span><span class="bg-secondary">Premios Canjeados</span></div>
+                        <div class="item"><span class="num">{{user.miProgress.valoration}}</span><span class="bg-secondary">Valoraciones</span></div>
+                        <div class="item"><span class="num">{{user.miProgress.shared}}</span><span class="bg-secondary">Aprendizajes compartidos</span></div>
+                        <div class="item"><span class="num">{{user.miProgress.discution}}</span><span class="bg-secondary">Discusiones</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="user.id == 2 || user.id == 2395" class="mis-cursos w70 m0auto p60-50">
+        <h2 class="mb-4"><span class="text-info gotham-medium">Seguimiento de  </span><span class="text-success pacifig">finalización</span></h2>
+        <div class="container-seguimiento-qroma">
+            <div class="explorer" id="explorer">
+                <div id="general" v-if="general">
+                    <h4>Selecciona un curso para ver el progreso de los estudiantes</h4>
+                    <div class="primary">
+                        <div class="search">
+                            <input type="text" placeholder="buscar curso" v-model="searchCursos"/>
+                        </div>
+                        <div class="header">
+                            <div class="item pointer" @click="changeOrder()">
+                                <div class="icon"><span v-bind:class="{ disabled: order }">▲</span><span v-bind:class="{ disabled: !order }">▼</span></div><span>Curso</span>
+                            </div>
+                            <div class="item">Estudiante</div>
+                            <div class="item">Lanzamiento</div>
+                            <div class="item">Progreso</div>
+                        </div>
+                        <div class="body">
+                            <div class="list" v-for="item in searchCurse">
+                                <div class="item pointer" @click="viewUser(item.id)">{(item.name)}</div>
+                                <div class="item">{(item.numEstu)} estudiantes</div>
+                                <div class="item">{(item.date)}</div>
+                                <div class="item relative">
+                                    <div class="circlechart" :data-percentage="item.progress"></div><span>{(item.progress)}%</span>
+                                </div>
+                                <div class="item">
+                                    <a :href="'../user/index.php?id=' + item.id">
+                                        <img src="../local/qroma_front/img/usuario.svg" alt=""/>
+                                    </a>
+                                    <a :href="'../report/progress/index.php?course=' + item.id">
+                                        <img src="../local/qroma_front/img/estadistica.svg" alt=""/>
+                                    </a>
+                                    <a :href="'excel.php?course_id=' + item.id">
+                                        <img src="../local/qroma_front/img/excel.svg" alt=""/>
+                                    </a>
+                                    <span @click="showModal(item.userIdsMail)">
+					                    <img src="../local/qroma_front/img/mail.svg" alt=""/>
+				                    </span>
+<!--                                    <a href="#">-->
+<!--                                        <img src="../local/qroma_front/img/explora.svg" alt=""/>-->
+<!--                                    </a>-->
+<!--                                    <a href="#">-->
+<!--                                        <img src="../local/qroma_front/img/descargar.svg" alt=""/>-->
+<!--                                    </a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cursos" v-if="users">
+                    <h4 class="primary-text">{{act.name}}</h4>
+                    <div class="close" @click="close()">X</div>
+                    <div class="primary usuarios">
+                        <div class="search">
+<!--                            <a href="#">-->
+<!--                                <img src="../local/qroma_front/img/excel.svg"/>-->
+<!--                                <span>Descargar Excel</span>-->
+<!--                            </a>-->
+<!--                            <a href="#">-->
+<!--                                <img src="../local/qroma_front/img/descargar.svg"/>-->
+<!--                                <span>Descargar certificados</span>-->
+<!--                            </a>-->
+                            <input type="text" placeholder="Buscar usuario" v-model="searchAlumnos" @keyup="searchName()"/>
+                        </div>
+                        <div class="header">
+                            <div class="item">
+                                <input type="checkbox" name=""/>
+                            </div>
+                            <div class="item pointer">
+                                <div class="icon"><span v-bind:class="{ disabled: order }">▲</span><span v-bind:class="{ disabled: !order }">▼</span></div><span>Usuario</span>
+                            </div>
+                            <div class="item pointer"><span @click="activeSubmenu('gerencia')">Gerencia</span>
+                                <div class="icon-menu"><span>▼</span></div>
+                                <div class="sub-menu" id="gerencia">
+                                    <div class="item" v-for="item in gereniasList" @click="filterGerencia(item.name)">{{item.name}}</div>
+                                </div>
+                            </div>
+                            <div class="item pointer"><span @click="activeSubmenu('area')">Área</span>
+                                <div class="icon-menu"><span>▼</span></div>
+                                <div class="sub-menu" id="area">
+                                    <div class="item" v-for="item in areasList" @click="filterArea(item.name)">{{item.name}}</div>
+                                </div>
+                            </div>
+                            <div class="item pointer"><span @click="activeSubmenu('zona')">Zona</span>
+                                <div class="icon-menu"><span>▼</span></div>
+                                <div class="sub-menu" id="zona">
+                                    <div class="item" v-for="item in zonasList" @click="filterZona(item.name)">{{item.name}}</div>
+                                </div>
+                            </div>
+                            <div class="item">Progreso</div>
+                        </div>
+                        <div style="text-align: center" v-if="loadingUsers">
+                            <img src="/local/qroma_front/img/load2.gif" style="width: 16%; margin: auto;"/>
+                        </div>
+                        <div class="body" v-else>
+                            <div class="list" v-for="item in searchUsers">
+                                <div class="item">
+                                    <input type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                </div>
+                                <div class="item pointer">{(item.name)}</div>
+                                <div class="item">{(item.gerencia)}</div>
+                                <div class="item">{(item.area)}</div>
+                                <div class="item">{(item.zona)}</div>
+                                <div class="item relative">
+                                    <div class="circlechart" :data-percentage="item.progress"></div><span>{(item.progress)}%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer row">
+                            <img style="width: 20px; cursor: pointer" src="../local/qroma_front/img/mail.svg" alt=""/>
+                            <div style="cursor: pointer; margin-left: 1%;" @click="showModal2">
+                                Enviar recordatorio a seleccionados
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="qroma-modal">
+                        <div class="title">
+                            <h4>Enviar mensaje</h4>
+                            <div class="close" @click="closeModal()">X</div>
+                        </div>
+                        <div class="content">
+                            <textarea v-model="textMails" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="footer">
+                            <div class="btn btn-defauld" @click="closeModal()">Cancelar</div>
+                            <div @click="enviarCorreos()" class="btn btn-info">Aceptar</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back-single">
+                    <div class="qroma-modal">
+                        <div class="title">
+                            <h4>Enviar mensaje</h4>
+                            <div class="close" @click="closeModal2()">X</div>
+                        </div>
+                        <div class="content">
+                            <textarea v-model="textMailsSingle" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="footer">
+                            <div class="btn btn-defauld" @click="closeModal2()">Cancelar</div>
+                            <div @click="enviarCorreosSingle()" class="btn btn-info">Aceptar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="mis-cursos-2 w70 m0auto p60-50">
         <div class="header flex">
             <h2 class="mb-4"><span class="text-info gotham-medium">Todos </span><span class="text-success pacifig">mis cursos</span></h2>
@@ -120,25 +276,35 @@
                     </form>
                 </div>
         </div>
-        <div class="body">
+        <div v-if="misCursos.length == 0" class="body">
+            <div>Aún no tienes cursos</div>
+        </div>
+        <div v-if="misCursos.length > 0" class="body">
             <div class="item" v-for="item in misCursos">
                 <div class="left">
                     <div class="photo">
-                        <div class="img" :style="'background:url('+item.photo+')'"></div>
+                        <a :href="'/'+item.url" style="text-decoration: none">
+                            <div class="img" :style="'background:url('+item.img+')'"></div>
+                        </a>
                     </div>
-                    <div class="content"><span>{(item.name)}</span><a class="text-success" :href="item.url">ACCEDER ></a></div>
+                    <div class="content">
+                        <a :href="'/'+item.url" style="text-decoration: none"><span>{(item.title)}</span></a>
+                        <a class="text-success" :href="'/'+item.url">ACCEDER ></a></div>
                 </div>
                 <div class="right">
                     <div class="calendar"><img src="./img/icons/calendar.svg" alt="" srcset=""/>
-                        <div class="text"><span>Terminar el</span><br/><span>{(item.dateEnd.day)} de {(item.dateEnd.mount)}, {(item.dateEnd.year)}</span></div>
+                        <div class="text">
+                            <div v-if="item.dateEnd == ''"><span>Fecha de finalización</span><br/><span>No habilitada</span></div>
+                            <div v-if="item.dateEnd !=''"><span>Terminar el</span><br/><span>{(item.dateEnd)}</span></div>
+                        </div>
                     </div>
-                    <div class="progress">
+                    <div class="progress" style="box-shadow: none;">
                         <div class="container-progress danger">
                             <div class="gauge-container">
                                 <svg class="gauge" viewBox="0 0 150 150">
                                     <circle class="progress" r="67" data-target="84" cx="75" cy="75"></circle>
                                     <circle class="rail" r="67" data-target="84" cx="75" cy="75"></circle>
-                                </svg><span class="center percentage"><span class="value">0</span><span class="percentSymbol">%</span></span>
+                                </svg><span class="center percentage" style="top: 44%;left: 50%;"><span class="value">0</span><span class="percentSymbol">%</span></span>
                             </div>
                         </div>
                     </div>

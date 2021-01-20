@@ -66,6 +66,10 @@ body#page-local-catalogo_cursos-index {
    display: none;
 }
 
+#page-local-catalogo_cursos-index #coursesearch {
+    display: none;
+}
+
 /* 
     DASHBOARD
  */
@@ -88,6 +92,12 @@ body#page-my-index {
 
 #page-my-index #page-content {
     padding-bottom: 0 !important;
+    width: 75%;
+    margin: auto;
+}
+
+#page-my-index .profile .point {
+    display: none !important;
 }
 
 /**
@@ -327,6 +337,10 @@ body#page-user-profile {
     display: none;
 }
 
+#page-user-profile .profile .point {
+    display: none !important;
+}
+
 .nav-tabs.tabs-2 .nav-link.active {
     background-color: #6bc149 !important;
     color: white !important;
@@ -374,3 +388,181 @@ body#page-user-profile {
     line-height: 74px !important;
     width: 70px !important;
     margin: 2px !important;
+}
+
+.qroma-thumbs-icon {
+    cursor: pointer;
+    width: 33px;
+    height: 33px;
+}
+
+.gotham-qroma,
+.gotham-qroma * {
+    font-style: normal;
+    font-weight: 400 !important;
+    color: #0f63b8 !important;
+}
+
+.navbar-light .navbar-nav.wdm-custom-menus .nav-link {
+    color: #0f63b8 !important;
+}
+
+.card01-qroma {
+    width: 150% !important;
+    height: 100% !important;
+    display: flex !important;
+    position: relative !important;
+}
+
+/* less than ipad */
+
+@media only screen and (max-width: 768px) {
+    .card01-qroma {
+        width: 150% !important;
+        height: 100% !important;
+        display: flex !important;
+        position: relative !important;
+    }
+    .card01 .item-qroma {
+        width: 43vw !important;
+        margin: 0 10px;
+        text-align: center;
+        box-shadow: 0 0 0 0 transparent
+    }
+
+    .card01 .item-qroma .content-qroma {
+        height: 82% !important;
+    }
+}
+
+/* ipad */
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .card01-qroma {
+        width: 150% !important;
+        height: 100% !important;
+        display: flex !important;
+        position: relative !important;
+    }
+    .card01 .item-qroma {
+        width: 43vw !important;
+        margin: 0 10px;
+        text-align: center;
+        box-shadow: 0 0 0 0 transparent
+    }
+
+    .card01 .item-qroma .content-qroma {
+        height: 68% !important;
+    }
+}
+
+/* ipad pro */
+
+@media only screen and (min-width: 1024px) and (max-width: 1030px) {
+    .card01-qroma {
+        width: 150% !important;
+        height: 100% !important;
+        display: flex !important;
+        position: relative !important;
+    }
+    .card01 .item-qroma .content-qroma {
+        height: 68% !important;
+    }
+}
+
+.qroma-color-peru {
+    background-color: #085cb7;
+    border: none;
+    border-radius: 8px;
+    -webkit-appearance: none;
+}
+
+.qroma-color-chile {
+    background-color: #68be4d;
+    border: none;
+    border-radius: 8px;
+    -webkit-appearance: none;
+}
+
+.qroma-color-ecuador {
+    background-color: #f7aa3e;
+    border: none;
+    border-radius: 8px;
+    -webkit-appearance: none;
+}
+
+.qroma-social-media-div {
+    background-color: #0f63b8;
+    height: 27px;
+    width: 27px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.qroma-social-media-img {
+    height: 45%;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+@media screen and (max-width: 480px) {
+    .navbar {
+        background: white !important;
+    }
+    .navbar .icon {
+        color: #0f63b8 !important
+    }
+}
+
+.desarrollo-personal .body .item h3 a{
+    color: #085CB7;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+.tabs .body .item .footer .progress {
+    width: 30%;
+    padding-top: 12px;
+    height: 70px;
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    box-shadow: inset 0 0.1rem 0.1rem rgba(0,0,0,0);
+}
+
+.tabs .body .item .title {
+    font-size: 19px;
+    padding: 10px 15px 0 15px;
+    line-height: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.tabs .body .item .img {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: auto;
+    overflow: hidden;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.tabs .body .item {
+    background: white;
+    position: relative;
+    margin-right: 10px;
+    min-width: 275px;
+    width: 23%;
+    margin-bottom: 1.5em;
+    transition: all 0.3s;
+    transform-origin: center center;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}

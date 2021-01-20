@@ -105,6 +105,7 @@ function createUsersCl($usersAD) {
             $userObj->firstname = isset($userAD['givenName']) ? $userAD['givenName'] : ' ';
             $userObj->lastname =  isset($userAD['surname']) ? $userAD['surname'] : ' ';
             $userObj->email =  isset($userAD['userPrincipalName']) ? $userAD['userPrincipalName'] : ' ';
+            $userObj->lang = 'es';
 
             $user = $DB->get_record('user', array('username' => $userPrincipalName));
 

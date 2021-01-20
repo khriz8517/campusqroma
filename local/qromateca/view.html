@@ -11,8 +11,13 @@
             </div>
             <div style="margin: auto;text-align: center;width: 79%;">
                 <div class="white-container">
-                    <iframe v-if="link==''" width="1295" height="730" :src="documento_url" style="margin-top: 3%;"></iframe>
-                    <iframe v-if="link!=''" width="1295" height="730" :src="link" style="margin-top: 3%;"></iframe>
+                    <div v-if="tipo != 2">
+                        <iframe v-if="link==''" width="90%" height="730" :src="documento_url" style="margin-top: 3%;"></iframe>
+                        <iframe v-if="link!=''" width="90%" height="730" :src="link" style="margin-top: 3%;"></iframe>
+                    </div>
+                    <div v-if="tipo == 2" v-html="link" class="pt-50">
+                        {{link}}
+                    </div>
                     <div class="row white-container-footer">
                         <div class="col pl-0 text-align-left">Compartido el {{creado}}</div>
                         <div class="col-sm-2 pr-0 text-align-right">{{vistas}} vistas</div>
