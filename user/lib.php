@@ -948,7 +948,24 @@ function user_get_user_navigation_info($user, $page, $options = array()) {
         // Build a logout link.
         $logout = new stdClass();
         $logout->itemtype = 'link';
-        $logout->url = new moodle_url('/login/logout.php', array('sesskey' => sesskey()));
+
+        global $USER;
+
+        require_once($CFG->dirroot . '/user/profile/lib.php');
+        profile_load_custom_fields($USER);
+        $origen = $USER->profile['origen'];
+
+        $logoutURL = 'login/logout.php';
+
+        if($origen == 'Qroma') {
+            $logoutURL = 'login/logout.php';
+        } else if($origen == 'Color centro') {
+            $logoutURL = 'colorcentro/logout.php';
+        } else if($origen == 'Ferreterías') {
+            $logoutURL = 'ferreterias/logout.php';
+        }
+
+        $logout->url = new moodle_url('/'.$logoutURL, array('sesskey' => sesskey()));
         $logout->pix = "a/logout";
         $logout->title = get_string('logout');
         $logout->titleidentifier = 'logout,moodle';

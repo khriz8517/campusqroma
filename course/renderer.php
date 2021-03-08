@@ -573,6 +573,7 @@ class core_course_renderer extends plugin_renderer_base {
                         array('class' => 'autocompletion'));
             }
         }
+
         return $output;
     }
 

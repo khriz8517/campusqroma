@@ -566,3 +566,111 @@ body#page-user-profile {
     flex-direction: column;
     border-radius: 5px;
 }
+
+/*
+     FIRMA
+ */
+
+#page-mod-firma-view #page-wrapper {
+    width: 100%;
+}
+
+#page-mod-firma-view #region-main-box .card-body {
+    background-color: #f1f4f5;
+    padding: 0;
+}
+
+#page-mod-firma-view #page {
+    margin-top: 0;
+}
+
+/*#page-local-signature-index #nav-drawer {*/
+/*    display: none;*/
+/*}*/
+
+/*body#page-local-signature-index {*/
+/*    margin-left: 0 !important;*/
+/*}*/
+
+/*#page-local-signature-index #page-header {*/
+/*    display: none;*/
+/*}*/
+
+/*#page-local-signature-index #page-footer {*/
+/*    display: none !important;*/
+/*}*/
+
+/*#page-local-signature-index #page-content {*/
+/*    padding-bottom: 0 !important;*/
+/*}*/
+
+/*#page-local-signature-index .container {*/
+/*    padding: 0 !important;*/
+/*    max-width: 100% !important;*/
+/*}*/
+
+/*#page-local-signature-index #region-main {*/
+/*    padding: 0 !important;*/
+/*}*/
+
+/*#page-local-signature-index .card-body {*/
+/*    padding: 0 !important;*/
+/*}*/
+
+/*#page-local-signature-index #page {*/
+/*    width: 100vw !important;*/
+/*}*/
+
+.navbar-colorcentro-logo {
+    height: 48px !important;
+}
+
+.colorcentro-logo-height {
+    height: 25vh
+}
+
+#fitem_id_introfirma {
+    display: flex;
+}
+
+#fitem_id_introfirma .felement {
+    margin-left: 10vw;
+}
+
+@font-face {
+    font-family: 'Segoe UI';
+    url('Segoe UI.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
+.d-initial {
+    display:initial !important;
+}
+
+.d-initial .welcome-title {
+    font-size: 50px;
+    font-weight: bold;
+    width: 45% !important;
+    line-height: 1;
+    font-family: "Segoe UI",sans-serif !important;
+}
+
+.d-initial .welcome-desc1 {
+    width: 39% !important;
+    font-size: 30px;
+    text-align: left;
+    line-height: 1.2;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    letter-spacing: 0.5px;
+    font-family: "Segoe UI",sans-serif !important;
+}
+
+.d-initial .welcome-desc2 {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: "Segoe UI",sans-serif !important;
+}
+
+.ferreterias-background-img {
+    background-image: url('//www.campusqroma.com/local/qroma_front/img/ferreterias-img.jpg') !important;
+}

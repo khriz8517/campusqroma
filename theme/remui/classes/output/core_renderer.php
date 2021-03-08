@@ -263,6 +263,66 @@ class core_renderer extends \core_renderer {
         return $this->render_from_template('core/loginform', $context);
     }
 
+    public function render_colorcentro(\core_auth\output\login $form) {
+        global $CFG, $SITE;
+        $context = $form->export_for_template($this);
+
+        // Override because rendering is not supported in template yet.
+        if ($CFG->rememberusername == 0) {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabledonlysession');
+        } else {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabled');
+        }
+        $context->errorformatted = $this->error_text($context->error);
+        $url = $this->get_logo_url();
+        if ($url) {
+            $url = $url->out(false);
+        }
+        $context->logourl = $url;
+        $context->sitename = format_string($SITE->fullname, true,
+            ['context' => \context_course::instance(SITEID), "escape" => false]);
+        $context->siteicon = \theme_remui\toolbox::get_setting('siteicon');
+        $context->loginpage_context = $this->should_display_logo();
+        $context->loginsocial_context = \theme_remui\utility::get_footer_data(1);
+        $context->logopos = get_config('theme_remui', 'brandlogopos');
+        $sitetext = get_config('theme_remui', 'brandlogotext');
+        if ($sitetext != '') {
+            $context->sitedesc = $sitetext;
+        }
+
+        return $this->render_from_template('core/colorcentrologinform', $context);
+    }
+
+    public function render_ferreterias(\core_auth\output\login $form) {
+        global $CFG, $SITE;
+        $context = $form->export_for_template($this);
+
+        // Override because rendering is not supported in template yet.
+        if ($CFG->rememberusername == 0) {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabledonlysession');
+        } else {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabled');
+        }
+        $context->errorformatted = $this->error_text($context->error);
+        $url = $this->get_logo_url();
+        if ($url) {
+            $url = $url->out(false);
+        }
+        $context->logourl = $url;
+        $context->sitename = format_string($SITE->fullname, true,
+            ['context' => \context_course::instance(SITEID), "escape" => false]);
+        $context->siteicon = \theme_remui\toolbox::get_setting('siteicon');
+        $context->loginpage_context = $this->should_display_logo();
+        $context->loginsocial_context = \theme_remui\utility::get_footer_data(1);
+        $context->logopos = get_config('theme_remui', 'brandlogopos');
+        $sitetext = get_config('theme_remui', 'brandlogotext');
+        if ($sitetext != '') {
+            $context->sitedesc = $sitetext;
+        }
+
+        return $this->render_from_template('core/ferreteriasloginform', $context);
+    }
+
     /**
      * Render the login signup form into a nice template for the theme.
      *

@@ -12,7 +12,7 @@
             </div>
             <div class="after" @click="nextBaner()"></div>
         </div>
-        <div class="actions"><a class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
+        <div class="actions"><a @click="changeBaner(index)" class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
     </div>
     <div class="access">
         <h2><span class="text-success pacifig">¡Pinta </span><span class="text-info">tu mejor versión!</span></h2>
@@ -30,11 +30,11 @@
             </div>
             <div class="body">
                 <div class="item" v-for="item in cursos">
-                    <div class="img">
                         <a :href="'../../' + item.url" style="text-decoration: none">
-                            <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                            <div class="img">
+                                <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                            </div>
                         </a>
-                    </div>
                     <div class="contry"><img class="contry-flag" :src="item.flat" alt="" srcset=""/>
                         <div class="contry-name">{{item.pais}}</div>
                     </div>

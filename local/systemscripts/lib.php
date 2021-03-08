@@ -83,11 +83,11 @@ function getADToken() {
 }
 function getADUsers($key, $skipToken='') {
     if($key>0) {
-        $skipToken = '?$skiptoken='.$skipToken;
+        $skipToken = '&$skiptoken='.$skipToken;
     }
 
     $data = array(
-        'url' => 'https://graph.microsoft.com/v1.0/users'.$skipToken,
+        'url' => 'https://graph.microsoft.com/v1.0/users?$select=businessPhones,displayName,givenName,jobTitle,mail,mobilePhone,officeLocation,surname,userPrincipalName,id,department,faxNumber,employeeID,postalCode,companyName,city'.$skipToken,
         'httpMethod' => 'GET',
         'httpHeader' => array("Authorization: ". getADToken())
     );
@@ -103,7 +103,7 @@ function createUsers($usersAD) {
             $userObj->username = isset($userPrincipalName) ? $userPrincipalName : ' ';
             $userObj->firstname = isset($userAD['givenName']) ? $userAD['givenName'] : ' ';
             $userObj->lastname =  isset($userAD['surname']) ? $userAD['surname'] : ' ';
-            $userObj->email =  isset($userAD['userPrincipalName']) ? $userAD['userPrincipalName'] : ' ';
+            $userObj->email =  isset($userAD['mail']) ? $userAD['mail'] : ' ';
             $userObj->lang = 'es';
 
             $user = $DB->get_record('user', array('username' => $userPrincipalName));
@@ -112,13 +112,41 @@ function createUsers($usersAD) {
                 $userObj->auth       = 'manual';
                 $userObj->confirmed  = 1;
                 $userObj->mnethostid = 1;
-                $DB->insert_record('user', $userObj);
+                $userObj->id = $DB->insert_record('user', $userObj);
             } else {
                 $userObj->id = $user->id;
-                $userObj->profile_field_origen = 'Qroma';
-                profile_save_data($userObj);
+                $userObj->deleted = 0;
                 $DB->update_record('user', $userObj);
             }
+                $userObj->profile_field_origen = 'Qroma';
+                $userObj->profile_field_tipo_empleado = isset($userAD['postalCode']) ? $userAD['postalCode'] : ' ';
+                $userObj->profile_field_cargo = isset($userAD['jobTitle']) ? $userAD['jobTitle'] : ' ';
+                $userObj->profile_field_celular = isset($userAD['mobilePhone']) ? $userAD['mobilePhone'] : ' ';
+                $userObj->profile_field_codigo = isset($userAD['employeeId']) ? $userAD['employeeId'] : ' ';
+                $userObj->profile_field_dni = isset($userAD['faxNumber']) ? $userAD['faxNumber'] : ' ';
+
+                $departmentField = isset($userAD['department']) ? $userAD['department'] : ' ';
+
+                $profileFieldArea = '';
+                $profileFieldDireccion = '';
+
+                if(!empty($departmentField)) {
+                    if(strpos($departmentField,',') !== false) {
+                        $depValues = explode(',', $departmentField);
+                        $profileFieldArea = $depValues[0];
+                        $profileFieldDireccion = $depValues[1];
+                    } else if(strpos($departmentField,';') !== false) {
+                        $depValues = explode(';', $departmentField);
+                        $profileFieldArea = $depValues[0];
+                        $profileFieldDireccion = $depValues[1];
+                    } else {
+                        $profileFieldArea = $departmentField;
+                    }
+                }
+
+                $userObj->profile_field_area = $profileFieldArea;
+                $userObj->profile_field_direccion = $profileFieldDireccion;
+                profile_save_data($userObj);
         }
     }
 }

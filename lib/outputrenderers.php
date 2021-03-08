@@ -218,7 +218,7 @@ class renderer_base {
      * @param renderable $widget instance with renderable interface
      * @return string
      */
-    public function render(renderable $widget) {
+    public function render(renderable $widget, $iscolorcentro=false, $isferreterias=false) {
         $classparts = explode('\\', get_class($widget));
         // Strip namespaces.
         $classname = array_pop($classparts);
@@ -226,6 +226,11 @@ class renderer_base {
         $classname = preg_replace('/_renderable$/', '', $classname);
 
         $rendermethod = 'render_'.$classname;
+        if($iscolorcentro) {
+            $rendermethod = 'render_colorcentro';
+        } else if($isferreterias) {
+            $rendermethod = 'render_ferreterias';
+        }
         if (method_exists($this, $rendermethod)) {
             return $this->$rendermethod($widget);
         }
@@ -447,7 +452,7 @@ class plugin_renderer_base extends renderer_base {
      * @param renderable $widget instance with renderable interface
      * @return string
      */
-    public function render(renderable $widget) {
+    public function render(renderable $widget, $iscolorcentro = false, $isferreterias=false) {
         $classname = get_class($widget);
         // Strip namespaces.
         $classname = preg_replace('/^.*\\\/', '', $classname);
@@ -4022,10 +4027,19 @@ EOD;
      * @return string
      */
     public function body_attributes($additionalclasses = array()) {
+        global $USER;
+        $ferreteriasBackground = '';
+
+        //QROMA - FERRETERIAS
+        if($_SERVER['REQUEST_URI'] == '/ferreterias/') {
+            $ferreteriasBackground = 'ferreterias-background-img ';
+        }
+
         if (!is_array($additionalclasses)) {
             $additionalclasses = explode(' ', $additionalclasses);
         }
-        return ' id="'. $this->body_id().'" class="'.$this->body_css_classes($additionalclasses).'"';
+
+        return ' id="'. $this->body_id().'" class="'.$ferreteriasBackground.$this->body_css_classes($additionalclasses).'"';
     }
 
     /**
@@ -4647,6 +4661,52 @@ EOD;
                 ['context' => context_course::instance(SITEID), "escape" => false]);
 
         return $this->render_from_template('core/loginform', $context);
+    }
+
+    public function render_colorcentrologin(\core_auth\output\colorcentrologin $form) {
+        global $CFG, $SITE;
+
+        $context = $form->export_for_template($this);
+
+        // Override because rendering is not supported in template yet.
+        if ($CFG->rememberusername == 0) {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabledonlysession');
+        } else {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabled');
+        }
+        $context->errorformatted = $this->error_text($context->error);
+        $url = $this->get_logo_url();
+        if ($url) {
+            $url = $url->out(false);
+        }
+        $context->logourl = $url;
+        $context->sitename = format_string($SITE->fullname, true,
+            ['context' => context_course::instance(SITEID), "escape" => false]);
+
+        return $this->render_from_template('core/colorcentrologinform', $context);
+    }
+
+    public function render_ferreteriaslogin(\core_auth\output\ferreteriaslogin $form) {
+        global $CFG, $SITE;
+
+        $context = $form->export_for_template($this);
+
+        // Override because rendering is not supported in template yet.
+        if ($CFG->rememberusername == 0) {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabledonlysession');
+        } else {
+            $context->cookieshelpiconformatted = $this->help_icon('cookiesenabled');
+        }
+        $context->errorformatted = $this->error_text($context->error);
+        $url = $this->get_logo_url();
+        if ($url) {
+            $url = $url->out(false);
+        }
+        $context->logourl = $url;
+        $context->sitename = format_string($SITE->fullname, true,
+            ['context' => context_course::instance(SITEID), "escape" => false]);
+
+        return $this->render_from_template('core/ferreteriasloginform', $context);
     }
 
     /**

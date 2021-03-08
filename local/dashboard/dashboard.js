@@ -3,7 +3,9 @@ var app = new Vue({
     delimiters: ['{(', ')}'],
     data(){
         return{
+            //panel 01
             menu: false,
+            menu2: false,
             divSize: 0,
             cursospaginate: [],
             pages: 0,
@@ -51,31 +53,7 @@ var app = new Vue({
             //Seguimiento
             cursosList: [],
             usuarios: [],
-            gereniasList: [
-                {name:"Gerencia de mantenimiento"},
-                {name:"Gerencia de operaciones"},
-                {name:"Gerencia GH"},
-                {name:"Gerencia finanzas"},
-                {name:"Gerencia general"},
-                {name:"Gerencia TI"},
-            ],
-            areasList: [
-                {name:"Contabilidad"},
-                {name:"Operaciones"},
-                {name:"Auditoria"},
-                {name:"Administracion y finanzas"},
-                {name:"TI"},
-                {name:"Mantenimiento"},
-                {name:"logistica"}
-            ],
-            zonasList:[
-                {name:"Zona Este"},
-                {name:"Zona Este"},
-                {name:"Corporativo"},
-            ],
             act: {},
-            order: true,
-            orderUser: true,
             users: false,
             general: true,
             listPorcent: {},
@@ -87,7 +65,211 @@ var app = new Vue({
             selectedUser: '',
             selectedUsers: [],
             textMailsSingle: '',
-            loadingUsers: false
+            loadingUsers: false,
+            cursosExcel: [],
+
+            // ordenamiento
+            order: true,
+            orderUser: false,
+            orderGeren: false,
+            orderArea: false,
+
+            //PANEL 02
+            areaListp2: [],
+            cursosListp2: [],
+            usuariosp2: [],
+
+            // ordenamiento
+            orderp2: true,
+            orderPorcentp2: false,
+            orderCursosp2: false,
+            orderGerenp2: false,
+            orderAreap2: false,
+            orderUserp2: false,
+            orderPorcent2p2: false,
+
+            // vistas
+            cursosp2: false,
+            generalp2: true,
+            usersp2: false,
+            searchCursosp2: '',
+            searchAreasp2: '',
+            searchAlumnosp2: '',
+            checkedAreap2: false,
+            checkedUserp2: false,
+            menup2: false,
+            menu2p2: false,
+            actualAreap2: '',
+
+            //PANEL 03
+            cursosListp3: [
+                {
+                    id: '1',
+                    name: 'Ergonomia 2020',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'IPERC',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Riesgo en instalaciones 2020',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Material desing',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Inducción SSOMA',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Habilidades bladas',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Operacciones pesqueras',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Habilidades bladas',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Operacciones pesqueras',
+                    numEstu: 751,
+                    progress: 90
+                },
+                {
+                    id: '1',
+                    name: 'Ergonomia 2020',
+                    numEstu: 751,
+                    progress: 90
+                },
+            ],
+            direccionListp3: [
+                {name: "Dirección general", director: "Juan Matías Rodriguez", progress: 90},
+                {name: "Dirección GH", director: "Felipe Quispe Alvarez", progress: 90},
+                {name: "Dirección TI", director: "Julieta Toro Ramirez", progress: 90},
+                {name: "Dirección Mantenimiento", director: "Khatia Gutierrez", progress: 90},
+                {name: "Dirección Legal", director: "Matías Lorenzo Lamas", progress: 90},
+                {name: "Dirección Operaciones", director: "Paolo Batallas", progress: 90},
+                {name: "Dirección general", director: "Juan Matías Rodriguez", progress: 90},
+                {name: "Dirección general", director: "Juan Matías Rodriguez", progress: 90},
+            ],
+            usuariosp3: [
+                {
+                    name: 'Alfredo Mendoza Rodriguez',
+                    gerencia: "Otros",
+                    area: "Almacen",
+                    progress: 5
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 10
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 20
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 60
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 80
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 40
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 30
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 10
+                },
+                {
+                    name: 'Juan Matias Rodriguez',
+                    gerencia: "Gerencia GH",
+                    area: "logistica",
+                    progress: 5
+                },
+            ],
+            areaListp3: [
+                {name: "Comercial", direccion: "Dirección general", progress: 90},
+                {name: "Bienestar", direccion: "Dirección GH", progress: 90},
+                {name: "Área 1", direccion: "Dirección TI", progress: 70},
+                {name: "Área 2", direccion: "Dirección mantenimiento", progress: 90},
+                {name: "Área 3", direccion: "Dirección general", progress: 18},
+                {name: "Área 5", direccion: "Dirección general", progress: 90},
+                {name: "Área 6", direccion: "Dirección general", progress: 90},
+                {name: "Área 7", direccion: "Dirección general", progress: 90},
+                {name: "Área 8", direccion: "Dirección general", progress: 90},
+            ],
+
+            // vistas
+            cursosp3: false,
+            generalp3: true,
+            areap3: false,
+            usersp3: false,
+
+            listPorcentp3: {},
+            searchDireccionp3: '',
+            searchCursosp3: '',
+            searchAreasp3: '',
+            searchAlumnosp3: '',
+            // searchUsersp3:[],
+            // controlador de checkbox
+            checkedAreap3: false,
+            checkedUserp3: false,
+
+            menup3: false,
+            menu2p3: false,
+
+            // ordenamiento
+            orderp3: true,
+            orderPorcentp3: false,
+            orderCursosp3: false,
+            orderGerenp3: false,
+            orderAreap3: false,
+            orderUserp3: false,
+            orderPorcent2p3: false,
+
         };
     },
     created(){
@@ -101,16 +283,73 @@ var app = new Vue({
         this.obtenerCursosPendientes();
         this.obtenerTotalCursos();
         this.obtenerCursosPanel();
+        this.obtenerCursosExcel();
+        this.obtenerAreasPanel2();
+        this.obtenerCursosPanel3();
     },
     computed: {
         searchCurse: function (){
             return this.cursosList.filter((item) => item.name.includes(this.searchCursos));
         },
-        // searchUsers: function(){
-        //   return this.usuarios.filter((item) => item.name.includes(this.searchAlumnos));
-        // },
+
+        //panel 02
+        searchAreap2: function (){
+            return this.areaListp2.filter((item) => item.name.includes(this.searchAreasp2));
+        },
+        searchCursep2: function (){
+            return this.cursosListp2.filter((item) => item.name.includes(this.searchCursosp2));
+        },
+        searchUsersp2: function (){
+            setTimeout(function(){
+                $('.circlechart').circlechart();
+            }, 150);
+            return this.usuariosp2.filter((item) => item.name.includes(this.searchAlumnosp2));
+        },
+
+        //panel 03
+        searchDirectionp3: function (){
+            return this.direccionListp3.filter((item) => item.name.includes(this.searchDireccionp3));
+        },
+        searchCursep3: function (){
+            return this.cursosListp3.filter((item) => item.name.includes(this.searchCursosp3));
+        },
+        searchAreap3: function (){
+            return this.areaListp3.filter((item) => item.name.includes(this.searchAreasp3));
+        },
+        searchUsersp3: function (){
+            setTimeout(function(){
+                $('.circlechart').circlechart();
+            }, 150);
+            return this.usuariosp3.filter((item) => item.name.includes(this.searchAlumnosp3));
+        },
     },
     methods: {
+
+        //DASHBOARD
+
+        obtenerCursosExcel: function() {
+            let frm = new FormData();
+            frm.append('request_type','obtenerCursosExcel');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php',frm)
+                .then((response) => {
+                    // handle success
+                    let data = response.data.data;
+                    let cursos = [];
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let id = dataVal.id;
+                        let nombre = dataVal.nombre;
+
+                        let newElem = {
+                            'id': id,
+                            'nombre': nombre
+                        };
+                        cursos.push(newElem);
+                    });
+                    this.cursosExcel = cursos;
+                });
+        },
         obtenerUsuario: function(){
             let frm = new FormData();
             frm.append('request_type','obtenerUsuario');
@@ -125,6 +364,8 @@ var app = new Vue({
                     this.user.points = data.points;
                     this.user.dateReg = data.dateReg;
                     this.user.progress = 50;
+                    this.user.isAdmin = data.isAdmin;
+                    this.user.role = data.role;
                 });
         },
         obtenerCursosPendientes: function () {
@@ -243,16 +484,10 @@ var app = new Vue({
             let items    = $("#list-tabs .list .item");
             let widthAll = 0;
             for (let i = 0; i < items.length; i++) {
-                // const element = items[i];
-                // console.log(element);
                 widthAll += items[i].offsetWidth+20;
-                // console.log(widthAll);
             }
 
             let listCont = widthAll-20;
-            // $("#list-tabs .list").width();
-            // console.log(listView);
-            // console.log(listCont);
             if(listView > listCont){
                 $("#list-tabs .list").css({"justify-content":"center"});
             } else{
@@ -269,8 +504,6 @@ var app = new Vue({
                 this.menu = true;
         },
         changeTabs: function(obj){
-            console.log(obj);
-            console.log($('#tabs-header .item'));
             $('#tabs-header .item').removeClass('active');
             $('#tabs-header .item:nth-child('+obj+')').addClass('active');
         },
@@ -293,12 +526,6 @@ var app = new Vue({
         filterZona: function(name){
             this.searchUsers = this.usuarios.filter((item) => item.zona.includes(name));
             $('.circlechart').circlechart();
-        },
-        sizeWeb: function(){
-            if (window.innerWidth < 768)
-                this.menu = false;
-            else
-                this.menu = true;
         },
         changeOrder: function(){
             this.order = this.order ? false : true;
@@ -323,7 +550,10 @@ var app = new Vue({
             }
         },
 
-        //Seguimiento
+
+        //PANELES
+
+        //PANEL 01
 
         obtenerCursosPanel: function() {
             let frm = new FormData();
@@ -381,17 +611,15 @@ var app = new Vue({
                         let dataVal = data[key];
                         let id = dataVal.id;
                         let name = dataVal.name;
-                        let gerencia = 'test gerencia';
-                        let area = 'test area';
-                        let zona = 'test zona';
+                        let direccion = dataVal.direccion;
+                        let area = dataVal.area;
                         let progress = dataVal.progress;
 
                         let newElem = {
                             'id': id,
                             'name': name,
-                            'gerencia': gerencia,
+                            'direccion': direccion,
                             'area': area,
-                            'zona': zona,
                             'progress': progress
                         };
                         usuarios.push(newElem);
@@ -444,5 +672,594 @@ var app = new Vue({
             document.querySelector(".back-single").style.display = "flex";
         },
 
+
+        //PANEL 02
+        obtenerAreasPanel2: function() {
+            let frm = new FormData();
+            frm.append('request_type','obtenerAreasPanel2');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let areaList = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let area = dataVal.area;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'name': area,
+                            'progress': progress,
+                        };
+                        areaList.push(newElem);
+                    });
+                    this.areaListp2 = areaList;
+                });
+        },
+        viewCursop2: function(area){
+            this.generalp2 = false;
+            this.cursosp2 = true;
+            this.usersp2 = false;
+
+            this.actp2 = area;
+            this.actualAreap2 = area;
+
+            let frm = new FormData();
+            frm.append('area', area);
+            frm.append('request_type','panelUserCursos2');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let courses = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let id = dataVal.id;
+                        let name = dataVal.name;
+                        let numEstu = dataVal.numEstu;
+                        let date = dataVal.date;
+                        let progress = dataVal.progress;
+                        let userIdsMail = dataVal.userIdsMail;
+
+                        let newElem = {
+                            'id': id,
+                            'name': name,
+                            'numEstu': numEstu,
+                            'date': date,
+                            'progress': progress,
+                            'userIdsMail': userIdsMail
+                        };
+                        courses.push(newElem);
+                    });
+                    this.cursosListp2 = courses;
+                });
+        },
+        viewUserp2: function(curse){
+            this.generalp2 = false;
+            this.cursosp2 = false;
+            this.usersp2 = true;
+
+            this.actp2 = curse;
+
+            let frm = new FormData();
+            frm.append('courseId', curse);
+            frm.append('area', this.actualAreap2);
+            frm.append('request_type','obtenerUsuariosPanel2');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let usuarios = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let id = dataVal.id;
+                        let name = dataVal.name;
+                        let direccion = dataVal.direccion;
+                        let area = dataVal.area;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'id': id,
+                            'name': name,
+                            'direccion': direccion,
+                            'area': area,
+                            'progress': progress
+                        };
+                        usuarios.push(newElem);
+                    });
+                    this.usuariosp2 = usuarios;
+                });
+        },
+        selectAreap2: function() {
+            let check = document.getElementsByClassName("checkbox");
+            if(!this.checkedArea){
+                for (let i = 0; i < check.length; i++) {
+                    if(check[i].getAttribute('data') < 100){
+                        check[i].checked = true;
+                    }
+                }
+            } else{
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = false;
+                }
+            }
+        },
+        selectUserp2: function() {
+            let check = document.getElementsByClassName("checkbox-2");
+            if(!this.checkedUserp2){
+                for (let i = 0; i < check.length; i++) {
+                    if(check[i].getAttribute('data') < 100){
+                        check[i].checked = true;
+                    }
+                }
+            } else{
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = false;
+                }
+            }
+        },
+        closep2: function(){
+            this.generalp2 = true;
+            this.cursosp2 = false;
+            this.usersp2 = false;
+        },
+        closeUserp2: function(){
+            this.generalp2 = false;
+            this.cursosp2 = true;
+            this.usersp2 = false;
+        },
+        changeOrderp2: function(){
+            if(this.orderp2){
+                this.areaList.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderp2 = false;
+            } else{
+                this.areaList.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderp2 = true;
+            }
+        },
+        changeOrderPorcentp2: function(){
+            if(this.orderPorcentp2){
+                this.areaListp2.sort(function (a, b) {
+                    if (a.progress > b.progress) {
+                        return 1;
+                    }
+                    if (a.progress < b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcentp2 = false;
+            } else{
+                this.areaListp2.sort(function (a, b) {
+                    if (a.progress < b.progress) {
+                        return 1;
+                    }
+                    if (a.progress > b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcentp2 = true;
+            }
+        },
+        changeOrderCursosp2: function(){
+            if(this.orderCursosp2){
+                this.cursosListp2.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderCursosp2 = false;
+            } else{
+                this.cursosListp2.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderCursosp2 = true;
+            }
+        },
+        changeOrderUserp2: function(){
+            if(this.orderUserp2){
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderUserp2 = false;
+            } else{
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderUserp2 = true;
+            }
+        },
+        changeOrderGerenciap2: function(){
+            if(this.orderGerenp2){
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.gerencia > b.gerencia) {
+                        return 1;
+                    }
+                    if (a.gerencia < b.gerencia) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderGerenp2 = false;
+            } else{
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.gerencia < b.gerencia) {
+                        return 1;
+                    }
+                    if (a.gerencia > b.gerencia) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderGerenp2 = true;
+            }
+        },
+        changeOrderAreap2: function(){
+            if(this.orderAreap2){
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.area > b.area) {
+                        return 1;
+                    }
+                    if (a.area < b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderAreap2 = false;
+            } else{
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.area < b.area) {
+                        return 1;
+                    }
+                    if (a.area > b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderAreap2 = true;
+            }
+        },
+        changeOrderPorcent2p2: function(){
+            if(this.orderPorcent2p2){
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.progress > b.progress) {
+                        return 1;
+                    }
+                    if (a.progress < b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcent2p2 = false;
+            } else{
+                this.usuariosp2.sort(function (a, b) {
+                    if (a.progress < b.progress) {
+                        return 1;
+                    }
+                    if (a.progress > b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcent2p2 = true;
+            }
+        },
+
+
+
+        //PANEL 03
+        obtenerCursosPanel3: function() {
+            let frm = new FormData();
+            frm.append('request_type','obtenerCursosPanel3');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let areaList = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let area = dataVal.area;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'name': area,
+                            'progress': progress,
+                        };
+                        areaList.push(newElem);
+                    });
+                    this.areaListp2 = areaList;
+                });
+        },
+        selectAreap3: function() {
+            let check = document.getElementsByClassName("checkbox");
+            if(!this.checkedAreap3){
+                for (let i = 0; i < check.length; i++) {
+                    if(check[i].getAttribute('data') < 100){
+                        check[i].checked = true;
+                    }
+                }
+            } else{
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = false;
+                }
+            }
+        },
+        selectUserp3: function() {
+            let check = document.getElementsByClassName("checkbox-2");
+            if(!this.checkedUserp3){
+                for (let i = 0; i < check.length; i++) {
+                    if(check[i].getAttribute('data') < 100){
+                        check[i].checked = true;
+                    }
+                }
+            } else{
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = false;
+                }
+            }
+        },
+        viewAreap3: function(area){
+            this.generalp3 = false;
+            this.areap3 = true;
+            this.cursosp3 = false;
+            this.usersp3 = false;
+
+            this.actp3 = area;
+        },
+        viewCursop3: function(curse){
+            this.generalp3 = false;
+            this.areap3 = false;
+            this.cursosp3 = true;
+            this.usersp3 = false;
+
+            this.actp3 = curse;
+            // this.usuarios = AQUI LO DE LA API
+        },
+        viewUserp3: function(curse){
+            this.generalp3 = false;
+            this.areap3 = false;
+            this.cursosp3 = false;
+            this.usersp3 = true;
+
+            this.actp3 = curse;
+
+            // this.usuarios = Aqui los valores de la variable para setear
+            setTimeout(function(){
+                $('.circlechart').circlechart();
+            }, 150);
+        },
+        closep3: function(){
+            this.generalp3 = false;
+            this.areap3 = true;
+            this.cursosp3 = false;
+            this.usersp3 = false;
+        },
+        closeDireccionp3: function(){
+            this.generalp3 = true;
+            this.areap3 = false;
+            this.cursosp3 = false;
+            this.usersp3 = false;
+        },
+        closeUserp3: function(){
+            this.generalp3 = false;
+            this.cursosp3 = true;
+            this.usersp3 = false;
+        },
+        changeOrderp3: function(){
+            if(this.order){
+                this.areaListp3.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.order = false;
+            } else{
+                this.areaListp3.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.order = true;
+            }
+        },
+        changeOrderPorcentp3: function(){
+            if(this.orderPorcentp3){
+                this.areaList.sort(function (a, b) {
+                    if (a.progress > b.progress) {
+                        return 1;
+                    }
+                    if (a.progress < b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcentp3 = false;
+            } else{
+                this.areaListp3.sort(function (a, b) {
+                    if (a.progress < b.progress) {
+                        return 1;
+                    }
+                    if (a.progress > b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcentp3 = true;
+            }
+        },
+        changeOrderCursosp3: function(){
+            if(this.orderCursosp3){
+                this.cursosListp3.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderCursosp3 = false;
+            } else{
+                this.cursosListp3.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderCursosp3 = true;
+            }
+        },
+        changeOrderUserp3: function(){
+            if(this.orderUserp3){
+                this.usuariosp3.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderUserp3 = false;
+            } else{
+                this.usuariosp3.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderUserp3 = true;
+            }
+        },
+        changeOrderGerenciap3: function(){
+            if(this.orderGerenp3){
+                this.usuariosp3.sort(function (a, b) {
+                    if (a.gerencia > b.gerencia) {
+                        return 1;
+                    }
+                    if (a.gerencia < b.gerencia) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderGerenp3 = false;
+            } else{
+                this.usuarios.sort(function (a, b) {
+                    if (a.gerencia < b.gerencia) {
+                        return 1;
+                    }
+                    if (a.gerencia > b.gerencia) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderGerenp3 = true;
+            }
+        },
+        changeOrderAreap3: function(){
+            if(this.orderAreap3){
+                this.usuariosp3.sort(function (a, b) {
+                    if (a.area > b.area) {
+                        return 1;
+                    }
+                    if (a.area < b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderAreap3 = false;
+            } else{
+                this.usuariosp3.sort(function (a, b) {
+                    if (a.area < b.area) {
+                        return 1;
+                    }
+                    if (a.area > b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderAreap3 = true;
+            }
+        },
+        changeOrderPorcent2: function(){
+            if(this.orderPorcent2){
+                this.usuarios.sort(function (a, b) {
+                    if (a.progress > b.progress) {
+                        return 1;
+                    }
+                    if (a.progress < b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcent2 = false;
+            } else{
+                this.usuarios.sort(function (a, b) {
+                    if (a.progress < b.progress) {
+                        return 1;
+                    }
+                    if (a.progress > b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcent2 = true;
+            }
+        }
     }
 });
+
+$('.circlechart').circlechart();

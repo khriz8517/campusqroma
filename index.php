@@ -31,6 +31,7 @@ if (!file_exists('./config.php')) {
 require_once('config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
+require_once($CFG->dirroot . '/user/profile/lib.php');
 redirect_if_major_upgrade_required();
 
 $urlparams = array();
@@ -45,6 +46,14 @@ $PAGE->set_other_editing_capability('moodle/course:activityvisibility');
 
 // Prevent caching of this page to stop confusion when changing page after making AJAX changes.
 $PAGE->set_cacheable(false);
+
+//QROMA - FERRETERIAS
+profile_load_custom_fields($USER);
+$origen = $USER->profile['origen'];
+
+if($origen == 'Ferreterías' || $origen == 'Ferreterias') {
+    redirect("$CFG->wwwroot/local/catalogo_cursos/");
+}
 
 require_course_login($SITE);
 

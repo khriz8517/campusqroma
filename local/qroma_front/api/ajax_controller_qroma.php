@@ -89,6 +89,24 @@ try {
         case 'getUsuariosByCurso':
             $returnArr = getUsuariosByCurso($_POST['courseId']);
             break;
+        case 'guardarFirma':
+            $returnArr = guardarFirma($_POST);
+            break;
+        case 'obtenerCursosExcel':
+            $returnArr = obtenerCursosExcel();
+            break;
+        case 'obtenerAreasPanel2':
+            $returnArr = obtenerAreasPanel2();
+            break;
+        case 'panelUserCursos2':
+            $returnArr = panelUserCursos2($_POST['area']);
+            break;
+        case 'obtenerUsuariosPanel2':
+            $returnArr = obtenerUsuariosPanel2($_POST);
+            break;
+        case 'obtenerCursosPanel3':
+            $returnArr = obtenerCursosPanel3();
+            break;
     }
 } catch (Exception $e) {
     $returnArr['status'] = false;
@@ -227,7 +245,21 @@ function getUserLevel($small) {
 }
 
 function obtenerUsuario() {
-    global $USER;
+    global $USER, $DB;
+    $role = 'default';
+    $rolesArr = [];
+
+    $userRol = $DB->get_records_sql("SELECT * FROM {role_assignments} 
+WHERE userid=?",array($USER->id));
+
+    foreach($userRol as $ur) {
+        $rolesArr[] = $ur->roleid;
+    }
+
+    if(in_array(5, $rolesArr)) {
+        $role = 'student';
+    }
+
     $userArr = array(
         'id' => $USER->id,
         'photo' => getUserImage(),
@@ -235,6 +267,8 @@ function obtenerUsuario() {
         'levelImage' => getUserLevel(1)['img'],
         'points' => getUserLevel(1)['xp'],
         'dateReg' => convertDateToSpanish($USER->firstaccess),
+        'isAdmin' => is_siteadmin(),
+        'role' => $role
     );
 
     $response['status'] = true;
@@ -846,33 +880,20 @@ function obtenerTotalCursos() {
 }
 
 function panelUserCursos() {
-    global $USER;
+    global $USER, $DB;
     $allCourses = enrol_get_users_courses($USER->id, true);
+    $direccion = $USER->profile['direccion'];
 
     foreach($allCourses as $course) {
-        $userList = array();
-        if($course->visible == 0) {
-            continue;
-        }
-
-        $context = CONTEXT_COURSE::instance($course->id);
-        $users = get_enrolled_users($context);
-
-        $progress = round(progress::get_course_progress_percentage($course, $USER->id));
-
-        foreach($users as $singleUser) {
-            $userList[] = $singleUser->id;
-        }
-
-        $userList = implode('|||', $userList);
+        $panel1Info = $DB->get_record_sql("select count(*) as total, round(AVG(a.progress),0) as progressavg from {qroma_course_user_tmp} a join 
+{qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ?", array($course->id, $direccion));
 
         $courses[] = [
             'name'=> $course->fullname,
             'id'=> $course->id,
-            'numEstu' => count($users),
+            'numEstu' => $panel1Info->total,
             'date' => convertDateToSpanish($course->startdate),
-            'progress' => $progress,
-            'userIdsMail' => $userList,
+            'progress' => $panel1Info->progressavg
         ];
     }
 
@@ -894,56 +915,207 @@ function getUnique($data) {
 }
 
 function getUsuariosByCurso($courseId) {
-    $course = get_course($courseId);
-    $context = CONTEXT_COURSE::instance($courseId);
-    $users = get_enrolled_users($context);
-    $return = array();
-    $gerenciasList = array();
-    $areasList = array();
-    $zonasList = array();
+    global $DB, $USER;
+    $direccion = $USER->profile['direccion'];
 
+    $panel1Info = $DB->get_records_sql("select b.userid, b.username, b.email, b.direccion, b.area, a.progress, a.coursename from {qroma_course_user_tmp} a join 
+{qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ? order by username", array($courseId, $direccion));
 
-    foreach($users as $key=>$user) {
-        profile_load_custom_fields($user);
-//        $gerencia = $user->profile['gerencia'];
-//        $area = $user->profile['area_funcional'];
-//        $zona = $user->profile['zona'];
-
-        $progress = round(progress::get_course_progress_percentage($course, $user->id));
-
-        if(empty($user->firstname)) {
-            continue;
-        }
-
-//        $gerenciasList[] = ['name' => $gerencia];
-//        $areasList[] = ['name' => $area];
-//        $zonasList[] = ['name' => $zona];
+    foreach($panel1Info as $key=>$p1) {
+        $coursename = $p1->coursename;
 
         $return[] = [
-            'name' => $user->firstname . ' ' . $user->lastname,
-            'id' => $user->id,
-//            'gerencia' => !empty($gerencia) ? $gerencia: '-',
-//            'area' => !empty($area) ? $area: '-',
-//            'zona' => !empty($zona) ? $zona: '-',
-            'progress' => $progress
+            'name' => $p1->username,
+            'id' => $p1->username,
+            'direccion' => !empty($p1->direccion) ? $p1->direccion: '-',
+            'area' => !empty($p1->area) ? $p1->area: '-',
+            'progress' => $p1->progress
         ];
     }
 
-    array_multisort( $return);
-
-//    $gerenciasList = getUnique($gerenciasList);
-//    $areasList = getUnique($areasList);
-//    $zonasList = getUnique($zonasList);
-
     $response['status'] = true;
     $response['data'] = $return;
-    $response['nombreCurso'] = $course->fullname;
-//    $response['gerenciasList'] = $gerenciasList;
-//    $response['areasList'] = $areasList;
-//    $response['zonasList'] = $zonasList;
+    $response['nombreCurso'] = $coursename;
 
     return $response;
 
+}
+
+function obtenerAreasPanel2() {
+    global $USER, $DB;
+    $allCourses = enrol_get_users_courses($USER->id, true);
+    $direccion = $USER->profile['direccion'];
+
+    foreach($allCourses as $course) {
+        $courses[] = $course->id;
+    }
+
+    list($insql, $paramsIn) = $DB->get_in_or_equal($courses);
+    $params = array_merge($paramsIn,array($direccion));
+    $sql = " select b.area, round(avg(a.progress),0) as progreso_total FROM
+            mdl_qroma_course_user_tmp a join
+            mdl_qroma_user_tmp b on a.userid=b.userid
+            where a.courseid $insql and b.direccion= ?
+            GROUP BY b.area";
+    $panel2Info = $DB->get_records_sql($sql, $params);
+
+
+    foreach($panel2Info as $panel2) {
+        $return[] = [
+            'area'=> $panel2->area,
+            'progress' => $panel2->progreso_total
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $return;
+
+    return $response;
+}
+
+function panelUserCursos2($area) {
+    global $USER, $DB;
+    $allCourses = enrol_get_users_courses($USER->id, true);
+    $direccion = $USER->profile['direccion'];
+
+    foreach($allCourses as $course) {
+        $panel1Info = $DB->get_record_sql("select count(*) as total, round(AVG(a.progress),0) as progressavg from {qroma_course_user_tmp} a join 
+{qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ? AND b.area = ?", array($course->id, $direccion, $area));
+
+        $courses[] = [
+            'name'=> $course->fullname,
+            'id'=> $course->id,
+            'numEstu' => $panel1Info->total,
+            'date' => convertDateToSpanish($course->startdate),
+            'progress' => $panel1Info->progressavg ?? 0
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $courses;
+
+    return $response;
+}
+
+function obtenerUsuariosPanel2($values) {
+    global $DB, $USER;
+    $direccion = $USER->profile['direccion'];
+    $area = $values['area'];
+    $courseId = $values['courseId'];
+
+    $panel1Info = $DB->get_records_sql("select b.userid, b.username, b.email, b.direccion, b.area, a.progress, a.coursename from {qroma_course_user_tmp} a join 
+{qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ? and b.area= ? order by username", array($courseId, $direccion, $area));
+
+    foreach($panel1Info as $key=>$p1) {
+        $coursename = $p1->coursename;
+
+        $return[] = [
+            'name' => $p1->username,
+            'id' => $p1->username,
+            'direccion' => !empty($p1->direccion) ? $p1->direccion: '-',
+            'area' => !empty($p1->area) ? $p1->area: '-',
+            'progress' => $p1->progress
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $return;
+    $response['nombreCurso'] = $coursename;
+
+    return $response;
+}
+
+function obtenerCursosPanel3() {
+    $allcourses = core_course_category::get(1)->get_courses(
+        array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
+
+    echo '<pre>';
+    var_dump($allcourses);
+    exit;
+}
+
+function guardarFirma($detail) {
+    global $DB, $USER, $CFG;
+
+    $firmaFile = $_FILES['firmaFile'];
+
+    $courseId = $detail['cursoId'];
+    $userId = $USER->id;
+
+    $data = new stdClass();
+    $data->course = $courseId;
+    $data->userid = $userId;
+    $data->timecreated = time();
+
+    if(!empty($firmaFile)) {
+        $filename = urlencode(preg_replace("/[^a-zA-Z0-9.]/", "", $data->course."_".$data->userid."_".'firma.png'));
+        $pathName = dirname(__DIR__, 3)."/mod/firma/files/firmasdetail/".$data->course."_".$data->userid."/".$filename;
+
+        if(!file_exists(dirname($pathName))) {
+            mkdir(dirname($pathName), 0777, true);
+        }
+
+        $location = $pathName;
+        $uploadOk = 1;
+        $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
+
+        /* Valid Extensions */
+        $valid_extensions = array("jpg","jpeg","png","gif","jfif");
+        /* Check file extension */
+        if( !in_array(strtolower($imageFileType), $valid_extensions) ) {
+            $uploadOk = 0;
+        }
+
+        if($uploadOk == 0){
+            $responseStatus = false;
+        }else{
+            /* Upload file */
+            $fullPathLocation = $pathName;
+            if(!move_uploaded_file($firmaFile['tmp_name'], $fullPathLocation)){
+                echo 0;
+            }
+            $data->image = $filename;
+            $id = $DB->insert_record("firma_detalle", $data);
+
+            //Completar actividad
+            require_once($CFG->libdir.'/completionlib.php');
+
+            $cm = get_coursemodule_from_id('firma', $detail['modId']);
+            $courseObject = $DB->get_record('course', array('id'=>$courseId));
+
+            // $course is full couurse object
+            $completionInfo = new completion_info($courseObject);
+            // $cm is course module object
+            $completionInfo->set_module_viewed($cm);
+            $completionInfo->update_state($cm, COMPLETION_COMPLETE);
+        }
+    }
+
+    $response['status'] = $id;
+
+    return $response;
+}
+
+function obtenerCursosExcel() {
+    global $DB, $USER;
+
+    $returnArr = array();
+
+    $firmas = $DB->get_records_sql("SELECT * FROM {firma}");
+
+    foreach($firmas as $firma) {
+        $course = $DB->get_record_sql("SELECT * FROM {course} WHERE id=?",array($firma->course));
+
+        $returnArr[] = [
+            'id'=> $firma->course,
+            'nombre' => $course->fullname,
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $returnArr;
+
+    return $response;
 }
 
 function cleanStr($string) {

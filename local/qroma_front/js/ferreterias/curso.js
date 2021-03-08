@@ -95,10 +95,44 @@ var app = new Vue({
             }, 5000);
         },
         prevBaner: function(){
-
+            let marginLeft = 0;
+            this.marginLeftBaner += 100;
+            if(marginLeft < this.marginLeftBaner) {
+                this.marginLeftBaner = (100 * this.baner.length - 100)*-1;
+            }
+            if(this.banerPoint == 1) {
+                this.banerPoint = this.baner.length;
+            } else {
+                this.banerPoint -= 1;
+            }
+            $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
         },
         nextBaner: function(){
-
+            let marginLeft = (100 * this.baner.length - 100)*-1;
+            this.marginLeftBaner -= 100;
+            if(marginLeft > this.marginLeftBaner) {
+                this.marginLeftBaner = 0;
+            }
+            if(this.banerPoint <  this.baner.length) {
+                this.banerPoint += 1;
+            } else if(this.banerPoint ==  this.baner.length) {
+                this.banerPoint = 1;
+            }
+            $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
+        },
+        changeBaner: function(index){
+            this.banerPoint = index + 1;
+            if(index == 0) {
+                this.marginLeftBaner = -100 * index;
+                $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
+            } else {
+                let moveSign = 1;
+                if(this.banerPoint > index+1) {
+                    moveSign = -1;
+                }
+                this.marginLeftBaner = -100 * index * moveSign;
+                $('#baner').animate({'margin-left': this.marginLeftBaner+"%"}, 500);
+            }
         },
         loadCoursesGeneralInfo: function() {
             let frm = new FormData();

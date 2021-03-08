@@ -88,6 +88,7 @@ $PAGE->set_pagetype('my-index');
 $PAGE->blocks->add_region('content');
 $PAGE->set_subpage($currentpage->id);
 $PAGE->set_title($pagetitle);
+$PAGE->requires->jquery();
 //$PAGE->set_heading($header);
 
 profile_load_custom_fields($USER);

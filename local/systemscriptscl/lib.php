@@ -116,6 +116,7 @@ function createUsersCl($usersAD) {
                 $DB->insert_record('user', $userObj);
             } else {
                 $userObj->id = $user->id;
+                $userObj->deleted = 0;
                 $userObj->profile_field_origen = 'Tricolor';
                 profile_save_data($userObj);
                 $DB->update_record('user', $userObj);
