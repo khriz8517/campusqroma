@@ -3,7 +3,7 @@ var app = new Vue({
     delimiters: ['{(', ')}'],
     data(){
         return{
-            //panel 01
+            //Dashboard
             menu: false,
             menu2: false,
             divSize: 0,
@@ -50,12 +50,15 @@ var app = new Vue({
             misCursos:[],
             btnBefore: false,
             btnAfter: false,
-            //Seguimiento
+
+
+            //SEGUIMIENTO PANEL 01
             cursosList: [],
             usuarios: [],
             act: {},
             users: false,
             general: true,
+            actCoursep1: '',
             listPorcent: {},
             searchCursos: '',
             searchAlumnos: '',
@@ -74,7 +77,9 @@ var app = new Vue({
             orderGeren: false,
             orderArea: false,
 
-            //PANEL 02
+            selectUser: false,
+
+            //SEGUIMIENTO PANEL 02
             areaListp2: [],
             cursosListp2: [],
             usuariosp2: [],
@@ -100,153 +105,22 @@ var app = new Vue({
             menup2: false,
             menu2p2: false,
             actualAreap2: '',
+            actCoursep2: '',
 
-            //PANEL 03
-            cursosListp3: [
-                {
-                    id: '1',
-                    name: 'Ergonomia 2020',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'IPERC',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Riesgo en instalaciones 2020',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Material desing',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Inducción SSOMA',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Habilidades bladas',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Operacciones pesqueras',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Habilidades bladas',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Operacciones pesqueras',
-                    numEstu: 751,
-                    progress: 90
-                },
-                {
-                    id: '1',
-                    name: 'Ergonomia 2020',
-                    numEstu: 751,
-                    progress: 90
-                },
-            ],
-            direccionListp3: [
-                {name: "Dirección general", director: "Juan Matías Rodriguez", progress: 90},
-                {name: "Dirección GH", director: "Felipe Quispe Alvarez", progress: 90},
-                {name: "Dirección TI", director: "Julieta Toro Ramirez", progress: 90},
-                {name: "Dirección Mantenimiento", director: "Khatia Gutierrez", progress: 90},
-                {name: "Dirección Legal", director: "Matías Lorenzo Lamas", progress: 90},
-                {name: "Dirección Operaciones", director: "Paolo Batallas", progress: 90},
-                {name: "Dirección general", director: "Juan Matías Rodriguez", progress: 90},
-                {name: "Dirección general", director: "Juan Matías Rodriguez", progress: 90},
-            ],
-            usuariosp3: [
-                {
-                    name: 'Alfredo Mendoza Rodriguez',
-                    gerencia: "Otros",
-                    area: "Almacen",
-                    progress: 5
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 10
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 20
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 60
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 80
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 40
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 30
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 10
-                },
-                {
-                    name: 'Juan Matias Rodriguez',
-                    gerencia: "Gerencia GH",
-                    area: "logistica",
-                    progress: 5
-                },
-            ],
-            areaListp3: [
-                {name: "Comercial", direccion: "Dirección general", progress: 90},
-                {name: "Bienestar", direccion: "Dirección GH", progress: 90},
-                {name: "Área 1", direccion: "Dirección TI", progress: 70},
-                {name: "Área 2", direccion: "Dirección mantenimiento", progress: 90},
-                {name: "Área 3", direccion: "Dirección general", progress: 18},
-                {name: "Área 5", direccion: "Dirección general", progress: 90},
-                {name: "Área 6", direccion: "Dirección general", progress: 90},
-                {name: "Área 7", direccion: "Dirección general", progress: 90},
-                {name: "Área 8", direccion: "Dirección general", progress: 90},
-            ],
+            //SEGUIMIENTO PANEL 03
+            cursosListp3: [],
+            direccionListp3: [],
+            areaListp3: [],
+            usuariosp3: [],
 
             // vistas
             cursosp3: false,
             generalp3: true,
             areap3: false,
             usersp3: false,
+            actp3: false,
+            dirp3: false,
+            areaSelp3: false,
 
             listPorcentp3: {},
             searchDireccionp3: '',
@@ -264,12 +138,17 @@ var app = new Vue({
             // ordenamiento
             orderp3: true,
             orderPorcentp3: false,
+
+            orderDireccion1p3: false,
+            orderDirectorp3: false,
+            orderPorcent2p3: false,
+            orderPorcent3p3: false,
+
             orderCursosp3: false,
             orderGerenp3: false,
             orderAreap3: false,
-            orderUserp3: false,
-            orderPorcent2p3: false,
-
+            orderDireccion2p3: false,
+            orderUserp3: false
         };
     },
     created(){
@@ -292,7 +171,7 @@ var app = new Vue({
             return this.cursosList.filter((item) => item.name.includes(this.searchCursos));
         },
 
-        //panel 02
+        //SEGUIMIENTO PANEL 02
         searchAreap2: function (){
             return this.areaListp2.filter((item) => item.name.includes(this.searchAreasp2));
         },
@@ -306,12 +185,12 @@ var app = new Vue({
             return this.usuariosp2.filter((item) => item.name.includes(this.searchAlumnosp2));
         },
 
-        //panel 03
-        searchDirectionp3: function (){
-            return this.direccionListp3.filter((item) => item.name.includes(this.searchDireccionp3));
-        },
+        //SEGUIMIENTO PANEL 03
         searchCursep3: function (){
             return this.cursosListp3.filter((item) => item.name.includes(this.searchCursosp3));
+        },
+        searchDirectionp3: function (){
+            return this.direccionListp3.filter((item) => item.name.includes(this.searchDireccionp3));
         },
         searchAreap3: function (){
             return this.areaListp3.filter((item) => item.name.includes(this.searchAreasp3));
@@ -515,6 +394,23 @@ var app = new Vue({
             }
             $('.circlechart').circlechart();
         },
+        selectUsers: function(){
+            let check = document.getElementsByClassName("checkbox");
+            // console.log(check.length);
+
+            if(!this.selectUser){
+                // console.log(true);
+                for (let i = 0; i < check.length; i++) {
+                    if(check[i].getAttribute('data') < 100){
+                        check[i].checked = true;
+                    }
+                }
+            } else{
+                for (let i = 0; i < check.length; i++) {
+                    check[i].checked = false;
+                }
+            }
+        },
         filterGerencia: function(name){
             this.searchUsers = this.usuarios.filter((item) => item.gerencia.includes(name));
             $('.circlechart').circlechart();
@@ -530,6 +426,81 @@ var app = new Vue({
         changeOrder: function(){
             this.order = this.order ? false : true;
             this.cursosList = this.cursosList.slice().reverse();
+        },
+        changeOrderUser: function(){
+            if(this.orderUser){
+                this.usuarios.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderUser = false;
+            } else{
+                this.usuarios.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderUser = true;
+            }
+        },
+        changeOrderGerencia: function(){
+            if(this.orderGeren){
+                this.usuarios.sort(function (a, b) {
+                    if (a.direccion > b.direccion) {
+                        return 1;
+                    }
+                    if (a.direccion < b.direccion) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderGeren = false;
+            } else{
+                this.usuarios.sort(function (a, b) {
+                    if (a.direccion < b.direccion) {
+                        return 1;
+                    }
+                    if (a.direccion > b.direccion) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderGeren = true;
+            }
+        },
+        changeOrderArea: function(){
+            if(this.orderArea){
+                this.usuarios.sort(function (a, b) {
+                    if (a.area > b.area) {
+                        return 1;
+                    }
+                    if (a.area < b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderArea = false;
+            } else{
+                this.usuarios.sort(function (a, b) {
+                    if (a.area < b.area) {
+                        return 1;
+                    }
+                    if (a.area > b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderArea = true;
+            }
         },
         close: function(){
             this.general = true;
@@ -589,6 +560,7 @@ var app = new Vue({
             this.general = false;
             this.users = true;
             this.loadingUsers = true;
+            this.actCoursep1 = cursoId;
 
             let frm = new FormData();
             frm.append('courseId', cursoId);
@@ -600,10 +572,6 @@ var app = new Vue({
                     this.act = {
                         name: response.data.nombreCurso
                     };
-
-                    // let gerenciasList = response.data.gerenciasList;
-                    // let areasList = response.data.areasList;
-                    // let zonasList = response.data.zonasList;
 
                     let data = response.data.data;
 
@@ -738,8 +706,7 @@ var app = new Vue({
             this.generalp2 = false;
             this.cursosp2 = false;
             this.usersp2 = true;
-
-            this.actp2 = curse;
+            this.actCoursep2 = curse;
 
             let frm = new FormData();
             frm.append('courseId', curse);
@@ -810,7 +777,7 @@ var app = new Vue({
         },
         changeOrderp2: function(){
             if(this.orderp2){
-                this.areaList.sort(function (a, b) {
+                this.areaListp2.sort(function (a, b) {
                     if (a.name > b.name) {
                         return 1;
                     }
@@ -821,7 +788,7 @@ var app = new Vue({
                 });
                 this.orderp2 = false;
             } else{
-                this.areaList.sort(function (a, b) {
+                this.areaListp2.sort(function (a, b) {
                     if (a.name < b.name) {
                         return 1;
                     }
@@ -984,8 +951,6 @@ var app = new Vue({
             }
         },
 
-
-
         //PANEL 03
         obtenerCursosPanel3: function() {
             let frm = new FormData();
@@ -993,20 +958,22 @@ var app = new Vue({
             axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
                 .then((response) => {
                     let data = response.data.data;
-                    let areaList = Array();
+                    let courseList = Array();
 
                     Object.keys(data).forEach(key => {
                         let dataVal = data[key];
-                        let area = dataVal.area;
+                        let id = dataVal.id;
+                        let name = dataVal.name;
                         let progress = dataVal.progress;
 
                         let newElem = {
-                            'name': area,
+                            'id': id,
+                            'name': name,
                             'progress': progress,
                         };
-                        areaList.push(newElem);
+                        courseList.push(newElem);
                     });
-                    this.areaListp2 = areaList;
+                    this.cursosListp3 = courseList;
                 });
         },
         selectAreap3: function() {
@@ -1037,30 +1004,105 @@ var app = new Vue({
                 }
             }
         },
-        viewAreap3: function(area){
+        viewDireccionp3: function(curso){
             this.generalp3 = false;
             this.areap3 = true;
             this.cursosp3 = false;
             this.usersp3 = false;
 
-            this.actp3 = area;
+            this.actp3 = curso;
+
+            let frm = new FormData();
+            frm.append('cursoId', curso);
+            frm.append('request_type','obtenerDireccionesPanel3');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let direcciones = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let name = dataVal.name;
+                        let director = dataVal.director;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'name': name,
+                            'director': director,
+                            'progress': progress
+                        };
+                        direcciones.push(newElem);
+                    });
+                    this.direccionListp3 = direcciones;
+                });
         },
-        viewCursop3: function(curse){
+        viewAreap3: function(direccion){
             this.generalp3 = false;
             this.areap3 = false;
             this.cursosp3 = true;
             this.usersp3 = false;
 
-            this.actp3 = curse;
-            // this.usuarios = AQUI LO DE LA API
+            this.dirp3 = direccion;
+
+            let frm = new FormData();
+            frm.append('cursoId',this.actp3);
+            frm.append('direccion',this.dirp3);
+            frm.append('request_type','obtenerAreasPanel3');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let areas = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let name = dataVal.name;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'name': name,
+                            'direccion': direccion,
+                            'progress': progress
+                        };
+                        areas.push(newElem);
+                    });
+                    this.areaListp3 = areas;
+                });
         },
-        viewUserp3: function(curse){
+        viewUserp3: function(area){
             this.generalp3 = false;
             this.areap3 = false;
             this.cursosp3 = false;
             this.usersp3 = true;
 
-            this.actp3 = curse;
+            this.areaSelp3 = area;
+
+            let frm = new FormData();
+            frm.append('cursoId',this.actp3);
+            frm.append('direccion',this.dirp3);
+            frm.append('area',this.areaSelp3);
+            frm.append('request_type','obtenerUsuariosPanel3');
+            axios.post('../local/qroma_front/api/ajax_controller_qroma.php', frm)
+                .then((response) => {
+                    let data = response.data.data;
+                    let usuarios = Array();
+
+                    Object.keys(data).forEach(key => {
+                        let dataVal = data[key];
+                        let name = dataVal.name;
+                        let direccion = dataVal.direccion;
+                        let area = dataVal.area;
+                        let progress = dataVal.progress;
+
+                        let newElem = {
+                            'name': name,
+                            'direccion': direccion,
+                            'area': area,
+                            'progress': progress
+                        };
+                        usuarios.push(newElem);
+                    });
+                    this.usuariosp3 = usuarios;
+                });
 
             // this.usuarios = Aqui los valores de la variable para setear
             setTimeout(function(){
@@ -1085,8 +1127,8 @@ var app = new Vue({
             this.usersp3 = false;
         },
         changeOrderp3: function(){
-            if(this.order){
-                this.areaListp3.sort(function (a, b) {
+            if(this.orderp3){
+                this.cursosListp3.sort(function (a, b) {
                     if (a.name > b.name) {
                         return 1;
                     }
@@ -1095,9 +1137,9 @@ var app = new Vue({
                     }
                     return 0;
                 });
-                this.order = false;
+                this.orderp3 = false;
             } else{
-                this.areaListp3.sort(function (a, b) {
+                this.cursosListp3.sort(function (a, b) {
                     if (a.name < b.name) {
                         return 1;
                     }
@@ -1106,12 +1148,12 @@ var app = new Vue({
                     }
                     return 0;
                 });
-                this.order = true;
+                this.orderp3 = true;
             }
         },
         changeOrderPorcentp3: function(){
             if(this.orderPorcentp3){
-                this.areaList.sort(function (a, b) {
+                this.cursosListp3.sort(function (a, b) {
                     if (a.progress > b.progress) {
                         return 1;
                     }
@@ -1122,7 +1164,7 @@ var app = new Vue({
                 });
                 this.orderPorcentp3 = false;
             } else{
-                this.areaListp3.sort(function (a, b) {
+                this.cursosListp3.sort(function (a, b) {
                     if (a.progress < b.progress) {
                         return 1;
                     }
@@ -1132,6 +1174,131 @@ var app = new Vue({
                     return 0;
                 });
                 this.orderPorcentp3 = true;
+            }
+        },
+        changeOrderDireccion1p3: function() {
+            if(this.orderDireccion1p3){
+                this.direccionListp3.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderDireccion1p3 = false;
+            } else{
+                this.direccionListp3.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderDireccion1p3 = true;
+            }
+        },
+        changeOrderDirectorp3: function() {
+            if(this.orderDirectorp3){
+                this.direccionListp3.sort(function (a, b) {
+                    if (a.director > b.director) {
+                        return 1;
+                    }
+                    if (a.director < b.director) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderDirectorp3 = false;
+            } else{
+                this.direccionListp3.sort(function (a, b) {
+                    if (a.director < b.director) {
+                        return 1;
+                    }
+                    if (a.director > b.director) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderDirectorp3 = true;
+            }
+        },
+        changeOrderPorcent2p3: function(){
+            if(this.orderPorcent2p3){
+                this.direccionListp3.sort(function (a, b) {
+                    if (a.progress > b.progress) {
+                        return 1;
+                    }
+                    if (a.progress < b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcent2p3 = false;
+            } else{
+                this.direccionListp3.sort(function (a, b) {
+                    if (a.progress < b.progress) {
+                        return 1;
+                    }
+                    if (a.progress > b.progress) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderPorcent2p3 = true;
+            }
+        },
+        changeOrderAreap3: function(){
+            if(this.orderAreap3){
+                this.areaListp3.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (a.name < b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderAreap3 = false;
+            } else{
+                this.areaListp3.sort(function (a, b) {
+                    if (a.name < b.name) {
+                        return 1;
+                    }
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderAreap3 = true;
+            }
+        },
+        changeOrderDireccion2p3: function(){
+            if(this.orderDireccion2p3){
+                this.areaListp3.sort(function (a, b) {
+                    if (a.area > b.area) {
+                        return 1;
+                    }
+                    if (a.area < b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderDireccion2p3 = false;
+            } else{
+                this.areaListp3.sort(function (a, b) {
+                    if (a.area < b.area) {
+                        return 1;
+                    }
+                    if (a.area > b.area) {
+                        return -1;
+                    }
+                    return 0;
+                });
+                this.orderDireccion2p3 = true;
             }
         },
         changeOrderCursosp3: function(){
@@ -1197,7 +1364,7 @@ var app = new Vue({
                 });
                 this.orderGerenp3 = false;
             } else{
-                this.usuarios.sort(function (a, b) {
+                this.usuariosp3.sort(function (a, b) {
                     if (a.gerencia < b.gerencia) {
                         return 1;
                     }
@@ -1209,56 +1376,31 @@ var app = new Vue({
                 this.orderGerenp3 = true;
             }
         },
-        changeOrderAreap3: function(){
-            if(this.orderAreap3){
+        changeOrderPorcent3p3: function(){
+            if(this.orderPorcent3p3){
                 this.usuariosp3.sort(function (a, b) {
-                    if (a.area > b.area) {
+                    if (a.progress > b.progress) {
                         return 1;
                     }
-                    if (a.area < b.area) {
+                    if (a.progress < b.progress) {
                         return -1;
                     }
                     return 0;
                 });
-                this.orderAreap3 = false;
+                this.orderPorcent3p3 = false;
             } else{
                 this.usuariosp3.sort(function (a, b) {
-                    if (a.area < b.area) {
+                    if (a.progress < b.progress) {
                         return 1;
                     }
-                    if (a.area > b.area) {
+                    if (a.progress > b.progress) {
                         return -1;
                     }
                     return 0;
                 });
-                this.orderAreap3 = true;
+                this.orderPorcent3p3 = true;
             }
         },
-        changeOrderPorcent2: function(){
-            if(this.orderPorcent2){
-                this.usuarios.sort(function (a, b) {
-                    if (a.progress > b.progress) {
-                        return 1;
-                    }
-                    if (a.progress < b.progress) {
-                        return -1;
-                    }
-                    return 0;
-                });
-                this.orderPorcent2 = false;
-            } else{
-                this.usuarios.sort(function (a, b) {
-                    if (a.progress < b.progress) {
-                        return 1;
-                    }
-                    if (a.progress > b.progress) {
-                        return -1;
-                    }
-                    return 0;
-                });
-                this.orderPorcent2 = true;
-            }
-        }
     }
 });
 

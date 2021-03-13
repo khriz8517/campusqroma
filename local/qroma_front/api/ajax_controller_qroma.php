@@ -107,6 +107,15 @@ try {
         case 'obtenerCursosPanel3':
             $returnArr = obtenerCursosPanel3();
             break;
+        case 'obtenerDireccionesPanel3':
+            $returnArr = obtenerDireccionesPanel3($_POST);
+            break;
+        case 'obtenerAreasPanel3':
+            $returnArr = obtenerAreasPanel3($_POST);
+            break;
+        case 'obtenerUsuariosPanel3':
+            $returnArr = obtenerUsuariosPanel3($_POST);
+            break;
     }
 } catch (Exception $e) {
     $returnArr['status'] = false;
@@ -881,10 +890,20 @@ function obtenerTotalCursos() {
 
 function panelUserCursos() {
     global $USER, $DB;
+    $qromaCourses = core_course_category::get(1)->get_courses(
+        array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
+
+    foreach($qromaCourses as $qromaCourse) {
+        $qromaCoursesArr[] = $qromaCourse->id;
+    }
+
     $allCourses = enrol_get_users_courses($USER->id, true);
     $direccion = $USER->profile['direccion'];
 
     foreach($allCourses as $course) {
+        if(!in_array($course->id, $qromaCoursesArr)) {
+            continue;
+        }
         $panel1Info = $DB->get_record_sql("select count(*) as total, round(AVG(a.progress),0) as progressavg from {qroma_course_user_tmp} a join 
 {qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ?", array($course->id, $direccion));
 
@@ -975,10 +994,21 @@ function obtenerAreasPanel2() {
 
 function panelUserCursos2($area) {
     global $USER, $DB;
+
+    $qromaCourses = core_course_category::get(1)->get_courses(
+        array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
+
+    foreach($qromaCourses as $qromaCourse) {
+        $qromaCoursesArr[] = $qromaCourse->id;
+    }
+
     $allCourses = enrol_get_users_courses($USER->id, true);
     $direccion = $USER->profile['direccion'];
 
     foreach($allCourses as $course) {
+        if(!in_array($course->id, $qromaCoursesArr)) {
+            continue;
+        }
         $panel1Info = $DB->get_record_sql("select count(*) as total, round(AVG(a.progress),0) as progressavg from {qroma_course_user_tmp} a join 
 {qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ? AND b.area = ?", array($course->id, $direccion, $area));
 
@@ -1026,13 +1056,119 @@ function obtenerUsuariosPanel2($values) {
 }
 
 function obtenerCursosPanel3() {
-    $allcourses = core_course_category::get(1)->get_courses(
+    global $DB;
+
+    $qromaCourses = core_course_category::get(1)->get_courses(
         array('recursive' => true, 'coursecontacts' => true, 'sort' => array('idnumber' => 1)));
 
-    echo '<pre>';
-    var_dump($allcourses);
-    exit;
+    foreach($qromaCourses as $qromaCourse) {
+        $qromaCoursesArr[] = $qromaCourse->id;
+    }
+
+    list($insql, $params) = $DB->get_in_or_equal($qromaCoursesArr);
+    $sql = "select a.courseid, a.coursename, round(avg(a.progress),0) as progreso_total from mdl_qroma_course_user_tmp a join 
+mdl_qroma_user_tmp b on a.userid=b.userid WHERE a.courseid $insql GROUP BY a.courseid, a.coursename";
+    $panel3Info = $DB->get_records_sql($sql, $params);
+
+    foreach($panel3Info as $course) {
+        $return[] = [
+            'id'=> $course->courseid,
+            'name'=> $course->coursename,
+            'progress' => $course->progreso_total ?? 0
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $return;
+
+    return $response;
 }
+
+function obtenerDireccionesPanel3($values) {
+    global $DB;
+
+    $panel3Info = $DB->get_records_sql("
+        select b.direccion, round(avg(a.progress),0) as progreso_total FROM
+        mdl_qroma_course_user_tmp a join
+        mdl_qroma_user_tmp b on a.userid=b.userid
+        where a.courseid = ? AND b.direccion != ''
+        GROUP BY b.direccion", array($values['cursoId']));
+
+    foreach($panel3Info as $p) {
+
+        $jefeArr = $DB->get_record_sql("
+            SELECT TOP 1 jefe FROM mdl_qroma_user_tmp 
+            WHERE direccion = ?", array($p->direccion));
+
+        $return[] = [
+            'name'=> $p->direccion,
+            'director'=> $jefeArr->jefe ?? '',
+            'progress' => $p->progreso_total ?? 0
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $return;
+
+    return $response;
+}
+
+function obtenerAreasPanel3($values) {
+    global $DB;
+
+    $cursoId = $values['cursoId'];
+    $direccion = $values['direccion'];
+
+    $panel3Info = $DB->get_records_sql("
+    select b.area, b.direccion, round(avg(a.progress),0) as progreso_total FROM
+        mdl_qroma_course_user_tmp a join
+        mdl_qroma_user_tmp b on a.userid=b.userid
+        where a.courseid = ? AND b.direccion = ?
+        GROUP BY b.area, b.direccion", array($cursoId, $direccion));
+
+    foreach($panel3Info as $p) {
+        $return[] = [
+            'name'=> $p->area ?? '',
+            'direccion'=> $p->direccion ?? '',
+            'progress' => $p->progreso_total ?? 0
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $return;
+
+    return $response;
+}
+
+function obtenerUsuariosPanel3($values) {
+    global $DB;
+
+    $cursoId = $values['cursoId'];
+    $direccion = $values['direccion'];
+    $area = $values['area'];
+
+    $panel3Info = $DB->get_records_sql("
+        select b.username, b.area, b.direccion, round(avg(a.progress),0) as progreso_total FROM
+        mdl_qroma_course_user_tmp a join
+        mdl_qroma_user_tmp b on a.userid=b.userid
+        where a.courseid = ? AND b.direccion = ? and b.area = ?
+        GROUP BY b.username, b.area, b.direccion", array($cursoId, $direccion, $area));
+
+    foreach($panel3Info as $p) {
+        $return[] = [
+            'name'=> $p->username ?? '',
+            'direccion'=> $p->direccion ?? '',
+            'area'=> $p->area ?? '',
+            'progress' => $p->progreso_total ?? 0
+        ];
+    }
+
+    $response['status'] = true;
+    $response['data'] = $return;
+
+    return $response;
+}
+
 
 function guardarFirma($detail) {
     global $DB, $USER, $CFG;

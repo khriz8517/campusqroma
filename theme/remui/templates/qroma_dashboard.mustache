@@ -54,57 +54,6 @@
             <div class="item" @click="changeBaner(index)" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in cursospaginate"></div>
         </div>
     </div>
-    <div v-if="user.id == 2395" class="p60-50 bg-secondary progress-bar-general">
-        <div class="w70 m0auto pb-5 relative">
-            <div class="arrow-left"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
-            <div class="bar">
-                <div class="color">
-                    <div class="griss" :style="'width: '+(100-user.progress)+'%'"></div>
-                </div>
-                <div class="level" v-bind:class="{'active': user.progress &lt; 50 }">
-                    <div class="points radius-50X bg-info"><img src="../local/qroma_front/img/icons/points.svg" alt=""/><span>JUNIOR</span></div>
-                </div>
-                <div class="level" v-bind:class="{'active': user.progress &gt;= 50 &amp;&amp; user.progress &lt; 100}">
-                    <div class="points radius-50X bg-primary"><img src="../local/qroma_front/img/icons/points.svg" alt=""/><span>INTERMEDIO</span></div>
-                </div>
-                <div class="level" v-bind:class="{'active': user.progress &gt;= 100 }">
-                    <div class="points radius-50X bg-danger"><img src="../local/qroma_front/img/icons/points.svg" alt=""/><span>AVANZADO</span></div>
-                </div>
-            </div>
-            <div class="arrow-right"><img src="../local/qroma_front/img/icons/arrow-success.svg" alt="" srcset=""/></div>
-        </div>
-        <div class="body w70 m0auto flex mt-5">
-            <div class="ranking">
-                <div class="header bg-info text-white">Ranking por áreas</div>
-                <div class="content">
-                    <table>
-                        <tr v-for="item in ranking">
-                            <td>1</td>
-                            <td>{{item.name}}</td>
-                            <td><img src="../local/qroma_front/img/icons/as.svg" alt="" srcset=""/></td>
-                            <td>{{item.points}} puntos</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="progreso">
-                <div class="header bg-info text-white">Mi progreso</div>
-                <div class="content bg-white">
-                    <div class="flex"><span>{{user.miProgress.allCurses}} cursos en el portafolio</span>
-                        <div class="progress-bar-h">
-                            <div class="active bg-success" :style="'width: '+(user.miProgress.progress)+'%'"></div><span class="text-white">{{user.miProgress.successFullCurses}} cursos terminados</span>
-                        </div>
-                    </div>
-                    <div class="valoration">
-                        <div class="item"><span class="num">{{user.miProgress.prize}}</span><span class="bg-secondary">Premios Canjeados</span></div>
-                        <div class="item"><span class="num">{{user.miProgress.valoration}}</span><span class="bg-secondary">Valoraciones</span></div>
-                        <div class="item"><span class="num">{{user.miProgress.shared}}</span><span class="bg-secondary">Aprendizajes compartidos</span></div>
-                        <div class="item"><span class="num">{{user.miProgress.discution}}</span><span class="bg-secondary">Discusiones</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- cambiar rol student por promotor-->
     <div v-if="user.isAdmin || user.role == 'student' && user.id == 2395">
         <h2 class="mb-4">Panel 1</h2>
@@ -144,9 +93,19 @@
                     <h2 class="text-info">Curso {(act.name)}</h2>
                     <div class="close" @click="close()">X</div>
                     <div class="primary usuarios">
-                        <div class="search"><a class="menu" href="#" @click="menu = menu ? false : true;"><img src="../local/qroma_front/img/responsive.svg"/></a>
-                            <div class="menu-block" v-bind:class="{ active: menu }"><a href="#"><img src="../local/qroma_front/img/excel-blue.svg"/><span>Descargar Excel</span></a><a href="#"><img src="../local/qroma_front/img/descargar-blue.svg"/><span>Descargar certificados</span></a></div>
-                            <input type="text" placeholder="Buscar usuario" v-model="searchAlumnos" @keyup="searchName()"/>
+                        <div class="search">
+                            <a class="menu" href="#" @click="menu = menu ? false : true;"><img src="../local/qroma_front/img/responsive.svg"/></a>
+                            <div class="menu-block" v-bind:class="{ active: menu }">
+                                <a :href="'extra/excel/index.php?idCurso=' + actCoursep1">
+                                    <img src="../local/qroma_front/img/excel-blue.svg"/>
+                                    <span>Descargar Excel</span>
+                                </a>
+                                <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actCoursep1">
+                                    <img src="../local/qroma_front/img/descargar-blue.svg"/>
+                                    <span>Descargar certificados</span>
+                                </a>
+                            </div>
+                            <input placeholder="Buscar usuario" v-model="searchAlumnos" @keyup="searchName()"/>
                         </div>
                         <div class="header">
                             <div class="item">
@@ -217,9 +176,9 @@
                         <h4 class="text-info bold">Selecciona un área para hacer seguimiento</h4>
                         <div class="title">
                             <h4 class="text-info">Vista progreso de áreas</h4>
-                            <div class="search"><a class="menu-2" href="#" @click="menu2p2 = menu2p2  ? false : true;"><img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
-                                <div class="icons" v-bind:class="{ active: menu2p2 }"><a href="#"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a></div>
-                                <input type="text" placeholder="Buscar área" v-model="searchAreasp2"/>
+                            <div class="search">
+                                <a class="menu-2" href="#" @click="menu2p2 = menu2p2  ? false : true;"></a>
+                                <input placeholder="Buscar área" v-model="searchAreasp2"/>
                             </div>
                         </div>
                         <div class="header">
@@ -287,8 +246,17 @@
                         <div class="title">
                             <h4 class="text-info">Vista progreso de usuarios.</h4>
                             <div class="search"><a class="menu" href="#" @click="menup2 = menup2 ? false : true;"><img src="../local/qroma_front/img/responsive.svg"/></a>
-                                <div class="menu-block" v-bind:class="{ active: menup2 }"><a href="#"><img src="../local/qroma_front/img/excel-blue.svg"/><span>Descargar Excel</span></a><a href="#"><img src="../local/qroma_front/img/descargar-blue.svg"/><span>Descargar certificados</span></a></div>
-                                <input type="text" placeholder="Buscar usuario" v-model="searchAlumnosp2"/>
+                                <div class="menu-block" v-bind:class="{ active: menup2 }">
+                                    <a :href="'extra/excel/index.php?idCurso=' + actCoursep2">
+                                        <img src="../local/qroma_front/img/excel-blue.svg"/>
+                                        <span>Descargar Excel</span>
+                                    </a>
+                                    <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actCoursep2">
+                                        <img src="../local/qroma_front/img/descargar-blue.svg"/>
+                                        <span>Descargar certificados</span>
+                                    </a>
+                                </div>
+                                <input placeholder="Buscar usuario" v-model="searchAlumnosp2"/>
                             </div>
                         </div>
                         <div class="header">
@@ -317,7 +285,7 @@
                                 <div class="item">{(item.direccion)}</div>
                                 <div class="item">{(item.area)}</div>
                                 <div class="item relative">
-                                    <div class="circlechart" :data-percentage="item.progress"></div><span>{{item.progress}}%</span>
+                                    <div class="circlechart" :data-percentage="item.progress"></div><span>{(item.progress)}%</span>
                                 </div>
                             </div>
                         </div>
@@ -359,7 +327,7 @@
                             </div>
                         </div>
                         <div class="header">
-                            <div class="item pointer" @click="changeOrder()">
+                            <div class="item pointer" @click="changeOrderp3()">
                                 <div class="icon"><span v-bind:class="{ disabled: orderp3 }">▲</span><span v-bind:class="{ disabled: !orderp3 }">▼</span></div><span>Curso</span>
                             </div>
                             <div class="item pointer" @click="changeOrderPorcentp3()">
@@ -369,15 +337,24 @@
                         </div>
                         <div class="body">
                             <div class="list" v-for="item in searchCursep3">
-                                <div class="item pointer" @click="viewAreap3(item)">{(item.name)}</div>
+                                <div class="item pointer" @click="viewDireccionp3(item.id)">{(item.name)}</div>
                                 <div class="item">
                                     <div class="croma-progress-bar">
                                         <div class="success" :style="'width: '+item.progress+'%'"></div>
                                     </div>
                                     <div class="croma-progress">{(item.progress)} %</div>
                                 </div>
-                                <div class="item"><a class="sub-menu" href="#"><img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
-                                    <div class="icons"><a href="#"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a></div>
+                                <div class="item">
+                                    <a class="sub-menu" href="#">
+                                        <img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
+                                    <div class="icons">
+                                        <a :href="'../course/edit.php?id=' + item.id"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
+                                        <a :href="'../user/index.php?id=' + item.id"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
+                                        <a :href="'../report/completion/index.php?id=' + item.id"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                        <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + item.id"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
+                                        <a :href="'extra/excel/index.php?idCurso=' + item.id"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
+                                        <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -389,23 +366,31 @@
                         <h4 class="text-info bold">Curso {(actp3.name)}<span class="f-ritgh close text-info bold pointer" @click="closeDireccionp3()"><</span></h4>
                         <div class="title">
                             <h4 class="text-info">Vista progreso por direcciones</h4>
-                            <div class="search"><a class="menu-2" href="#" @click="menu2p3 = menu2p3  ? false : true;"><img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
-                                <div class="icons" v-bind:class="{ active: menu2p3 }"><a href="#"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a></div>
-                                <input type="text" placeholder="Buscar Derección" v-model="searchDireccionp3"/>
+                            <div class="search"><a class="menu-2" href="#" @click="menu2p3 = menu2p3  ? false : true;">
+                                <img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
+                                <div class="icons" v-bind:class="{ active: menu2p3 }">
+                                    <a :href="'../course/edit.php?id=' + actp3"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
+                                    <a :href="'../user/index.php?id=' + actp3"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
+                                    <a :href="'../report/completion/index.php?id=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                    <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actp3"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
+                                    <a :href="'extra/excel/index.php?idCurso=' + actp3"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
+                                    <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
+                                </div>
+                                <input placeholder="Buscar Dirección" v-model="searchDireccionp3"/>
                             </div>
                         </div>
                         <div class="header">
                             <div class="item">
                                 <input v-model="checkedAreap3" type="checkbox" name="" @click="selectAreap3()"/>
                             </div>
-                            <div class="item pointer" @click="changeOrder()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderp3 }">▲</span><span v-bind:class="{ disabled: !orderp3 }">▼</span></div><span>Dirección</span>
+                            <div class="item pointer" @click="changeOrderDireccion1p3()">
+                                <div class="icon"><span v-bind:class="{ disabled: orderDireccion1p3 }">▲</span><span v-bind:class="{ disabled: !orderDireccion1p3 }">▼</span></div><span>Dirección</span>
                             </div>
-                            <div class="item pointer" @click="changeOrder()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderp3 }">▲</span><span v-bind:class="{ disabled: !orderp3 }">▼</span></div><span>Director</span>
+                            <div class="item pointer" @click="changeOrderDirectorp3()">
+                                <div class="icon"><span v-bind:class="{ disabled: orderDirectorp3 }">▲</span><span v-bind:class="{ disabled: !orderDirectorp3 }">▼</span></div><span>Director</span>
                             </div>
-                            <div class="item pointer" @click="changeOrderPorcentp3()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderPorcentp3 }">▲</span><span v-bind:class="{ disabled: !orderPorcentp3 }">▼</span></div><span>Progreso</span>
+                            <div class="item pointer" @click="changeOrderPorcent2p3()">
+                                <div class="icon"><span v-bind:class="{ disabled: orderPorcent2p3 }">▲</span><span v-bind:class="{ disabled: !orderPorcent2p3 }">▼</span></div><span>Progreso</span>
                             </div>
                         </div>
                         <div class="body">
@@ -413,7 +398,7 @@
                                 <div class="item">
                                     <input class="checkbox" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
                                 </div>
-                                <div class="item pointer" @click="viewCursop3(item)">{(item.name)}</div>
+                                <div class="item pointer" @click="viewAreap3(item.name)">{(item.name)}</div>
                                 <div class="item">{(item.director)}</div>
                                 <div class="item">
                                     <div class="croma-progress-bar">
@@ -432,19 +417,26 @@
                         <div class="title">
                             <h4 class="text-info">Vista progreso por áreas.</h4>
                             <div class="search"><a class="menu-2" href="#" @click="menu2p3 = menu2p3  ? false : true;"><img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
-                                <div class="icons" v-bind:class="{ active: menu2p3 }"><a href="#"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a></div>
-                                <input type="text" placeholder="Buscar curso" v-model="searchCursosp3"/>
+                                <div class="icons" v-bind:class="{ active: menu2p3 }">
+                                    <a :href="'../course/edit.php?id=' + actp3"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
+                                    <a :href="'../user/index.php?id=' + actp3"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
+                                    <a :href="'../report/completion/index.php?id=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                    <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actp3"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
+                                    <a :href="'extra/excel/index.php?idCurso=' + actp3"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
+                                    <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
+                                </div>
+                                <input placeholder="Buscar curso" v-model="searchCursosp3"/>
                             </div>
                         </div>
                         <div class="header">
                             <div class="item">
                                 <input v-model="checkedAreap3" type="checkbox" name="" @click="selectAreap3()"/>
                             </div>
-                            <div class="item pointer" @click="changeOrderCursosp3()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderCursosp3 }">▲</span><span v-bind:class="{ disabled: !orderCursosp3 }">▼</span></div><span>Área</span>
+                            <div class="item pointer" @click="changeOrderAreap3()">
+                                <div class="icon"><span v-bind:class="{ disabled: orderAreap3 }">▲</span><span v-bind:class="{ disabled: !orderAreap3 }">▼</span></div><span>Área</span>
                             </div>
-                            <div class="item pointer" @click="changeOrderCursosp3()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderCursosp3 }">▲</span><span v-bind:class="{ disabled: !orderCursosp3 }">▼</span></div><span>Dirección</span>
+                            <div class="item pointer" @click="changeOrderDireccion2p3()">
+                                <div class="icon"><span v-bind:class="{ disabled: orderDireccion2p3 }">▲</span><span v-bind:class="{ disabled: !orderDireccion2p3 }">▼</span></div><span>Dirección</span>
                             </div>
                             <div class="item">Progreso</div>
                         </div>
@@ -453,7 +445,7 @@
                                 <div class="item">
                                     <input class="checkbox" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
                                 </div>
-                                <div class="item pointer" @click="viewUserp3(item)">{(item.name)}</div>
+                                <div class="item pointer" @click="viewUserp3(item.name)">{(item.name)}</div>
                                 <div class="item">{(item.direccion)}</div>
                                 <div class="item">
                                     <div class="croma-progress-bar">
@@ -472,8 +464,15 @@
                         <div class="title">
                             <h4 class="text-info">Vista progreso de usuarios.</h4>
                             <div class="search"><a class="menu-2" href="#" @click="menu2 = menu2  ? false : true;"><img src="../local/qroma_front/img/responsive.svg" title="Configuración" srcset=""/></a>
-                                <div class="icons" v-bind:class="{ active: menu2 }"><a href="#"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a><a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a></div>
-                                <input type="text" placeholder="Buscar usuario" v-model="searchAlumnosp3"/>
+                                <div class="icons" v-bind:class="{ active: menu2 }">
+                                    <a :href="'../course/edit.php?id=' + actp3"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
+                                    <a :href="'../user/index.php?id=' + actp3"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
+                                    <a :href="'../report/completion/index.php?id=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                    <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actp3"> <img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
+                                    <a :href="'extra/excel/index.php?idCurso=' + actp3"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
+                                    <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
+                                </div>
+                                <input placeholder="Buscar usuario" v-model="searchAlumnosp3"/>
                             </div>
                         </div>
                         <div class="header">
@@ -484,13 +483,13 @@
                                 <div class="icon"><span v-bind:class="{ disabled: orderUserp3 }">▲</span><span v-bind:class="{ disabled: !orderUserp3 }">▼</span></div><span>Usuario</span>
                             </div>
                             <div class="item pointer" @click="changeOrderGerenciap3()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderGerenp3 }">▲</span><span v-bind:class="{ disabled: !orderGerenp3 }">▼</span></div><span>Gerencia</span>
+                                <div class="icon"><span v-bind:class="{ disabled: orderGerenp3 }">▲</span><span v-bind:class="{ disabled: !orderGerenp3 }">▼</span></div><span>Dirección</span>
                             </div>
                             <div class="item pointer" @click="changeOrderAreap3()">
                                 <div class="icon"><span v-bind:class="{ disabled: orderAreap3 }">▲</span><span v-bind:class="{ disabled: !orderAreap3 }">▼</span></div><span> Área</span>
                             </div>
-                            <div class="item pointer" @click="changeOrderPorcent2p3()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderPorcent2p3 }">▲</span><span v-bind:class="{ disabled: !orderPorcent2p3 }">▼</span></div><span>Progreso</span>
+                            <div class="item pointer" @click="changeOrderPorcent3p3()">
+                                <div class="icon"><span v-bind:class="{ disabled: orderPorcent3p3 }">▲</span><span v-bind:class="{ disabled: !orderPorcent3p3 }">▼</span></div><span>Progreso</span>
                             </div>
                         </div>
                         <div class="body">
@@ -531,7 +530,7 @@
         </div>
     </div>
 
-    <div class="mis-cursos-2 w70 m0auto p60-50">
+    <div class="mis-cursos-2 w70 m5auto p60-50">
         <div class="header flex">
             <h2 class="mb-4"><span class="text-info gotham-medium">Todos </span><span class="text-success pacifig">mis cursos</span></h2>
             <div class="options">
@@ -624,7 +623,7 @@
                                 <div class="item pointer"></div>
                                 <div class="item">{(item.nombre)}</div>
                                 <div class="item">
-                                    <a :href="'/local/qroma_front/extras/excel/index.php?cursoId='+item.id">
+                                    <a :href="'/local/qroma_front/extra/excel/index.php?cursoId='+item.id">
                                         <img src="../local/qroma_front/img/excel.svg" alt=""/>
                                     </a>
                                 </div>

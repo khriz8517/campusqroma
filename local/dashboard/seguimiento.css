@@ -1100,7 +1100,7 @@ span.disabled {
 }
 .search a span {
     display: table-cell;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
 }
 
 a.menu {

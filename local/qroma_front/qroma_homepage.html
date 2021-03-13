@@ -2,33 +2,29 @@
     <div class="baner-container">
         <div class="baner mb-3">
             <div class="before" @click="prevBaner()"></div>
+            <div class="after2" @click="nextBaner()"></div>
             <div id="baner">
                 <div class="item" v-for="item in baner"><img :src="item.background" alt="" srcset=""/>
                     <div class="content">
-                        <div class="title bg-info-o text-white">{{item.title}}</div>
+                        <div style="pointer-events: none; touch-action: none; -ms-touch-action: none;" class="title bg-info-o text-white">{{item.title}}</div>
                         <a v-if="item.btn" class="btn" :class="'btn-'+item.btnStyle" :href="item.url">{{item.btn}}</a>
                     </div>
                 </div>
             </div>
-            <div class="after" @click="nextBaner()"></div>
         </div>
         <div class="actions"><a @click="changeBaner(index)" class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
     </div>
     <div class="access">
         <h2><span class="text-success pacifig">¡Pinta </span><span class="text-info" style="font-weight: 500"> tu mejor versión!</span></h2>
         <div class="widget01 n2">
-            <a href="https://www.campusqroma.com/my/" class="text-decoration-none">
-                <div class="item bg-primary ml-0"><img class="icon" src="./local/qroma_front/img/icons/quars.svg" alt=""/>
-                    <div class="text">
-                        <div class="title">MIS CURSOS</div>
-                    </div>
+            <a href="https://www.campusqroma.com/my/" class="item bg-primary ml-0 text-decoration-none"><img class="icon" src="./local/qroma_front/img/icons/quars.svg" alt=""/>
+                <div class="text">
+                    <div class="title">MIS CURSOS</div>
                 </div>
             </a>
-            <a href="https://www.campusqroma.com/local/catalogo_cursos/" class="ml-80 text-decoration-none">
-                <div class="item bg-danger ml-0"><img class="icon" src="./local/qroma_front/img/icons/screen.svg" alt=""/>
-                    <div class="text">
-                        <div class="title">CATÁLOGO DE CURSOS</div>
-                    </div>
+            <a href="https://www.campusqroma.com/local/catalogo_cursos/" class="item bg-danger ml-0 text-decoration-none"><img class="icon" src="./local/qroma_front/img/icons/screen.svg" alt=""/>
+                <div class="text">
+                    <div class="title">CATÁLOGO DE CURSOS</div>
                 </div>
             </a>
         </div>
@@ -38,16 +34,16 @@
         <h3 style="font-family: Gotham">Nuestros aliados respaldan nuestra calidad de educativa</h3>
         <div class="testimonials">
             <div class="before" @click="prevTestimonial()"></div>
-            <div class="card01 card01-qroma">
-                <div class="item-qroma" v-for="item in card">
-                    <div class="content-qroma">
-                        <h2 :class="'text-'+item.type">{{item.title}}</h2>
-                        <p style="overflow: hidden">{{item.content}}</p>
+            <div class="before next2" @click="nextTestimonial()"></div>
+            <div style="pointer-events: none; touch-action: none; -ms-touch-action: none;"class="card01 card01-qroma">
+                <div style="pointer-events: none; touch-action: none; -ms-touch-action: none;" class="item-qroma" v-for="item in card">
+                    <div style="pointer-events: none; touch-action: none; -ms-touch-action: none;" class="content-qroma">
+                        <h2 style="pointer-events: none; touch-action: none; -ms-touch-action: none;" :class="'text-'+item.type">{{item.title}}</h2>
+                        <p style="pointer-events: none; touch-action: none; -ms-touch-action: none;">{{item.content}}</p>
                     </div>
                     <div class="profile" :class="'b-'+item.type"><img :src="item.url" alt=""/></div>
                 </div>
             </div>
-            <div class="after" @click="nextTestimonial()"></div>
         </div>
     </div>
     <div class="marcas w80">

@@ -674,3 +674,221 @@ body#page-user-profile {
 .ferreterias-background-img {
     background-image: url('//www.campusqroma.com/local/qroma_front/img/ferreterias-img.jpg') !important;
 }
+
+.next2 {
+    margin-left: 68vw !important;
+    transform: scale(0.9) rotate(0deg) !important;
+}
+
+@media (max-width:768px) {
+    h2 {
+        font-size: 18px
+    }
+    h2 * {
+        font-size: 18px
+    }
+    header {
+        justify-content: space-between
+    }
+    header .logo {
+        margin: 0;
+        padding: 10px 0;
+        width: 120px
+    }
+    header .options {
+        justify-content: flex-end
+    }
+    header .options .menu {
+        margin-left: 20px;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        top: 70px;
+        right: 20px;
+        width: 80%;
+        margin-left: 0
+    }
+    header .options .menu .item {
+        padding: 10px 15px;
+        width: 100%;
+        text-align: left
+    }
+    header .btn-menu {
+        height: 20px;
+        margin-left: 5px
+    }
+    header .btn-menu img {
+        height: 100%
+    }
+    .access h2 {
+        padding: 25px 0
+    }
+    .widget01 .item .text {
+        margin-left: 10px
+    }
+    .widget01 .item .text .title {
+        font-size: 10px
+    }
+    .widget01 .item .text .subtitle {
+        font-size: 8px
+    }
+    .widget01.n2 .item:last-child {
+        margin-left: 10px
+    }
+    .widget01 .item .icon {
+        height: 25px
+    }
+    .widget01 .item {
+        padding: 10px;
+        height: 60px;
+        white-space: nowrap
+    }
+    .marcas {
+        overflow: hidden
+    }
+    .marcas.w80 {
+        width: 100%
+    }
+    .marcas .w-100 {
+        width: auto!important
+    }
+    footer .w70 {
+        flex-direction: column;
+        padding: 20px 0
+    }
+    footer .w70 .menus {
+        flex-direction: column;
+        width: 100%
+    }
+    footer .w70 .menus .w33 {
+        width: 100%
+    }
+    footer .w70 .w25 {
+        width: 100%;
+        margin-left: 0
+    }
+    .p60-50 {
+        padding: 30px 0!important
+    }
+    .search .p60-50 {
+        padding: 50px 0!important
+    }
+    .search form {
+        width: 100%
+    }
+    .w70 {
+        width: 90%
+    }
+    .pw70 {
+        padding: 0 5% 0 5%
+    }
+    .category-menu .category-title h5 {
+        font-size: 12px
+    }
+    .category-menu .n4 {
+        flex-wrap: wrap
+    }
+    .category-menu .n4 .item {
+        width: calc(50% - 10px);
+        margin-bottom: 20px;
+        height: 90px
+    }
+    .category-menu .n4 .item.active,
+    .category-menu .n4 .item:hover {
+        height: 110px
+    }
+    .category-menu .n4 .item h5 {
+        white-space: initial
+    }
+    .search .body .item {
+        margin-right: 15px;
+        width: calc(50% - 7.5px)
+    }
+    .search .body .item:nth-child(2n) {
+        margin-right: 0
+    }
+    .search .body .item .img .bg-img {
+        height: 100px
+    }
+    .desarrollo-personal .body {
+        width: 90%
+    }
+    .desarrollo-personal .body .item {
+        margin-right: 15px;
+        width: calc(50% - 7.5px)
+    }
+    .desarrollo-personal .body .item:nth-child(2n) {
+        margin-right: 0
+    }
+    .desarrollo-personal .body .item .img {
+        height: 100px
+    }
+    .desarrollo-personal .body .item .img .bg-img {
+        height: 100px
+    }
+    .next2 {
+        margin-left: 82vw !important;
+        transform: scale(0.9) rotate(0deg) !important;
+    }
+}
+
+/* ipad */
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .next2 {
+        margin-left: 87vw !important;
+        transform: scale(0.9) rotate(0deg) !important;
+    }
+}
+
+/* ipad pro */
+
+@media only screen and (min-width: 1024px) and (max-width: 1030px) {
+    .next2 {
+        margin-left: 66vw !important;
+        transform: scale(0.9) rotate(0deg) !important;
+    }
+}
+
+.qroma-color-peru {
+    background-color: #085cb7;
+    border: none;
+    border-radius: 8px;
+    -webkit-appearance: none;
+}
+
+.qroma-color-chile {
+    background-color: #68be4d;
+    border: none;
+    border-radius: 8px;
+    -webkit-appearance: none;
+}
+
+.qroma-color-ecuador {
+    background-color: #f7aa3e;
+    border: none;
+    border-radius: 8px;
+    -webkit-appearance: none;
+}
+
+.qroma-social-media-div {
+    background-color: #0f63b8;
+    height: 27px;
+    width: 27px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.qroma-social-media-img {
+    height: 45%;
+}
+
+.margin-auto {
+    margin: auto;
+}

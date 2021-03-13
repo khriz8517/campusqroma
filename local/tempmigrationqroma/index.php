@@ -92,4 +92,3 @@ foreach($users as $key=>$user) {
         $DB->update_record('qroma_user_tmp', $newUserObj);
     }
 }
-echo 'exito';

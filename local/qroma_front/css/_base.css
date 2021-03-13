@@ -31,7 +31,7 @@
 }
 body {
     background-color: #fdfdfd;
-    color: #535353
+    color: #535353;
 }
 a {
     color: #535353
@@ -413,6 +413,9 @@ h6 {
 .m0auto {
     margin: 0 auto
 }
+.m5auto {
+    margin: 5px auto;
+}
 .category-title h5 {
     color: var(--tercery-color)
 }
@@ -640,7 +643,9 @@ h6 {
     font-size: 1.75em
 }
 .card01 .item-qroma .content-qroma p {
-    font-size: 0.8em
+    font-size: 0.8em;
+    touch-action: none !important;
+    -ms-touch-action: none !important;
 }
 .card01 .item-qroma .profile {
     margin: 40px auto 40px auto;
@@ -783,14 +788,13 @@ h6 {
     margin-bottom: 20px;
     padding: 25px 35px;
     font-size: 30px;
-    width: 550px
 }
 .baner .item .content .btn {
     transform: scale(1.25);
     padding: 6.5px 40px;
     transform-origin: bottom left
 }
-.baner .after,
+.baner .after, .baner .after2,
 .baner .before {
     background-image: url("../img/icons/arrow.svg");
     background-repeat: no-repeat;
@@ -802,18 +806,24 @@ h6 {
     transition: all 0.3s
 }
 .baner .after {
-    right: 22px;
-    transform: rotate(180deg)
+    right: 4vw;
+    transform: rotate(180deg);
+    z-index: 10
 }
-.baner .after:hover {
+.baner .after2 {
+    margin-left: 97% !important;
+    transform: rotate(180deg) !important;
+    z-index: 10
+}
+.baner .after2:hover {
     opacity: 0.8;
-    transform: scale(0.9) rotate(180deg)
+    transform: scale(0.9) rotate(180deg) !important;
 }
 .baner .before {
     left: 22px;
     z-index: 1
 }
-.baner .before:hover {
+.baner .before:hover, .after2:hover {
     opacity: 0.8;
     transform: scale(0.9)
 }
@@ -1811,8 +1821,8 @@ footer.color .redes .list .item.active {
         transform: scale(0.5);
         left: -5px
     }
-    .baner .after {
-        transform: rotate(180deg) scale(0.5);
+    .baner .after2 {
+        transform: rotate(180deg) scale(0.5) !important;
         right: -5px
     }
     .baner .item .content {

@@ -37,6 +37,7 @@ $event->add_record_snapshot('course', $course);
 $event->trigger();
 
 $PAGE->set_url('/mod/h5pactivity/index.php', ['id' => $id]);
+$PAGE->requires->css(new moodle_url('../../local/qroma_front/css/_base.css'));
 $PAGE->set_title(format_string($course->fullname));
 $PAGE->set_heading(format_string($course->fullname));
 $PAGE->set_context($coursecontext);

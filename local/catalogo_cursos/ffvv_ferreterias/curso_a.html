@@ -1,21 +1,20 @@
 <div id="app">
-    <div class="baner-container">
-        <div class="baner mb-3">
-            <div class="before" @click="prevBaner()"></div>
-            <div id="baner">
-                <div class="item" v-for="item in baner"><img :src="item.background" alt="" srcset=""/>
-                    <div class="content">
-                        <div v-if="item.title" class="title bg-info-o text-white">{{item.title}}</div>
-                        <a v-if="item.btn" class="btn" :class="'btn-'+item.btnStyle" :href="item.url">{{item.btn}}</a>
-                    </div>
+    <div class="search bg-d-1">
+        <div class="w70 m0auto p60-50">
+            <h2 class="text-white">CATÁLOGO DE CURSOS</h2>
+            <form action="https://www.campusqroma.com/course/search.php" id="coursesearch" method="get">
+                <div class="form-group">
+                    <input type="text" id="shortsearchbox" name="search"/>
+                    <label for="shortsearchbox">¿Qué curso estás buscando?</label>
+                    <button><img src="/local/qroma_front/img/icons/search.svg" alt="" srcset=""/></button>
                 </div>
-            </div>
-            <div class="after" @click="nextBaner()"></div>
+            </form>
         </div>
-        <div class="actions"><a @click="changeBaner(index)" class="item" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in baner"></a></div>
     </div>
-    <div class="access">
-        <h2><span class="text-success pacifig">¡Pinta </span><span class="text-info">tu mejor versión!</span></h2>
+    <div class="category-title w70 m0auto p60-50">
+        <h2 class="mb-1"><span class="text-info gotham-medium">{{general}} {{cursoTxt}} </span><span class="text-success pacifig">{{disponibleTxt}} para ti</span></h2>
+        <!-- <h5>Selecciona una categoría y encuentra los cursos disponibles</h5> -->
+        <h5>Comienza a aprender con este curso, pronto podrás visualizar más contenido</h5>
     </div>
     <div class="category-menu pw70">
         <div class="widget01 n4 flex-column">
