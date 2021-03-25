@@ -265,8 +265,12 @@ WHERE userid=?",array($USER->id));
         $rolesArr[] = $ur->roleid;
     }
 
-    if(in_array(5, $rolesArr)) {
-        $role = 'student';
+    if(in_array(10, $rolesArr)) {
+        $role = 'promotor';
+    } else if(in_array(11, $rolesArr)) {
+        $role = 'director';
+    } else if(in_array(1, $rolesArr)) {
+        $role = 'gestor';
     }
 
     $userArr = array(
@@ -937,7 +941,7 @@ function getUsuariosByCurso($courseId) {
     global $DB, $USER;
     $direccion = $USER->profile['direccion'];
 
-    $panel1Info = $DB->get_records_sql("select b.userid, b.username, b.email, b.direccion, b.area, a.progress, a.coursename from {qroma_course_user_tmp} a join 
+    $panel1Info = $DB->get_records_sql("select b.userid, b.username, b.email, b.direccion, b.area, round(a.progress,0) as progressavg, a.coursename from {qroma_course_user_tmp} a join 
 {qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ? order by username", array($courseId, $direccion));
 
     foreach($panel1Info as $key=>$p1) {
@@ -945,10 +949,10 @@ function getUsuariosByCurso($courseId) {
 
         $return[] = [
             'name' => $p1->username,
-            'id' => $p1->username,
+            'id' => $p1->userid,
             'direccion' => !empty($p1->direccion) ? $p1->direccion: '-',
             'area' => !empty($p1->area) ? $p1->area: '-',
-            'progress' => $p1->progress
+            'progress' => $p1->progressavg
         ];
     }
 
@@ -971,16 +975,28 @@ function obtenerAreasPanel2() {
 
     list($insql, $paramsIn) = $DB->get_in_or_equal($courses);
     $params = array_merge($paramsIn,array($direccion));
-    $sql = " select b.area, round(avg(a.progress),0) as progreso_total FROM
-            mdl_qroma_course_user_tmp a join
-            mdl_qroma_user_tmp b on a.userid=b.userid
+    $sql = "select b.area, round(avg(a.progress),0) as progreso_total FROM
+            {qroma_course_user_tmp} a join
+            {qroma_user_tmp} b on a.userid=b.userid
             where a.courseid $insql and b.direccion= ?
             GROUP BY b.area";
     $panel2Info = $DB->get_records_sql($sql, $params);
 
 
     foreach($panel2Info as $panel2) {
+        $userIds = [];
+        $sql = "select b.userid FROM
+                    {qroma_course_user_tmp} a join
+                    {qroma_user_tmp} b on a.userid=b.userid
+            where b.area = ? and b.direccion= ? and a.progress < 100";
+        $panel2Users = $DB->get_records_sql($sql, array($panel2->area, $direccion));
+
+        foreach($panel2Users as $pu2) {
+            $userIds[] = $pu2->userid;
+        }
+
         $return[] = [
+            'ids' => $userIds,
             'area'=> $panel2->area,
             'progress' => $panel2->progreso_total
         ];
@@ -1033,7 +1049,7 @@ function obtenerUsuariosPanel2($values) {
     $area = $values['area'];
     $courseId = $values['courseId'];
 
-    $panel1Info = $DB->get_records_sql("select b.userid, b.username, b.email, b.direccion, b.area, a.progress, a.coursename from {qroma_course_user_tmp} a join 
+    $panel1Info = $DB->get_records_sql("select b.userid, b.username, b.email, b.direccion, b.area, round(a.progress,0) as progressavg, a.coursename from {qroma_course_user_tmp} a join 
 {qroma_user_tmp} b on a.userid=b.userid WHERE a.courseid = ? AND b.direccion = ? and b.area= ? order by username", array($courseId, $direccion, $area));
 
     foreach($panel1Info as $key=>$p1) {
@@ -1041,10 +1057,10 @@ function obtenerUsuariosPanel2($values) {
 
         $return[] = [
             'name' => $p1->username,
-            'id' => $p1->username,
+            'id' => $p1->userid,
             'direccion' => !empty($p1->direccion) ? $p1->direccion: '-',
             'area' => !empty($p1->area) ? $p1->area: '-',
-            'progress' => $p1->progress
+            'progress' => $p1->progressavg
         ];
     }
 
@@ -1095,12 +1111,23 @@ function obtenerDireccionesPanel3($values) {
         GROUP BY b.direccion", array($values['cursoId']));
 
     foreach($panel3Info as $p) {
-
+        $userIds = [];
         $jefeArr = $DB->get_record_sql("
             SELECT TOP 1 jefe FROM mdl_qroma_user_tmp 
             WHERE direccion = ?", array($p->direccion));
 
+        $sql = "select b.userid FROM
+                    {qroma_course_user_tmp} a join
+                    {qroma_user_tmp} b on a.userid=b.userid
+            where a.courseid = ? and b.direccion= ? and a.progress < 100";
+        $panel3Areas = $DB->get_records_sql($sql, array($values['cursoId'], $p->direccion));
+
+        foreach($panel3Areas as $pa3) {
+            $userIds[] = $pa3->userid;
+        }
+
         $return[] = [
+            'ids' => $userIds,
             'name'=> $p->direccion,
             'director'=> $jefeArr->jefe ?? '',
             'progress' => $p->progreso_total ?? 0
@@ -1127,7 +1154,20 @@ function obtenerAreasPanel3($values) {
         GROUP BY b.area, b.direccion", array($cursoId, $direccion));
 
     foreach($panel3Info as $p) {
+        $userIds = [];
+
+        $sql = "select b.userid FROM
+                    {qroma_course_user_tmp} a join
+                    {qroma_user_tmp} b on a.userid=b.userid
+            where a.courseid = ? and b.direccion= ? and b.area=? and a.progress < 100";
+        $panel3Areas = $DB->get_records_sql($sql, array($values['cursoId'], $p->direccion, $p->area));
+
+        foreach($panel3Areas as $pa3) {
+            $userIds[] = $pa3->userid;
+        }
+
         $return[] = [
+            'ids'=> $userIds,
             'name'=> $p->area ?? '',
             'direccion'=> $p->direccion ?? '',
             'progress' => $p->progreso_total ?? 0
@@ -1148,14 +1188,15 @@ function obtenerUsuariosPanel3($values) {
     $area = $values['area'];
 
     $panel3Info = $DB->get_records_sql("
-        select b.username, b.area, b.direccion, round(avg(a.progress),0) as progreso_total FROM
+        select b.username, b.userid, b.area, b.direccion, round(avg(a.progress),0) as progreso_total FROM
         mdl_qroma_course_user_tmp a join
         mdl_qroma_user_tmp b on a.userid=b.userid
         where a.courseid = ? AND b.direccion = ? and b.area = ?
-        GROUP BY b.username, b.area, b.direccion", array($cursoId, $direccion, $area));
+        GROUP BY b.username, b.userid, b.area, b.direccion", array($cursoId, $direccion, $area));
 
     foreach($panel3Info as $p) {
         $return[] = [
+            'id'=> $p->userid ?? '',
             'name'=> $p->username ?? '',
             'direccion'=> $p->direccion ?? '',
             'area'=> $p->area ?? '',
@@ -1176,11 +1217,15 @@ function guardarFirma($detail) {
     $firmaFile = $_FILES['firmaFile'];
 
     $courseId = $detail['cursoId'];
+    $empresa = !empty($detail['empresa']) ? $detail['empresa'] : '';
+    $dni = !empty($detail['dni']) ? $detail['dni'] : '';
     $userId = $USER->id;
 
     $data = new stdClass();
     $data->course = $courseId;
     $data->userid = $userId;
+    $data->empresa = $empresa;
+    $data->dni = $dni;
     $data->timecreated = time();
 
     if(!empty($firmaFile)) {

@@ -75,7 +75,7 @@ function get_data_name($data) {
 function firma_add_instance($data) {
     global $DB, $USER;
 
-    $data->titulo = get_data_name($data);
+    $data->name = $data->titulo;
     $data->timecreated = time();
     $data->userid = $USER->id;
 
@@ -135,6 +135,7 @@ function firma_update_instance($data) {
     $data->titulo = get_data_name($data);
     $data->timemodified = time();
     $data->id = $data->instance;
+    $data->introformat = 0;
 
     $completiontimeexpected = !empty($data->completionexpected) ? $data->completionexpected : null;
     \core_completion\api::update_completion_date_event($data->coursemodule, 'firma', $data->id, $completiontimeexpected);

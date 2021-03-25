@@ -1804,7 +1804,7 @@ footer.color .redes .list .item.active {
         font-size: 8px
     }
     .widget01.n2 .item:last-child {
-        margin-left: 10px
+        margin-left: 10px!important
     }
     .widget01 .item .icon {
         height: 25px
@@ -1826,8 +1826,8 @@ footer.color .redes .list .item.active {
         right: -5px
     }
     .baner .item .content {
-        left: 5%;
-        width: 90%;
+        left: 10%;
+        width: 80%;
         bottom: 10px
     }
     .baner .item .content .title {

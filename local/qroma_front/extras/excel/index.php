@@ -87,7 +87,7 @@
   $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
   header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  header('Content-Disposition: attachment;filename="prueba.xlsx"');
+  header('Content-Disposition: attachment;filename="Reporte_firma_' . $cursoId . '.xlsx"');
   header('Cache-Control: max-age=0');
 
 	//Guardamos los cambios

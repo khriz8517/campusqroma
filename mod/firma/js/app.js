@@ -1,6 +1,8 @@
 var wrapper = document.getElementById("signature-pad");
 var cursoId = document.getElementById("signature-pad-curso").value;
 var modId = document.getElementById("signature-pad-mod").value;
+var empresa = document.getElementById("signature-pad-emp").value;
+var dni = document.getElementById("signature-pad-dni").value;
 
 var clearButton = wrapper.querySelector("[data-action=clear]");
 var changeColorButton = wrapper.querySelector("[data-action=change-color]");
@@ -69,13 +71,15 @@ function guardarFirma(dataURL) {
     fdataobj.append("request_type", 'guardarFirma');
     fdataobj.append("cursoId", cursoId);
     fdataobj.append("modId", modId);
+    fdataobj.append("empresa", empresa);
+    fdataobj.append("dni", dni);
 
     const XHR = new XMLHttpRequest();
 
     // Define what happens on successful data submission
     XHR.addEventListener( 'load', function() {
         alert( 'Se cargó la firma con éxito' );
-        window.history.back();
+        window.location.href = '/course/view.php?id=28';
     } );
 
     // Define what happens in case of error

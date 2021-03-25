@@ -418,20 +418,20 @@ body#page-user-profile {
 
 @media only screen and (max-width: 768px) {
     .card01-qroma {
-        width: 150% !important;
+        width: 300% !important;
         height: 100% !important;
         display: flex !important;
         position: relative !important;
     }
     .card01 .item-qroma {
-        width: 43vw !important;
+        width: 80vw !important;
         margin: 0 10px;
         text-align: center;
         box-shadow: 0 0 0 0 transparent
     }
 
     .card01 .item-qroma .content-qroma {
-        height: 82% !important;
+        height: 70% !important;
     }
 }
 

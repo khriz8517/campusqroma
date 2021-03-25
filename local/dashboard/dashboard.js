@@ -65,11 +65,12 @@ var app = new Vue({
             searchUsers:[],
             backIds: '',
             textMails: '',
+            textMails1: '',
             selectedUser: '',
             selectedUsers: [],
-            textMailsSingle: '',
             loadingUsers: false,
             cursosExcel: [],
+            checked1users: [],
 
             // ordenamiento
             order: true,
@@ -106,12 +107,23 @@ var app = new Vue({
             menu2p2: false,
             actualAreap2: '',
             actCoursep2: '',
+            actCoursep2Name: '',
+            checked2areas: [],
+            checked2users: [],
+            textMails2: '',
+            textMails2Users: '',
 
             //SEGUIMIENTO PANEL 03
             cursosListp3: [],
             direccionListp3: [],
             areaListp3: [],
             usuariosp3: [],
+            checked3directions: [],
+            checked3areas: [],
+            checked3users: [],
+            textMails3Directions: '',
+            textMails3Areas: '',
+            textMails3Users: '',
 
             // vistas
             cursosp3: false,
@@ -119,6 +131,7 @@ var app = new Vue({
             areap3: false,
             usersp3: false,
             actp3: false,
+            actp3Name: false,
             dirp3: false,
             areaSelp3: false,
 
@@ -600,33 +613,21 @@ var app = new Vue({
                     this.zonasList = [];
                 });
         },
-        enviarCorreos: function() {
+        enviarCorreos1: function() {
             let frm = new FormData();
-            frm.append('idUsersAll', this.backIds);
-            frm.append('message', this.textMails);
-            axios.post('../my/email.php', frm)
-                .then((response) => {
-                    alert('Mensaje enviado');
-                });
-        },
-        enviarCorreosSingle: function() {
-            let frm = new FormData();
-            frm.append('idUser', this.selectedUsers);
-            frm.append('message', this.textMailsSingle);
+            frm.append('idUsersAll', this.checked1users);
+            frm.append('message', this.textMails1);
             axios.post('../my/email.php', frm)
                 .then((response) => {
                     alert('Mensaje enviado');
                 });
         },
         closeModal: function(){
-            document.querySelector(".back").style.display = "none";
+            document.querySelector(".qroma-mod-1").style.display = "none";
         },
-        closeModal2: function(){
-            document.querySelector(".back-single").style.display = "none";
-        },
-        showModal: function(userIdsMail){
-            document.querySelector(".back").style.display = "flex";
-            this.backIds = userIdsMail;
+        showModal1: function(){
+            document.querySelector(".qroma-mod-1").style.display = "flex";
+            console.log(this.checked1users);
         },
         selectUserClick: function(id) {
             var check = this.selectedUsers.includes(id);
@@ -636,12 +637,43 @@ var app = new Vue({
                 this.selectedUsers.push(id);
             }
         },
-        showModal2: function(){
-            document.querySelector(".back-single").style.display = "flex";
-        },
 
 
         //PANEL 02
+        enviarCorreos2: function() {
+            let frm = new FormData();
+            frm.append('idUsersAll', this.checked2areas);
+            frm.append('message', this.textMails2);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
+        enviarCorreos2Users: function() {
+            let frm = new FormData();
+            frm.append('idUsersAll', this.checked2users);
+            frm.append('message', this.textMails2Users);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
+        showModal2: function(){
+            document.querySelector(".qroma-mod-2").style.display = "flex";
+            console.log(this.checked2areas);
+        },
+        closeModal2: function(){
+            document.querySelector(".qroma-mod-2").style.display = "none";
+            console.log(this.checked2areas);
+        },
+        showModal2Users: function(){
+            document.querySelector(".qroma-mod-2-users").style.display = "flex";
+            console.log(this.checked2users);
+        },
+        closeModal2Users: function(){
+            document.querySelector(".qroma-mod-2-users").style.display = "none";
+            console.log(this.checked2users);
+        },
         obtenerAreasPanel2: function() {
             let frm = new FormData();
             frm.append('request_type','obtenerAreasPanel2');
@@ -653,9 +685,11 @@ var app = new Vue({
                     Object.keys(data).forEach(key => {
                         let dataVal = data[key];
                         let area = dataVal.area;
+                        let ids = dataVal.ids;
                         let progress = dataVal.progress;
 
                         let newElem = {
+                            'ids': ids,
                             'name': area,
                             'progress': progress,
                         };
@@ -702,11 +736,12 @@ var app = new Vue({
                     this.cursosListp2 = courses;
                 });
         },
-        viewUserp2: function(curse){
+        viewUserp2: function(curse, curseName){
             this.generalp2 = false;
             this.cursosp2 = false;
             this.usersp2 = true;
             this.actCoursep2 = curse;
+            this.actCoursep2Name = curseName;
 
             let frm = new FormData();
             frm.append('courseId', curse);
@@ -952,6 +987,54 @@ var app = new Vue({
         },
 
         //PANEL 03
+        showModal3Directions: function(){
+            document.querySelector(".qroma-mod-3-directions").style.display = "flex";
+            console.log(this.checked3directions);
+        },
+        closeModal3Directions: function(){
+            document.querySelector(".qroma-mod-3-directions").style.display = "none";
+        },
+        showModal3Areas: function(){
+            document.querySelector(".qroma-mod-3-areas").style.display = "flex";
+            console.log(this.checked3areas);
+        },
+        closeModal3Areas: function(){
+            document.querySelector(".qroma-mod-3-areas").style.display = "none";
+        },
+        showModal3Users: function(){
+            document.querySelector(".qroma-mod-3-users").style.display = "flex";
+            console.log(this.checked3users);
+        },
+        closeModal3Users: function(){
+            document.querySelector(".qroma-mod-3-users").style.display = "none";
+        },
+        enviarCorreos3Directions: function() {
+            let frm = new FormData();
+            frm.append('idUsersAll', this.checked3directions);
+            frm.append('message', this.textMails3Directions);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
+        enviarCorreos3Areas: function() {
+            let frm = new FormData();
+            frm.append('idUsersAll', this.checked3areas);
+            frm.append('message', this.textMails3Areas);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
+        enviarCorreos3Users: function() {
+            let frm = new FormData();
+            frm.append('idUsersAll', this.checked3users);
+            frm.append('message', this.textMails3Users);
+            axios.post('../my/email.php', frm)
+                .then((response) => {
+                    alert('Mensaje enviado');
+                });
+        },
         obtenerCursosPanel3: function() {
             let frm = new FormData();
             frm.append('request_type','obtenerCursosPanel3');
@@ -1004,13 +1087,14 @@ var app = new Vue({
                 }
             }
         },
-        viewDireccionp3: function(curso){
+        viewDireccionp3: function(curso, cursoName){
             this.generalp3 = false;
             this.areap3 = true;
             this.cursosp3 = false;
             this.usersp3 = false;
 
             this.actp3 = curso;
+            this.actp3Name = cursoName;
 
             let frm = new FormData();
             frm.append('cursoId', curso);
@@ -1022,11 +1106,13 @@ var app = new Vue({
 
                     Object.keys(data).forEach(key => {
                         let dataVal = data[key];
+                        let ids = dataVal.ids;
                         let name = dataVal.name;
                         let director = dataVal.director;
                         let progress = dataVal.progress;
 
                         let newElem = {
+                            'ids': ids,
                             'name': name,
                             'director': director,
                             'progress': progress
@@ -1055,10 +1141,12 @@ var app = new Vue({
 
                     Object.keys(data).forEach(key => {
                         let dataVal = data[key];
+                        let ids = dataVal.ids;
                         let name = dataVal.name;
                         let progress = dataVal.progress;
 
                         let newElem = {
+                            'ids': ids,
                             'name': name,
                             'direccion': direccion,
                             'progress': progress
@@ -1088,12 +1176,14 @@ var app = new Vue({
 
                     Object.keys(data).forEach(key => {
                         let dataVal = data[key];
+                        let id = dataVal.id;
                         let name = dataVal.name;
                         let direccion = dataVal.direccion;
                         let area = dataVal.area;
                         let progress = dataVal.progress;
 
                         let newElem = {
+                            'id': id,
                             'name': name,
                             'direccion': direccion,
                             'area': area,

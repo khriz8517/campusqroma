@@ -105,6 +105,7 @@ function createUsers($usersAD) {
             $userObj->lastname =  isset($userAD['surname']) ? $userAD['surname'] : ' ';
             $userObj->email =  isset($userAD['mail']) ? $userAD['mail'] : ' ';
             $userObj->lang = 'es';
+            $userObj->institution = 'azure';
 
             $user = $DB->get_record('user', array('username' => $userPrincipalName));
 

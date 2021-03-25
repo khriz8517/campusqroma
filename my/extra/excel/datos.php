@@ -4,90 +4,63 @@ global $CFG, $DB;
 
 require_once('../../../user/profile/lib.php');
 require_once('../../../config.php');
+require_once($CFG->dirroot . '/lib/gradelib.php');
+require_once($CFG->dirroot . '/enrol/externallib.php');
+require_once($CFG->dirroot. '/course/lib.php');
 
-function getUserById($userId) {
+
+function obtenerCumplimiento($courseId, $userId) {
     global $DB;
+    $quiz = $DB->get_records_sql("select * from {quiz} q where q.course = ?", array($courseId));
+    $courseCompletion = $DB->get_records_sql("select * from {course_completions} c where c.course = ? and c.userid = ?", array($courseId, $userId));
 
-    $user = $DB->get_record('user', array('id' => $userId));
-    return $user;
+    $quizIdInicio = array_shift($quiz);
+    $quizIdFin = end($quiz);
+
+    $inicial = 0;
+    $final = 0;
+
+    $inicial = grade_get_grades($courseId, 'mod', 'quiz', $quizIdInicio->id, $userId);
+    $final = grade_get_grades($courseId, 'mod', 'quiz', $quizIdFin->id, $userId);
+
+    $inicialGrade = array_shift(array_shift($inicial->items)->grades)->grade;
+    $finalGrade = array_shift(array_shift($final->items)->grades)->grade;
+
+    $inicial = $inicialGrade != '' ? $inicialGrade : '-';
+    $final = $finalGrade  != '' ? $finalGrade : '-';
+
+    $timeCompleted = array_shift($courseCompletion)->timecompleted;
+    $timeCompleted = $timeCompleted != NULL ? date('d/m/Y', $timeCompleted) : '-';
+
+    if($inicial != '-' && $final != '-' && $timeCompleted != '-') {
+        $cumplimiento = 'Finalizado';
+    } else {
+        $cumplimiento = '-';
+    }
+
+    return array($cumplimiento, $timeCompleted);
 }
 
-$firma = $DB->get_record_sql("SELECT * FROM {firma} WHERE course = ? ORDER BY timecreated DESC", array($cursoId));
-
-$codigo = "SGI-F-32";
-$version = "00";
-$date = date('d-m-Y');
-
-$razonSocial = 'CPPQ S.A.';
-$ruc = '20100073723';
-$domicilio = 'Fab. de productos Quimicos - Resinas y productos del hogar';
-$cantTrabajadores = $firma->nro_trabajadores;
-$numeroRegistro = $firma->nro_registro;
-// el tipo puede ser Inducción - Capcitación - Entrenamiento - Simulacro
-
-$tipe = "Inducción";
-
-switch($firma->tipo) {
-    case 1:
-        $tipe = "Inducción";
-        break;
-    case 2:
-        $tipe = "Capacitación";
-        break;
-    case 3:
-        $tipe = "Entrenamiento";
-        break;
-    case 4:
-        $tipe = "Simulacro";
-        break;
-}
-
-$curso= $DB->get_record('course',array('id'=>$cursoId));
-
-$tema = $curso->fullname;
-
-$dateCap = date('d-m-Y');
-$horaIni = $firma->hora_inicio;
-$horaFin = $firma->hora_fin;
-
-$firmaDetailCount = $DB->get_record_sql("SELECT COUNT(*) AS cant FROM {firma_detalle} WHERE course = ? GROUP BY userid", array($cursoId));
-
-$firmaElements = $DB->get_records_sql("SELECT max(timecreated) as createdtime FROM {firma_detalle} WHERE course = ? GROUP BY userid", array($cursoId));
-$firmaElements = array_keys($firmaElements);
-
-$firmaDetail = $DB->get_records_sql("SELECT * FROM {firma_detalle} WHERE course = ?", array($cursoId));
-
-$numAsist = $firmaDetailCount->cant;
-$horasAll = $firma->horas_total;
-$capacitador = $firma->capacitador;;
+$usuarios = $DB->get_records_sql("
+select b.userid, b.codigo_trabajador, b.dni, b.username, b.cargo, b.email, b.direccion, b.area 
+from {qroma_course_user_tmp} a join 
+{qroma_user_tmp} b on a.userid=b.userid 
+WHERE a.courseid = ?", array($idCurso));
 
 $datos = array();
 
-foreach($firmaDetail as $firmaDet) {
-    if(!in_array($firmaDet->timecreated, $firmaElements)) {
-        continue;
-    }
-    $userObj = getUserById($firmaDet->userid);
-    profile_load_custom_fields($userObj);
-
+foreach($usuarios as $usuario) {
     $datos[] = [
-        'nombre' => $userObj->firstname . ' ' . $userObj->lastname,
-        'dni' => $userObj->profile['dni'],
-        'empresa' => "Qroma",
-        'firma' => dirname(__DIR__,4).'/mod/firma/files/firmasdetail/'.$firmaDet->course.'_'.$firmaDet->userid.'/'.$firmaDet->image,
-        'observaciones' => "",
+        'codigo' => $usuario->codigo_trabajador ?? '-',
+        'documento' => $usuario->dni ?? '-',
+        'nombre' => $usuario->username ?? '-',
+        'posicion' => $usuario->cargo ?? '-',
+        'correo' => $usuario->email ?? '-',
+        'direccion' => $usuario->direccion ?? '-',
+        'area' => $usuario->area ?? '-',
+        'cumplimiento' => obtenerCumplimiento($idCurso, $usuario->userid)[0],
+        'fecha' => obtenerCumplimiento($idCurso, $usuario->userid)[1]
     ];
 }
 
-$userId = $firma->userid;
-
-$user = getUserById($userId);
-profile_load_custom_fields($user);
-
-$firmaImg =  dirname(__DIR__,4).'/mod/firma/files/firmasbase/'.$firma->course.'/'.$firma->imagen;
-
-$nombre = $user->firstname . ' ' . $user->lastname;
-$cargo = $user->profile['cargo'];
-$fechaRes = date('d-m-Y');
-$firma =  $firmaImg;
 ?>

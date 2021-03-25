@@ -9,17 +9,17 @@ global $DB;
 $authenticated_url = 'https://www.campusqroma.com';
 $error_url = '';
 
-// If user is already authenticated, & cookies are set
-if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
-    $userData = $_COOKIE['mg_sso_profile'];
-    $user = json_decode($userData);
-    $userObj = $DB->get_record('user', array('email'=>$user->mail));
-    if(!$userObj) {
-        $userObj = $DB->get_record('user', array('email'=>$user->userPrincipalName));
-    }
-    complete_user_login($userObj);
-    header ("Location: " . $authenticated_url);
-} else {
+//// If user is already authenticated, & cookies are set
+//if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
+//    $userData = $_COOKIE['mg_sso_profile'];
+//    $user = json_decode($userData);
+//    $userObj = $DB->get_record('user', array('email'=>$user->mail));
+//    if(!$userObj) {
+//        $userObj = $DB->get_record('user', array('email'=>$user->userPrincipalName));
+//    }
+//    complete_user_login($userObj);
+//    header ("Location: " . $authenticated_url);
+//} else {
     // Set params
     $client_id = "c45d7b04-10e2-427f-8be0-6fe59a9b9a09"; // Client App ID (from Microsoft)
     $client_secret = "~~Ea4e8k.F_K_4236KMz3CK~1fPk_0gaD8"; // Client App Secrect (from Microsoft)
@@ -83,7 +83,6 @@ if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
                 setcookie("mg_sso_profile", $user, time() + 3600);
 
                 $user = json_decode($user);
-
                 $userObj = $DB->get_record('user', array('email'=>$user->mail));
 
                 if(!$userObj) {
@@ -110,4 +109,4 @@ if(isset($_COOKIE['mg_sso_profile']) && isset($_COOKIE['mg_sso_token'])) {
             $client_id . "&scope=" .
             $scopes . "&resource_mode=query&response_type=code&redirect_uri=" . $client_redirect);
     }
-}
+//}

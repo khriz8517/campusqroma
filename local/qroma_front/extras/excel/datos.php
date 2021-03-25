@@ -72,8 +72,8 @@ foreach($firmaDetail as $firmaDet) {
 
     $datos[] = [
         'nombre' => $userObj->firstname . ' ' . $userObj->lastname,
-        'dni' => $userObj->profile['dni'],
-        'empresa' => "Qroma",
+        'dni' => empty($firmaDet->dni) ? $userObj->profile['dni'] : $firmaDet->dni,
+        'empresa' => empty($firmaDet->empresa) ? 'Qroma' : $firmaDet->empresa,
         'firma' => dirname(__DIR__,4).'/mod/firma/files/firmasdetail/'.$firmaDet->course.'_'.$firmaDet->userid.'/'.$firmaDet->image,
         'observaciones' => "",
     ];

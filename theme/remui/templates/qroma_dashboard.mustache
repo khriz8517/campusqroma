@@ -54,9 +54,7 @@
             <div class="item" @click="changeBaner(index)" v-bind:class="{ 'active': banerPoint == index+1 }" v-for="(item, index) in cursospaginate"></div>
         </div>
     </div>
-    <!-- cambiar rol student por promotor-->
-    <div v-if="user.isAdmin || user.role == 'student' && user.id == 2395">
-        <h2 class="mb-4">Panel 1</h2>
+    <div v-if="user.isAdmin || user.role == 'promotor'">
         <div class="container">
             <h2><span class="text-info">Seguimiento </span><span class="text-success">de finalización</span></h2>
             <div class="croma-explorer" id="explorer">
@@ -134,7 +132,10 @@
                         <div class="body">
                             <div class="list" v-for="item in searchUsers">
                                 <div class="item">
-                                    <input class="checkbox" type="checkbox" :data="item.progress"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                    <input class="checkbox" :value="item.id" type="checkbox" :data="item.progress" v-model="checked1users"/>
+<!--                                    <span @click="showModal()">-->
+<!--                                        <img src="../local/qroma_front/img/mail.svg" alt=""/>-->
+<!--                                    </span>-->
                                 </div>
                                 <div class="item pointer">{(item.name)}</div>
                                 <div class="item">{(item.direccion)}</div>
@@ -144,30 +145,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
+                        <div class="footer"><a href="" @click.stop.prevent="showModal1()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="modal">
+                <div class="back qroma-mod-1">
+                    <div class="qroma-modal">
                         <div class="title">
                             <h4>Enviar mensaje</h4>
                             <div class="close" @click="closeModal()">X</div>
                         </div>
                         <div class="content">
-                            <textarea name="" cols="30" rows="10"></textarea>
+                            <textarea v-model="textMails1" name="" cols="30" rows="10"></textarea>
                         </div>
                         <div class="footer">
-                            <div class="croma-btn btn-defauld">Cancelar</div>
-                            <div class="croma-btn btn-info">Aceptar</div>
+                            <div class="croma-btn btn-defauld pointer" @click="closeModal()">Cancelar</div>
+                            <div class="croma-btn btn-info pointer" @click="enviarCorreos1">Aceptar</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- cambiar rol student por director-->
-    <div v-if="user.isAdmin || user.role == 'student' && user.id == 2395">
-        <h2 class="mb-4">Panel 2</h2>
+    <div v-if="user.isAdmin || user.role == 'director'">
         <div class="container">
             <h2><span class="text-info">Seguimiento </span><span class="text-success">de finalización</span></h2>
             <div class="croma-explorer" id="explorer">
@@ -195,7 +194,10 @@
                         <div class="body">
                             <div class="list" v-for="item in searchAreap2">
                                 <div class="item">
-                                    <input class="checkbox" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                    <input class="checkbox" :value="item.ids" :data="item.progress" type="checkbox" v-model="checked2areas"/>
+<!--                                    <span @click="showModal()">-->
+<!--                                        <img src="../local/qroma_front/img/mail.svg" alt=""/>-->
+<!--                                    </span>-->
                                 </div>
                                 <div class="item pointer" @click="viewCursop2(item.name)">{(item.name)}</div>
                                 <div class="item">
@@ -206,7 +208,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
+                        <div class="footer"><a href="" @click.stop.prevent="showModal2()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
                     </div>
                 </div>
                 <div id="cursos-p02" v-if="cursosp2">
@@ -227,7 +229,7 @@
                         </div>
                         <div class="body">
                             <div class="list" v-for="item in searchCursep2">
-                                <div class="item pointer" @click="viewUserp2(item.id)">{(item.name)}</div>
+                                <div class="item pointer" @click="viewUserp2(item.id, item.name)">{(item.name)}</div>
                                 <div class="item">{(item.numEstu)}</div>
                                 <div class="item">
                                     <div class="croma-progress-bar">
@@ -237,11 +239,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
                     </div>
                 </div>
                 <div id="usuarios-p02" v-if="usersp2">
-                    <h2 class="text-info">Curso Ergonomía 2020<span class="f-ritgh close text-info bold pointer" @click="closeUserp2()"><</span></h2>
+                    <h2 class="text-info">{(actCoursep2Name)}<span class="f-ritgh close text-info bold pointer" @click="closeUserp2()"><</span></h2>
                     <div class="primary usuarios">
                         <div class="title">
                             <h4 class="text-info">Vista progreso de usuarios.</h4>
@@ -267,7 +268,7 @@
                                 <div class="icon"><span v-bind:class="{ disabled: orderUserp2 }">▲</span><span v-bind:class="{ disabled: !orderUserp2 }">▼</span></div><span>Usuario</span>
                             </div>
                             <div class="item pointer" @click="changeOrderGerenciap2()">
-                                <div class="icon"><span v-bind:class="{ disabled: orderGerenp2 }">▲</span><span v-bind:class="{ disabled: !orderGerenp2 }">▼</span></div><span>Gerencia</span>
+                                <div class="icon"><span v-bind:class="{ disabled: orderGerenp2 }">▲</span><span v-bind:class="{ disabled: !orderGerenp2 }">▼</span></div><span>Dirección</span>
                             </div>
                             <div class="item pointer" @click="changeOrderAreap2()">
                                 <div class="icon"><span v-bind:class="{ disabled: orderAreap2 }">▲</span><span v-bind:class="{ disabled: !orderAreap2 }">▼</span></div><span> Área</span>
@@ -279,7 +280,10 @@
                         <div class="body">
                             <div class="list" v-for="item in searchUsersp2">
                                 <div class="item">
-                                    <input class="checkbox-2" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                    <input class="checkbox-2" :value="item.id" :data="item.progress" type="checkbox" v-model="checked2users"/>
+<!--                                    <span @click="showModal()">-->
+<!--                                        <img src="../local/qroma_front/img/mail.svg" alt=""/>-->
+<!--                                    </span>-->
                                 </div>
                                 <div class="item pointer">{(item.name)}</div>
                                 <div class="item">{(item.direccion)}</div>
@@ -289,21 +293,43 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
+                        <div class="footer">
+                            <a href="" @click.stop.prevent="showModal2Users()">
+                            <span>
+                                <img src="../local/qroma_front/img/mail.svg" alt=""/>
+                            </span>
+                            <span>Enviar recordatorio a seleccionados</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="modal">
+                <div class="back qroma-mod-2">
+                    <div class="qroma-modal">
                         <div class="title">
                             <h4>Enviar mensaje</h4>
-                            <div class="close" @click="closeModal()">X</div>
+                            <div class="close" @click="closeModal2()">X</div>
                         </div>
                         <div class="content">
-                            <textarea name="" cols="30" rows="10"></textarea>
+                            <textarea v-model="textMails2" name="" cols="30" rows="10"></textarea>
                         </div>
                         <div class="footer">
-                            <div class="croma-btn btn-defauld">Cancelar</div>
-                            <div class="croma-btn btn-info">Aceptar</div>
+                            <div class="croma-btn btn-defauld pointer" @click="closeModal2()">Cancelar</div>
+                            <div class="croma-btn btn-info pointer" @click="enviarCorreos2">Aceptar</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back qroma-mod-2-users">
+                    <div class="qroma-modal">
+                        <div class="title">
+                            <h4>Enviar mensaje</h4>
+                            <div class="close" @click="closeModal2Users()">X</div>
+                        </div>
+                        <div class="content">
+                            <textarea v-model="textMails2Users" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="footer">
+                            <div class="croma-btn btn-defauld pointer" @click="closeModal2Users()">Cancelar</div>
+                            <div class="croma-btn btn-info pointer" @click="enviarCorreos2Users">Aceptar</div>
                         </div>
                     </div>
                 </div>
@@ -312,8 +338,7 @@
     </div>
 
     <!-- cambiar rol student por gestor -->
-    <div v-if="user.isAdmin || user.role == 'student' && user.id == 2395">
-        <h2 class="mb-4">Panel 3</h2>
+    <div v-if="user.isAdmin || user.role == 'gestor'">
         <div class="container">
             <h2><span class="text-info">Seguimiento </span><span class="text-success">de finalización</span></h2>
             <div class="croma-explorer" id="explorer">
@@ -337,7 +362,7 @@
                         </div>
                         <div class="body">
                             <div class="list" v-for="item in searchCursep3">
-                                <div class="item pointer" @click="viewDireccionp3(item.id)">{(item.name)}</div>
+                                <div class="item pointer" @click="viewDireccionp3(item.id, item.name)">{(item.name)}</div>
                                 <div class="item">
                                     <div class="croma-progress-bar">
                                         <div class="success" :style="'width: '+item.progress+'%'"></div>
@@ -350,7 +375,7 @@
                                     <div class="icons">
                                         <a :href="'../course/edit.php?id=' + item.id"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
                                         <a :href="'../user/index.php?id=' + item.id"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
-                                        <a :href="'../report/completion/index.php?id=' + item.id"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                        <a :href="'../report/completion/index.php?course=' + item.id"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
                                         <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + item.id"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
                                         <a :href="'extra/excel/index.php?idCurso=' + item.id"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
                                         <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
@@ -358,12 +383,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
                     </div>
                 </div>
                 <div id="area-p3" v-if="areap3">
                     <div class="primary usuarios">
-                        <h4 class="text-info bold">Curso {(actp3.name)}<span class="f-ritgh close text-info bold pointer" @click="closeDireccionp3()"><</span></h4>
+                        <h4 class="text-info bold">Curso {(actp3Name)}<span class="f-ritgh close text-info bold pointer" @click="closeDireccionp3()"><</span></h4>
                         <div class="title">
                             <h4 class="text-info">Vista progreso por direcciones</h4>
                             <div class="search"><a class="menu-2" href="#" @click="menu2p3 = menu2p3  ? false : true;">
@@ -371,7 +395,7 @@
                                 <div class="icons" v-bind:class="{ active: menu2p3 }">
                                     <a :href="'../course/edit.php?id=' + actp3"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
                                     <a :href="'../user/index.php?id=' + actp3"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
-                                    <a :href="'../report/completion/index.php?id=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                    <a :href="'../report/completion/index.php?course=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
                                     <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actp3"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
                                     <a :href="'extra/excel/index.php?idCurso=' + actp3"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
                                     <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
@@ -396,7 +420,10 @@
                         <div class="body">
                             <div class="list" v-for="item in searchDirectionp3">
                                 <div class="item">
-                                    <input class="checkbox" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                    <input class="checkbox" :value="item.ids" :data="item.progress" type="checkbox" v-model="checked3directions"/>
+<!--                                    <span @click="showModal()">-->
+<!--                                        <img src="../local/qroma_front/img/mail.svg" alt=""/>-->
+<!--                                    </span>-->
                                 </div>
                                 <div class="item pointer" @click="viewAreap3(item.name)">{(item.name)}</div>
                                 <div class="item">{(item.director)}</div>
@@ -408,11 +435,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
+                        <div class="footer"><a href="" @click.stop.prevent="showModal3Directions()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
                     </div>
                 </div>
                 <div id="cursos-p03" v-if="cursosp3">
-                    <h4 class="text-info">Curso {(actp3.name)}<span class="f-ritgh close text-info bold pointer" @click="closep3()"><</span></h4>
+                    <h4 class="text-info">Curso {(actp3Name)}<span class="f-ritgh close text-info bold pointer" @click="closep3()"><</span></h4>
                     <div class="primary usuarios">
                         <div class="title">
                             <h4 class="text-info">Vista progreso por áreas.</h4>
@@ -420,7 +447,7 @@
                                 <div class="icons" v-bind:class="{ active: menu2p3 }">
                                     <a :href="'../course/edit.php?id=' + actp3"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
                                     <a :href="'../user/index.php?id=' + actp3"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
-                                    <a :href="'../report/completion/index.php?id=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                    <a :href="'../report/completion/index.php?course=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
                                     <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actp3"><img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
                                     <a :href="'extra/excel/index.php?idCurso=' + actp3"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
                                     <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
@@ -443,7 +470,10 @@
                         <div class="body">
                             <div class="list" v-for="item in searchAreap3">
                                 <div class="item">
-                                    <input class="checkbox" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                    <input class="checkbox" :value="item.ids" :data="item.progress" type="checkbox" v-model="checked3areas"/>
+<!--                                    <span @click="showModal()">-->
+<!--                                        <img src="../local/qroma_front/img/mail.svg" alt=""/>-->
+<!--                                    </span>-->
                                 </div>
                                 <div class="item pointer" @click="viewUserp3(item.name)">{(item.name)}</div>
                                 <div class="item">{(item.direccion)}</div>
@@ -455,11 +485,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
+                        <div class="footer">
+                            <a href="" @click.stop.prevent="showModal3Areas()">
+                                <span>
+                                    <img src="../local/qroma_front/img/mail.svg" alt=""/>
+                                </span>
+                                <span>Enviar recordatorio a seleccionados</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div id="usuarios-p02" v-if="usersp3">
-                    <h4 class="text-info">Curso Ergonomía 2020<span class="f-ritgh close text-info bold pointer" @click="closeUserp3()"><</span></h4>
+                    <h4 class="text-info">{(actp3Name)}<span class="f-ritgh close text-info bold pointer" @click="closeUserp3()"><</span></h4>
                     <div class="primary usuarios">
                         <div class="title">
                             <h4 class="text-info">Vista progreso de usuarios.</h4>
@@ -467,7 +504,7 @@
                                 <div class="icons" v-bind:class="{ active: menu2 }">
                                     <a :href="'../course/edit.php?id=' + actp3"><img src="../local/qroma_front/img/configuracion.svg" title="Configuración" srcset=""/></a>
                                     <a :href="'../user/index.php?id=' + actp3"><img src="../local/qroma_front/img/usuario.svg" title=" Ver participantes" srcset=""/></a>
-                                    <a :href="'../report/completion/index.php?id=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
+                                    <a :href="'../report/completion/index.php?course=' + actp3"><img src="../local/qroma_front/img/cumplimiento.svg" title="Ver cumplimiento" srcset=""/></a>
                                     <a :href="'../local/qroma_front/downloadCerts.php?idCurso=' + actp3"> <img src="../local/qroma_front/img/descargar.svg" title="Descargar certificados" srcset=""/></a>
                                     <a :href="'extra/excel/index.php?idCurso=' + actp3"><img src="../local/qroma_front/img/excel.svg" title="Descargar reporte" srcset=""/></a>
                                     <a href="#"><img src="../local/qroma_front/img/firmas.svg" title="Descargar Formato SGI-F-32" srcset=""/></a>
@@ -495,7 +532,10 @@
                         <div class="body">
                             <div class="list" v-for="item in searchUsersp3">
                                 <div class="item">
-                                    <input class="checkbox-2" :data="item.progress" type="checkbox"/><span @click="showModal()"><img src="../local/qroma_front/img/mail.svg" alt=""/></span>
+                                    <input class="checkbox-2" :value="item.id" :data="item.progress" type="checkbox" v-model="checked3users"/>
+<!--                                    <span @click="showModal()">-->
+<!--                                        <img src="../local/qroma_front/img/mail.svg" alt=""/>-->
+<!--                                    </span>-->
                                 </div>
                                 <div class="item pointer">{(item.name)}</div>
                                 <div class="item">{(item.gerencia)}</div>
@@ -508,21 +548,51 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="footer"><a href="" @click.stop.prevent="showModal()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
+                        <div class="footer"><a href="" @click.stop.prevent="showModal3Users()"><span><img src="../local/qroma_front/img/mail.svg" alt=""/></span><span>Enviar recordatorio a seleccionados</span></a></div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="modal">
+                <div class="back qroma-mod-3-directions">
+                    <div class="qroma-modal">
                         <div class="title">
                             <h4>Enviar mensaje</h4>
-                            <div class="close" @click="closeModal()">X</div>
+                            <div class="close" @click="closeModal3Directions()">X</div>
                         </div>
                         <div class="content">
-                            <textarea name="" cols="30" rows="10"></textarea>
+                            <textarea v-model="textMails3Directions" name="" cols="30" rows="10"></textarea>
                         </div>
                         <div class="footer">
-                            <div class="croma-btn btn-defauld">Cancelar</div>
-                            <div class="croma-btn btn-info">Aceptar</div>
+                            <div class="croma-btn btn-defauld pointer" @click="closeModal3Directions()">Cancelar</div>
+                            <div class="croma-btn btn-info pointer" @click="enviarCorreos3Directions">Aceptar</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back qroma-mod-3-areas">
+                    <div class="qroma-modal">
+                        <div class="title">
+                            <h4>Enviar mensaje</h4>
+                            <div class="close" @click="closeModal3Areas()">X</div>
+                        </div>
+                        <div class="content">
+                            <textarea v-model="textMails3Areas" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="footer">
+                            <div class="croma-btn btn-defauld pointer" @click="closeModal3Areas()">Cancelar</div>
+                            <div class="croma-btn btn-info pointer" @click="enviarCorreos3Areas">Aceptar</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back qroma-mod-3-users">
+                    <div class="qroma-modal">
+                        <div class="title">
+                            <h4>Enviar mensaje</h4>
+                            <div class="close" @click="closeModal3Users()">X</div>
+                        </div>
+                        <div class="content">
+                            <textarea v-model="textMails3Users" name="" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="footer">
+                            <div class="croma-btn btn-defauld pointer" @click="closeModal3Users()">Cancelar</div>
+                            <div class="croma-btn btn-info pointer" @click="enviarCorreos3Users">Aceptar</div>
                         </div>
                     </div>
                 </div>
@@ -633,36 +703,6 @@
                                     <div class="circlechart"></div><span></span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="back">
-                    <div class="qroma-modal">
-                        <div class="title">
-                            <h4>Enviar mensaje</h4>
-                            <div class="close" @click="closeModal()">X</div>
-                        </div>
-                        <div class="content">
-                            <textarea v-model="textMails" name="" cols="30" rows="10"></textarea>
-                        </div>
-                        <div class="footer">
-                            <div class="btn btn-defauld" @click="closeModal()">Cancelar</div>
-                            <div @click="enviarCorreos()" class="btn btn-info">Aceptar</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="back-single">
-                    <div class="qroma-modal">
-                        <div class="title">
-                            <h4>Enviar mensaje</h4>
-                            <div class="close" @click="closeModal2()">X</div>
-                        </div>
-                        <div class="content">
-                            <textarea v-model="textMailsSingle" name="" cols="30" rows="10"></textarea>
-                        </div>
-                        <div class="footer">
-                            <div class="btn btn-defauld" @click="closeModal2()">Cancelar</div>
-                            <div @click="enviarCorreosSingle()" class="btn btn-info">Aceptar</div>
                         </div>
                     </div>
                 </div>

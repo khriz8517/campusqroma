@@ -17,6 +17,9 @@ class mod_firma_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'generalhdr', get_string('general'));
 
+        $mform->addElement('text', 'titulo', 'Título');
+        $mform->addElement('text', 'descripcion', 'Descripción');
+
         $mform->addElement('text', 'nro_trabajadores', 'N° Trabajadores en el centro laboral');
         $mform->addElement('text', 'nro_registro', 'N° Registro');
 
