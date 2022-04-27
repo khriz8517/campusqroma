@@ -1,0 +1,38 @@
+.text-align-center {
+    text-align: center;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+#page-mod-firma-view_data #region-main-box .card-body {
+    width: 50%;
+    margin: auto;
+    box-shadow: 2px 2px 5px #b9b9b9;
+}
+
+.card-firma-main {
+    width: 80%;
+    margin: auto;
+    padding-top: 80px;
+    padding-bottom: 65px;
+}
+
+.card-firma-input {
+    padding-top: 50px;
+    padding-bottom: 82px;
+}
+
+.firma-btn {
+    background: #4273af 0 0 no-repeat padding-box;
+    border-radius: 21px;
+    width: 280px;
+    height: 42px;
+    text-align: center;
+    text-decoration: none !important;
+    color: white !important;
+    font-weight: 500;
+    border: none;
+    outline: none !important;
+}

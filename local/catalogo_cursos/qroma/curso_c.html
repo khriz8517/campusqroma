@@ -1,0 +1,88 @@
+<div id="app">
+    <div class="search bg-d-1">
+        <div class="w70 m0auto p60-50">
+            <h2 class="text-white">CATÁLOGO DE CURSOS</h2>
+            <form action="https://www.campusqroma.com/course/search.php" id="coursesearch" method="get">
+                <div class="form-group">
+                    <input type="text" id="shortsearchbox" name="search"/>
+                    <label for="shortsearchbox">¿Qué curso estás buscando?</label>
+                    <button><img src="/local/qroma_front/img/icons/search.svg" alt="" srcset=""/></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="category-title w70 m0auto p60-50">
+        <h2 class="mb-1"><span class="text-info gotham-medium">166 Cursos </span><span class="text-success pacifig">{{disponibleTxt}} para ti</span></h2>
+        <!-- <h5>Selecciona una categoría y encuentra los cursos disponibles</h5> -->
+<h5>Comienza a aprender con este curso, pronto podrás visualizar más contenido</h5>
+    </div>
+    <div class="search bg-d-1">
+        <div class="w70 m0auto p60-50 tabs">
+            <div class="header">
+                <div class="before"><img src="/local/qroma_front/img/icons/play.svg" alt=""/></div>
+                <div class="list">
+                    <a class="item" href="#" v-for="item in subcategory" :class="{active:item.status}">
+                        {{item.name}}
+                    </a>
+                </div>
+                <div class="after"><img src="/local/qroma_front/img/icons/play.svg" alt=""/></div>
+            </div>
+            <div class="body">
+                <div class="item" v-for="item in cursos">
+                    <a :href="'../../' + item.url" style="text-decoration: none">
+                        <div class="img">
+                            <div class="bg-img" :style="'background-image: url('+item.img+')'"></div>
+                        </div>
+                    </a>
+                    <div class="contry"><img class="contry-flag" :src="item.flat" alt="" srcset=""/>
+                        <div class="contry-name">{{item.pais}}</div>
+                    </div>
+                    <a :href="'../../' + item.url" style="text-decoration: none">
+                        <h3 class="title gotham-medium">{{item.title}}</h3>
+                    </a>
+                    <div class="footer">
+                        <a class="btn btn-info" :href="'../../' + item.url"><div class="btn btn-info">ACCEDER</div></a>
+                        <div class="progress">
+                            <div class="container-progress danger">
+                                <div class="gauge-container">
+                                    <svg class="gauge" viewBox="0 0 150 150">
+                                        <circle class="progress" r="67" data-target="84" cx="75" cy="75"></circle>
+                                        <circle class="rail" r="67" data-target="84" cx="75" cy="75"></circle>
+                                    </svg><span class="center percentage"><span class="value">{{item.porcent}}</span><span class="percentSymbol">%</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w70 m0auto p60-50 d-flex">
+        <div class="icon-60 pl-4 pr-4"><img src="/local/qroma_front/img/icons/dispositivos.svg" alt="" height="100%"/></div>
+        <div class="title">
+            <h2 class="mb-1"><span class="text-success pacifig">Visita nuestro repositorio de aprendizajes </span><span class="text-info gotham-medium">Qromateca</span></h2><a class="btn btn-info mt-2" href="/local/qromateca" title="title">EMPIEZA A COMPARTIR</a>
+        </div>
+    </div>
+    <div class="p60-50 bg-secondary desarrollo-personal">
+        <div class="w70 m0auto pb-5">
+            <h2 class="mb-1"><span class="text-success pacifig">Continúa tu </span><span class="text-info gotham-medium">desarrollo personal</span></h2>
+        </div>
+        <div class="body">
+            <div class="item" v-for="item in desarrollo">
+                <div class="img">
+                    <a :href="'../../' + item.url" style="text-decoration: none">
+                        <div class="bg-img" :style="'background: url('+item.img+')'"></div>
+                    </a>
+                    <div class="icons">
+                        <a :href="'../../' + item.url" style="text-decoration: none">
+                            <img src="/local/qroma_front/img/icons/play.svg"/>
+                        </a>
+                    </div>
+                </div>
+                <h3 class="title text-info"><a :href="'../../' + item.url" style="text-decoration: none">{{item.name}}</a></h3>
+                <div class="footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,363 @@
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.white-container {
+    height: auto;
+    background: #FFFFFF 0 0 no-repeat padding-box;
+    box-shadow: 0 3px 6px #00000029;
+    border-radius: 8px;
+    opacity: 1;
+}
+
+.white-container-footer {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    margin-left: 5%;
+    width: 89.5%;
+}
+
+.q-comentario-container {
+    padding-top: 45px;
+    margin: auto;
+    text-align: left;
+    width: 79%;
+}
+
+.q-comentario-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: #9F9F9F;
+}
+
+.q-comentario-input {
+    text-align: left;
+    color: rgb(112, 112, 112);
+    opacity: 1;
+    width: 100%;
+    border: none;
+    background: no-repeat;
+    border-bottom: 1px solid #707070;
+}
+
+.q-comentario-button {
+    text-align: center;
+    background-color: #085CB7;
+    border-radius: 8px;
+    color: white;
+    width: 171px;
+    height: 45px;
+    border: none;
+}
+
+.q-comentarios-container {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.qromateca-success-button {
+    background: #6ABF4C 0 0 no-repeat padding-box;
+    border-radius: 21px;
+    width: 304px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none !important;
+    padding-top: 15px;
+    color: white !important;
+    font-weight: 500;
+
+}
+
+.qromateca-disabled-button {
+    background: #dad9d9 0 0 no-repeat padding-box;
+    border-radius: 21px;
+    width: 304px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none !important;
+    padding-top: 15px;
+    color: white !important;
+    font-weight: 500;
+    cursor: auto !important;
+}
+
+.qromateca-white-button {
+    background: #F9F9F9 0 0 no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 21px;
+    width: 304px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none !important;
+    padding-top: 15px;
+    color: #6ABF4C !important;
+    font-weight: 500;
+}
+
+.q-small-blue-text {
+    color: #085CB7;
+    text-align: center;
+    letter-spacing: 0;
+    font-size: 19px;
+}
+
+.q-big-blue-text {
+    text-align: center;
+    color: #085CB6;
+    font-weight: 600;
+    font-size: 32px;
+}
+
+.qromateca-compartido-text {
+    font-size: 12px;
+    color: #6abf4c;
+}
+
+.qromateca-text-info {
+    padding: 15px 0 0 0 !important;
+    height: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+}
+
+.back {
+    background: rgba(8, 92, 183, 0.36);
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.back .qroma-modal {
+    font-family: sans-serif;
+    width: 764px;
+    background: #FFFFFF 0 0 no-repeat padding-box;
+    box-shadow: 0 3px 6px #00000029;
+    border-radius: 8px;
+    padding: 20px;
+}
+@media (max-width: 860px) {
+    .back .qroma-modal {
+        width: 80%;
+    }
+}
+.back .qroma-modal .title {
+    position: relative;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.back .qroma-modal .title h3 {
+    padding: 25px;
+}
+.back .qroma-modal .title h4 {
+    color: #707070;
+    position: relative;
+    padding: 6px;
+}
+.back .qroma-modal .title .close {
+    cursor: pointer;
+    color: #707070;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.back .qroma-modal .content textarea {
+    width: 100%;
+    border: 1px solid rgba(130, 130, 130, 0.5);
+    border-radius: 6px;
+}
+.back .qroma-modal .footer {
+    display: flex;
+    padding: 40px;
+    margin: auto;
+    width: 50%;
+}
+
+.back .qroma-modal .qromateca-success-button {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.back .qroma-modal .footer .btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+}
+.back .qroma-modal .btn {
+    cursor: pointer;
+    padding: 5px;
+    border: none;
+    border-radius: 6px;
+}
+.back .qroma-modal .btn.btn-defauld {
+    background: #F1F4F5;
+    color: #184A7D;
+}
+.back .qroma-modal .btn.btn-info {
+    background: #5CBDEB;
+    color: white;
+}
+.back .qroma-modal .btn.btn-options {
+    width: 25px;
+    height: 25px;
+}
+
+.back-des {
+    background: rgba(8, 92, 183, 0.36);
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.back-des .qroma-modal {
+    font-family: sans-serif;
+    width: 764px;
+    background: #FFFFFF 0 0 no-repeat padding-box;
+    box-shadow: 0 3px 6px #00000029;
+    border-radius: 8px;
+    padding: 20px;
+}
+@media (max-width: 860px) {
+    .back-des .qroma-modal {
+        width: 80%;
+    }
+}
+.back-des .qroma-modal .title {
+    position: relative;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.back-des .qroma-modal .title h3 {
+    padding: 25px;
+}
+.back-des .qroma-modal .title h4 {
+    color: #707070;
+    position: relative;
+    padding: 6px;
+}
+.back-des .qroma-modal .title .close {
+    cursor: pointer;
+    color: #707070;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.back-des .qroma-modal .content textarea {
+    width: 100%;
+    border: 1px solid rgba(130, 130, 130, 0.5);
+    border-radius: 6px;
+}
+.back-des .qroma-modal .footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 30px;
+    margin: auto;
+}
+
+.back-des .qroma-modal .qromateca-white-button {
+    cursor: pointer;
+}
+
+.back-des .qroma-modal .qromateca-success-button {
+    cursor: pointer;
+}
+
+.back-des .qroma-modal .footer .btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+}
+.back-des .qroma-modal .btn {
+    cursor: pointer;
+    padding: 5px;
+    border: none;
+    border-radius: 6px;
+}
+.back-des .qroma-modal .btn.btn-defauld {
+    background: #F1F4F5;
+    color: #184A7D;
+}
+.back-des .qroma-modal .btn.btn-info {
+    background: #5CBDEB;
+    color: white;
+}
+.back-des .qroma-modal .btn.btn-options {
+    width: 25px;
+    height: 25px;
+}
+
+.q-create-container {
+    width: 50%;
+    margin: auto;
+    padding: 2%;
+}
+
+.q-create-container h2{
+    text-align: center;
+    padding-bottom: 5%;
+    color: #085CB6;
+    font-weight: 600;
+}
+
+.q-create-container-white {
+    background-color: white;
+    padding-top: 16%;
+    padding-bottom: 20%;
+    box-shadow: 0 3px 6px #0000001A;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.q-create-container-inputs {
+    margin: auto;
+    width: 75%;
+}
+
+.q-create-gray {
+    color: #9F9F9F;
+}
+
+.q-create-container-button {
+    width: 60%;
+    margin: auto;
+}
+
+/* less than ipad */
+
+@media only screen and (max-width: 768px) {
+    .q-create-container {
+        width: 75%;
+        margin: auto;
+        padding: 2%;
+    }
+}
+
+/* ipad */
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .q-create-container {
+        width: 75%;
+        margin: auto;
+        padding: 2%;
+    }
+}
+
+/* ipad pro */
+
+@media only screen and (min-width: 1024px) and (max-width: 1030px) {
+    .q-create-container {
+        width: 75%;
+        margin: auto;
+        padding: 2%;
+    }
+}
