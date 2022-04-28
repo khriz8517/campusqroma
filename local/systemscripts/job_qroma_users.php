@@ -107,45 +107,58 @@ foreach($usersValues as $key=>$userAD) {
     $userObj->email =  isset($userAD['mail']) ? $userAD['mail'] : ' ';
     $userObj->lang = 'es';
 
-    $user = $DB->get_record('user', array('username' => $userPrincipalName));
+    $email = $userObj->email;
+    if( strpos($email, "qroma.com.pe") !== false || 
+        strpos($email, "tricolor.cl") !== false || 
+        strpos($email, "qroma.com.ec") !== false || 
+        strpos($email, "colorcentro.cl") !== false || 
+        strpos($email, "colorcentro.com.pe") !== false){
 
-    if(empty($user) || !$user) {
-        $userObj->auth       = 'manual';
-        $userObj->confirmed  = 1;
-        $userObj->mnethostid = 1;
-        //$DB->insert_record('user', $userObj);
-    } else {
-        $userObj->id = $user->id;
-        $DB->update_record('user', $userObj);
-    }
-    $userObj->profile_field_origen = 'Qroma';
-    $userObj->profile_field_tipo_empleado = isset($userAD['postalCode']) ? $userAD['postalCode'] : ' ';
-    $userObj->profile_field_cargo = isset($userAD['jobTitle']) ? $userAD['jobTitle'] : ' ';
-    $userObj->profile_field_celular = isset($userAD['mobilePhone']) ? $userAD['mobilePhone'] : ' ';
-    $userObj->profile_field_codigo = isset($userAD['employeeID']) ? $userAD['employeeID'] : ' ';
-    $userObj->profile_field_dni = isset($userAD['faxNumber']) ? $userAD['faxNumber'] : ' ';
+        /** 
+         * si el username tiene como substring su dni entonces actualizar el username
+         * el nuevo username sera sacado de otro usuario con el mismo dni
+        */
+        
+        $user = $DB->get_record('user', array('username' => $userPrincipalName));
 
-    $departmentField = $userAD['department'];
-
-    $profileFieldArea = '';
-    $profileFieldDireccion = '';
-
-    if(!empty($departmentField)) {
-        if(strpos($departmentField,',') !== false) {
-            $depValues = explode(',', $departmentField);
-            $profileFieldArea = $depValues[0];
-            $profileFieldDireccion = $depValues[1];
-        } else if(strpos($departmentField,';') !== false) {
-            $depValues = explode(';', $departmentField);
-            $profileFieldArea = $depValues[0];
-            $profileFieldDireccion = $depValues[1];
+        if(empty($user) || !$user) {
+            $userObj->auth       = 'manual';
+            $userObj->confirmed  = 1;
+            $userObj->mnethostid = 1;
+            //$DB->insert_record('user', $userObj);
         } else {
-            $profileFieldArea = $departmentField;
+            $userObj->id = $user->id;
+            $DB->update_record('user', $userObj);
         }
+        $userObj->profile_field_origen = 'Qroma';
+        $userObj->profile_field_tipo_empleado = isset($userAD['postalCode']) ? $userAD['postalCode'] : ' ';
+        $userObj->profile_field_cargo = isset($userAD['jobTitle']) ? $userAD['jobTitle'] : ' ';
+        $userObj->profile_field_celular = isset($userAD['mobilePhone']) ? $userAD['mobilePhone'] : ' ';
+        $userObj->profile_field_codigo = isset($userAD['employeeID']) ? $userAD['employeeID'] : ' ';
+        $userObj->profile_field_dni = isset($userAD['faxNumber']) ? $userAD['faxNumber'] : ' ';
+
+        $departmentField = $userAD['department'];
+
+        $profileFieldArea = '';
+        $profileFieldDireccion = '';
+
+        if(!empty($departmentField)) {
+            if(strpos($departmentField,',') !== false) {
+                $depValues = explode(',', $departmentField);
+                $profileFieldArea = $depValues[0];
+                $profileFieldDireccion = $depValues[1];
+            } else if(strpos($departmentField,';') !== false) {
+                $depValues = explode(';', $departmentField);
+                $profileFieldArea = $depValues[0];
+                $profileFieldDireccion = $depValues[1];
+            } else {
+                $profileFieldArea = $departmentField;
+            }
+        }
+
+        $userObj->profile_field_area = $profileFieldArea;
+        $userObj->profile_field_direccion = $profileFieldDireccion;
+
+        profile_save_data($userObj);
     }
-
-    $userObj->profile_field_area = $profileFieldArea;
-    $userObj->profile_field_direccion = $profileFieldDireccion;
-
-    profile_save_data($userObj);
 }
